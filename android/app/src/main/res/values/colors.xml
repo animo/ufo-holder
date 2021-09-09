@@ -1,0 +1,6 @@
+<resources>
+  <!-- Below line is handled by '@expo/configure-splash-screen' command and it's discouraged to modify it manually -->
+  <color name="splashscreen_background">#FFFFFF</color>
+  <color name="colorOverlay">#000000</color>
+  <color name="colorWhite">#ffffff</color>
+</resources>

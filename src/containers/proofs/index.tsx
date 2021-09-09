@@ -1,0 +1,1 @@
+export { ProofsTab } from './ProofsTab'

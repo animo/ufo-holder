@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["es2017", "es2020"],
+    "allowJs": true,
+    "jsx": "react-native",
+    "noEmit": true,
+    "isolatedModules": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    // TODO: Do we need to do this check? Currently this is hitting an issue with duplicate identifiers between @types/react-native and @types/node
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@internal/*": ["./src/*"],
+      "@components/*": ["./components/*"]
+    },
+    "typeRoots": ["node_modules/@types", "./types"]
+  },
+  "exclude": ["node_modules", "*.config.js", ".eslintrc.js"],
+  "include": ["./src", "__tests__", "./index.js", "./components", "storybook", "types"]
+}

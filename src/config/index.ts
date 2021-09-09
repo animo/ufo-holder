@@ -1,0 +1,6 @@
+export { createAgent, agentConfig } from './agent'
+
+export const config = {
+  mediatorInvitationUrl:
+    'https://http.didcomm.mediator.agent.animo.id?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiYjJkNmM0YzctODljYi00ODA4LThkNzAtNzcwNjU3NWMyMGIwIiwgInJlY2lwaWVudEtleXMiOiBbIkNFRUE0OEh1U0tRdkNFb2p2UUNaVVY1cHpTQkVoR0hQZkNrdzhOMTVCZVZlIl0sICJsYWJlbCI6ICJBbmltbyBBQ0EtUHkgTWVkaWF0b3IiLCAic2VydmljZUVuZHBvaW50IjogImh0dHBzOi8vaHR0cC5kaWRjb21tLm1lZGlhdG9yLmFnZW50LmFuaW1vLmlkIn0=',
+}
