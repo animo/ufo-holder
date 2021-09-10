@@ -1,3 +1,3 @@
-import type { en } from './resources/en'
+import type { nl } from './resources/nl'
 
-export type Translation = typeof en
+export type Translation = typeof nl

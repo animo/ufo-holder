@@ -17,13 +17,7 @@ import { generateAgentKey, getAgentWalletKey, storeAgentWalletKey } from '@inter
 
 const AppThunks = {
   initialize: createAsyncThunk<void, void, AsyncThunkOptions>('app/initialize', async (_, { dispatch }) => {
-    const hasWalletKey = await AsyncStorage.getItem('hasWalletKey')
-
-    // If wallet key is present it means there is a wallet that we can unlock
-    // This should trigger showing the 'main' app
-    if (hasWalletKey) {
-      await dispatch(AppThunks.initializeAgent())
-    }
+    await dispatch(AppThunks.initializeAgent())
   }),
 
   initializeAgent: createAsyncThunk<void, void, AsyncThunkOptions>(
@@ -71,6 +65,9 @@ const AppThunks = {
       // Start message pickup
       if (mediator) {
         await agent.mediationRecipient.initiateMessagePickup(mediator)
+        // TODO: get dispatch and issuer connection
+        // await dispatch(AriesThunks.createDispatchConnection()).unwrap()
+        // await dispatch(AriesThunks.createIssuerConnection()).unwrap()
       }
     }
   ),

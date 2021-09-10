@@ -8,22 +8,16 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StatusBar } from 'react-native'
 
-import { MainTabs } from './MainTabs'
 import { navigationRef } from './root'
 
 import { Box, screenOptions, Toast } from '@internal/components'
 import {
-  AddContactScreen,
   CredentialDetailScreen,
-  CredentialModalScreen,
-  EditContactScreen,
-  InvitationQrScannerScreen,
-  ProofModalScreen,
-  ProofSelectionScreen,
+  CredentialOfferScreen,
+  CredentialsScreen,
+  InformationScreen,
 } from '@internal/containers'
-import { ProofEditScreen } from '@internal/containers/actions/screens/ProofEditScreen'
 import { OnboardingContainer } from '@internal/containers/onboarding'
-import { ProofDetailScreen } from '@internal/containers/proofs/screens/ProofDetailScreen'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
@@ -37,7 +31,6 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   const { colors, darkMode } = theme
   const { t } = useTranslation()
   const isAppInitialized = useAppSelector(AppSelectors.isInitializedSelector)
-  // TODO: fix with the pin merge
   const isAgentInitialized = true
 
   const dispatch = useAppDispatch()
@@ -49,11 +42,6 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   // Flipper debugging
   useFlipper(navigationRef)
 
-  // Loading screen is initially rendered
-  // Main is rendered when the user is signed in.
-  // FirstLaunch is rendered when the user is not signed in
-  // TODO: properly handle safe area view. Don't want to wrap whole app as that blocks camera view
-  // from taking full screen
   return (
     <Box fill style={{ backgroundColor: colors.background }}>
       <NavigationContainer
@@ -78,65 +66,30 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
         {isAppInitialized && (
           <BottomSheetModalProvider>
             <Stack.Navigator screenOptions={screenOptions(theme)}>
-              {/*  TODO: handle first login */}
               {isAgentInitialized ? (
                 <>
-                  <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
-                  {/* Actions */}
                   <Stack.Screen
-                    name="CredentialOfferModal"
-                    component={CredentialModalScreen}
-                    options={{ title: t('feature.actions.title.credentialOffer'), headerBackTitleVisible: false }}
-                  />
-                  <Stack.Screen
-                    name="ProofRequestModal"
-                    component={ProofModalScreen}
-                    options={{ headerBackTitleVisible: false }}
-                  />
-                  <Stack.Screen
-                    name="ProofRequestEdit"
-                    component={ProofEditScreen}
-                    options={{ title: t('feature.actions.title.editProof'), headerBackTitleVisible: false }}
-                  />
-                  <Stack.Screen
-                    name="ProofSelection"
-                    component={ProofSelectionScreen}
-                    options={{ title: t('feature.actions.title.selectProof') }}
+                    name="CredentialsScreen"
+                    component={CredentialsScreen}
+                    options={{ title: t('feature.credentials.titles.main') }}
                   />
 
-                  {/* Credentials */}
+                  <Stack.Screen
+                    name="CredentialOfferScreen"
+                    component={CredentialOfferScreen}
+                    options={{ title: t('feature.credentials.titles.offer'), headerBackTitleVisible: false }}
+                  />
+
                   <Stack.Screen
                     name="CredentialDetail"
                     component={CredentialDetailScreen}
-                    options={{ title: t('feature.credentials.title.details'), headerBackTitleVisible: false }}
+                    options={{ title: t('feature.credentials.titles.detail'), headerBackTitleVisible: false }}
                   />
 
-                  {/* Proof */}
                   <Stack.Screen
-                    name="ProofDetail"
-                    component={ProofDetailScreen}
-                    options={{ headerBackTitleVisible: false }}
-                  />
-
-                  {/* Contacts */}
-                  <Stack.Screen
-                    name="InvitationQrScanner"
-                    component={InvitationQrScannerScreen}
-                    options={{ headerShown: false, presentation: 'modal' }}
-                  />
-                  <Stack.Screen
-                    name="EditContact"
-                    component={EditContactScreen}
-                    options={{ title: t('feature.contacts.title.editContact'), headerBackTitleVisible: false }}
-                  />
-                  <Stack.Screen
-                    name="AddContact"
-                    component={AddContactScreen}
-                    options={{
-                      title: t('feature.contacts.title.addContact'),
-                      headerLeft: () => null,
-                      presentation: 'modal',
-                    }}
+                    name="InformationScreen"
+                    component={InformationScreen}
+                    options={{ title: t('feature.information.titles.main') }}
                   />
                 </>
               ) : (

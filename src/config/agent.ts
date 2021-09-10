@@ -15,7 +15,7 @@ import { agentDependencies } from '@aries-framework/react-native'
 import { genesisConfigs } from '@internal/utils'
 
 export const agentConfig: InitConfig = {
-  label: 'MOBILE-AGENT-REACT-NATIVE',
+  label: 'UFO-HOLDER',
   logger: new ConsoleLogger(LogLevel.debug),
   ...genesisConfigs.BCovrinTestNetwork,
   autoAcceptConnections: true,

@@ -10,8 +10,6 @@ import * as Keychain from 'react-native-keychain'
  */
 export const storeAgentWalletKey = (key: string) => {
   return Keychain.setGenericPassword('MOBILE-AGENT-REACT-NATIVE', key, {
-    accessible: Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY,
-    accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
     service: 'MOBILE-AGENT-REACT-NATIVE',
   })
 }
@@ -33,8 +31,6 @@ export const generateAgentKey = (): string => crypto.getRandomValues(new Uint8Ar
  */
 export const getAgentWalletKey = async (): Promise<string | false> => {
   const walletKey = await Keychain.getGenericPassword({
-    accessible: Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY,
-    accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
     service: 'MOBILE-AGENT-REACT-NATIVE',
   })
   return walletKey ? walletKey.password : false
