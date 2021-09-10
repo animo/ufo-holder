@@ -1,5 +1,5 @@
 {
-  "name": "mobile-agent-react-native",
+  "name": "ufo",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -40,6 +40,7 @@
     "expo-splash-screen": "^0.11.2",
     "i18next": "^20.3.1",
     "indy-sdk-react-native": "^0.1.13",
+    "native-base": "^3.1.0",
     "react": "17.0.2",
     "react-i18next": "^11.11.1",
     "react-native": "0.64.1",
@@ -52,14 +53,17 @@
     "react-native-keychain": "^7.0.0",
     "react-native-pager-view": "^5.4.0",
     "react-native-reanimated": "^2.1.0",
-    "react-native-safe-area-context": "^3.3.0",
+    "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.5.0",
     "react-native-simple-radio-button": "^2.7.4",
+    "react-native-svg": "^12.1.1",
     "react-native-toast-message": "^1.4.9",
     "react-native-unimodules": "^0.14.3",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "styled-components": "^5.3.1",
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

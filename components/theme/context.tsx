@@ -2,6 +2,7 @@ import type { ThemeTypes } from './themes'
 import type { Theme } from './types'
 import type { FunctionComponent } from 'react'
 
+import { extendTheme, NativeBaseProvider } from 'native-base'
 import React, { createContext, useContext, useMemo } from 'react'
 
 import { themes } from './themes'
@@ -25,7 +26,13 @@ export const ThemeContextProvider: FunctionComponent<ThemeContextProps> = ({ chi
     }
   }, [themeName])
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  const theme = extendTheme(value.colors)
+
+  return (
+    <ThemeContext.Provider value={value}>
+      <NativeBaseProvider theme={theme}>{children}</NativeBaseProvider>
+    </ThemeContext.Provider>
+  )
 }
 
 export const useTheme = (): ThemeContextValue => {

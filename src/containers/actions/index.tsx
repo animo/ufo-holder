@@ -1,7 +1,0 @@
-export { CredentialModalScreen } from './screens/CredentialModalScreen'
-export type { CredentialModalRouteParams } from './screens/CredentialModalScreen'
-export { ProofModalScreen } from './screens/ProofModalScreen'
-export type { ProofModalRouteParams } from './screens/ProofModalScreen'
-export { ProofSelectionScreen } from './screens/ProofSelectionScreen'
-export type { ProofSelectionRouteParams } from './screens/ProofSelectionScreen'
-export { ActionsTab } from './ActionsTab'

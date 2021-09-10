@@ -12,18 +12,14 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
+import { AriesThunks } from '../aries'
+
 import { config } from '@internal/config'
 import { generateAgentKey, getAgentWalletKey, storeAgentWalletKey } from '@internal/modules/Keychain'
 
 const AppThunks = {
   initialize: createAsyncThunk<void, void, AsyncThunkOptions>('app/initialize', async (_, { dispatch }) => {
-    const hasWalletKey = await AsyncStorage.getItem('hasWalletKey')
-
-    // If wallet key is present it means there is a wallet that we can unlock
-    // This should trigger showing the 'main' app
-    if (hasWalletKey) {
-      await dispatch(AppThunks.initializeAgent())
-    }
+    await dispatch(AppThunks.initializeAgent())
   }),
 
   initializeAgent: createAsyncThunk<void, void, AsyncThunkOptions>(
@@ -64,13 +60,16 @@ const AppThunks = {
 
   agentSetup: createAsyncThunk<void, void, AsyncThunkOptions>(
     'app/user/agentSetup',
-    async (_, { extra: { agent } }) => {
+    async (_, { extra: { agent }, dispatch }) => {
       // Setup mediation
       const mediator = await agent.mediationRecipient.provision(config.mediatorInvitationUrl)
 
       // Start message pickup
       if (mediator) {
         await agent.mediationRecipient.initiateMessagePickup(mediator)
+        // TODO: get dispatch and issuer connection
+        // await dispatch(AriesThunks.createDispatchConnection()).unwrap()
+        // await dispatch(AriesThunks.createIssuerConnection()).unwrap()
       }
     }
   ),
