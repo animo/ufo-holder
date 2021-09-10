@@ -46,7 +46,7 @@ export const CredentialOfferScreen: React.FunctionComponent<CredentialOfferScree
     <ActionResponseModal onAccept={onAcceptCredentialOffer} onDecline={onDeclineCredentialOffer}>
       {connection && (
         <CredentialMetadata
-          i18nKey="feature.actions.text.credentialOfferMessage"
+          i18nKey="feature.credentials.text.offer"
           connectionRecord={connection}
           credentialName={getCredentialDisplayName(credential.metadata.schemaId)}
           issueDate={formatToDate(credential.createdAt, t('months', { returnObjects: true }))}

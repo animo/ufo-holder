@@ -35,11 +35,11 @@ export const ActionResponseModal: React.FunctionComponent<ActionResponseModalPro
       >
         <FlexItem style={gutters.mediumHPadding}>
           <Button variant="outline" onPress={onDecline} color="danger">
-            <Text color="danger">{t('action.decline')}</Text>
+            <Text color="danger">{t('actions.decline')}</Text>
           </Button>
         </FlexItem>
         <FlexItem style={gutters.mediumHPadding}>
-          <Button onPress={onAccept}>{t('action.accept')}</Button>
+          <Button onPress={onAccept}>{t('actions.accept')}</Button>
         </FlexItem>
       </Panel>
     </>

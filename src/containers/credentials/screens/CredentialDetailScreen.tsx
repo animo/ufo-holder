@@ -59,7 +59,7 @@ export const CredentialDetailScreen: React.FunctionComponent<CredentialDetailScr
       <ScrollViewPage>
         {connection && (
           <CredentialMetadata
-            i18nKey="feature.credentials.text.credentialMetadata"
+            i18nKey="feature.credentials.text.meta"
             connectionRecord={connection}
             credentialName={getCredentialDisplayName(credential.metadata.schemaId)}
             issueDate={formatToDate(credential.createdAt, t('months', { returnObjects: true }))}
@@ -80,7 +80,7 @@ export const CredentialDetailScreen: React.FunctionComponent<CredentialDetailScr
       <DeleteBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         onDelete={onDeleteCredential}
-        description={`${t('feature.credentials.text.deleteCredential')}`}
+        description={`${t('feature.credentials.text.delete')}`}
       />
     </>
   )

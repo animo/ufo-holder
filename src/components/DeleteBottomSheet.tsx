@@ -20,20 +20,20 @@ export const DeleteBottomSheet: React.FunctionComponent<DeleteBottomSheetProps> 
 
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef}>
-      <Heading size="m">{t('action.delete')}</Heading>
+      <Heading size="m">{t('actions.delete')}</Heading>
       <Spacer />
       <Text>{description}</Text>
       <Spacer size="l" />
       <FlexGroup direction="row" flex={false}>
         <FlexItem>
           <Button variant="outline" onPress={() => bottomSheetModalRef.current?.dismiss()}>
-            {t('action.cancel')}
+            {t('actions.cancel')}
           </Button>
         </FlexItem>
         <Spacer vertical />
         <FlexItem>
           <Button variant="default" color="danger" onPress={onDelete}>
-            {t('action.delete')}
+            {t('actions.delete')}
           </Button>
         </FlexItem>
       </FlexGroup>
