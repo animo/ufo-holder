@@ -1,7 +1,6 @@
 import type { BottomSheetModal } from '@gorhom/bottom-sheet'
 
 import BottomSheet from '@gorhom/bottom-sheet'
-import { Button } from 'native-base'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 

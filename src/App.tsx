@@ -1,4 +1,3 @@
-import { extendTheme, NativeBaseProvider } from 'native-base'
 import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
@@ -6,7 +5,6 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 
 import { useThemeSwitcher } from './store/theme/useThemeSwitcher'
 
-import { theme as lightTheme, theme as darkTheme } from '@components/theme/themes/light'
 import { agentConfig, createAgent } from '@internal/config'
 import { ApplicationNavigator } from '@internal/navigation/Application'
 import { initializeStore, useAppSelector } from '@internal/store'

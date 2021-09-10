@@ -12,8 +12,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { AriesThunks } from '../aries'
-
 import { config } from '@internal/config'
 import { generateAgentKey, getAgentWalletKey, storeAgentWalletKey } from '@internal/modules/Keychain'
 
