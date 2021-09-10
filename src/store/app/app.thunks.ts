@@ -58,7 +58,7 @@ const AppThunks = {
 
   agentSetup: createAsyncThunk<void, void, AsyncThunkOptions>(
     'app/user/agentSetup',
-    async (_, { extra: { agent }, dispatch }) => {
+    async (_, { extra: { agent } }) => {
       // Setup mediation
       const mediator = await agent.mediationRecipient.provision(config.mediatorInvitationUrl)
 
