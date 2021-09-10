@@ -11,7 +11,7 @@ export interface CredentialMetadataProps {
   connectionRecord: ConnectionRecord
   credentialName?: string
   issueDate: string
-  i18nKey: 'feature.actions.text.credentialOfferMessage' | 'feature.credentials.text.credentialMetadata'
+  i18nKey: 'feature.credentials.text.offer' | 'feature.credentials.text.meta'
 }
 
 export const CredentialMetadata: React.FunctionComponent<CredentialMetadataProps> = ({

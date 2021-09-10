@@ -38,10 +38,10 @@ export const Camera = forwardRef<ExpoCamera, PropsWithChildren<ExpoCameraProps>>
   if (hasPermission === false) {
     return (
       <Box fill center>
-        <Text>{t('camera.noPermission')}</Text>
+        <Text>{t('feature.camera.noPermissions')}</Text>
         <Spacer />
         <Button variant="plain" onPress={onPressOpenSettings}>
-          {t('action.openSettings')}
+          {t('actions.openSettings')}
         </Button>
       </Box>
     )

@@ -15,6 +15,7 @@ export interface PageProps {
   style?: ViewStyle | ViewStyle[]
   center?: boolean
   safeArea?: boolean
+  scrollable?: boolean
 }
 
 export const Page: React.FunctionComponent<PropsWithChildren<PageProps>> = ({
@@ -22,8 +23,9 @@ export const Page: React.FunctionComponent<PropsWithChildren<PageProps>> = ({
   onLayout,
   style,
   center = false,
-  children,
   safeArea = false,
+  scrollable = false,
+  children,
 }) => {
   const insets = useSafeAreaInsets()
 
@@ -35,6 +37,7 @@ export const Page: React.FunctionComponent<PropsWithChildren<PageProps>> = ({
         paddingSize="none"
         onLayout={onLayout}
         center={center}
+        scrollable={scrollable}
         fill
         style={[
           objectStyle,
@@ -52,7 +55,7 @@ export const Page: React.FunctionComponent<PropsWithChildren<PageProps>> = ({
   }
 
   return (
-    <Box paddingSize={paddingSize} onLayout={onLayout} fill style={style}>
+    <Box paddingSize={paddingSize} onLayout={onLayout} fill style={style} scrollable={scrollable}>
       {children}
     </Box>
   )

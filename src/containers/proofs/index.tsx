@@ -1,1 +1,0 @@
-export { ProofsTab } from './ProofsTab'
