@@ -1,3 +1,4 @@
+// TODO: use nativebases scaling (this does not work)
 /**
  * Base size value
  */
@@ -61,10 +62,19 @@ export const marginSize = {
 }
 
 export const avatarSize = {
-  s: size * 2,
-  m: size * 3,
-  l: size * 4,
-  xl: size * 5,
+  s: size * 0.5,
+  m: size * 1,
+  l: size * 1.5,
+  xl: size * 2,
+}
+
+export const iconSize = {
+  s: size * 1,
+  m: size * 2,
+  l: size * 2.5,
+  xl: size * 4,
+  xxl: size * 5,
+  xxxl: size * 6,
 }
 
 export const badgeSize = {
@@ -77,33 +87,11 @@ export const badgeSize = {
   xxxl: size * 1.0,
 }
 
-// TODO: What do we do with this?
-export const colors = {
-  transparent: 'rgba(0,0,0,0)',
-  inputBackground: '#FFFFFF',
-  white: '#ffffff',
-  text: '#212529',
-  primary: '#E14032',
-  secondary: 'green',
-  success: '#28a745',
-  error: '#dc3545',
-}
-
-// TODO: What do we do with this?
-export const fontColors = {
-  text: 'red',
-  title: 'red',
-  primary: 'red',
-  accent: 'red',
-  success: 'red',
-  warning: 'red',
-  danger: 'red',
-}
-
-export type FontSizes = typeof fontSize
+export type FontSizes = keyof typeof fontSize
 export type PrettySizes = typeof prettySize
 export type Sizes = typeof sizes
 export type PaddingSizes = typeof paddingSize
 export type MarginSizes = typeof marginSize
 export type AvatarSizes = keyof typeof avatarSize
 export type BadgeSizes = keyof typeof badgeSize
+export type IconSizes = keyof typeof iconSize

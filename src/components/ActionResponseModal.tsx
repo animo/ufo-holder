@@ -4,7 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { paddingSize } from '@components/global-constants'
 import { gutters, layout } from '@components/global-stylesheets'
-import { Button, FlexItem, Panel, ScrollViewPage, Text } from '@internal/components'
+import { Box, Page } from '@components/lib'
+import { Button, FlexItem, Text } from '@internal/components'
 
 export interface ActionResponseModalProps {
   onDecline: () => void
@@ -21,8 +22,8 @@ export const ActionResponseModal: React.FunctionComponent<ActionResponseModalPro
 
   return (
     <>
-      <ScrollViewPage>{children}</ScrollViewPage>
-      <Panel
+      <Page scrollable>{children}</Page>
+      <Box
         paddingSize="l"
         style={[
           layout.row,
@@ -34,14 +35,14 @@ export const ActionResponseModal: React.FunctionComponent<ActionResponseModalPro
         ]}
       >
         <FlexItem style={gutters.mediumHPadding}>
-          <Button variant="outline" onPress={onDecline} color="danger">
-            <Text color="danger">{t('actions.decline')}</Text>
+          <Button color="danger" onPress={onDecline}>
+            <Text>{t('actions.decline')}</Text>
           </Button>
         </FlexItem>
         <FlexItem style={gutters.mediumHPadding}>
           <Button onPress={onAccept}>{t('actions.accept')}</Button>
         </FlexItem>
-      </Panel>
+      </Box>
     </>
   )
 }

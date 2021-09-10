@@ -1,9 +1,9 @@
 import { CredentialState } from '@aries-framework/core'
 import { CredentialsThunks } from '@aries-framework/redux-store'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { CredentialMetadata } from '@internal/components'
+import { CredentialMetadata, Modal } from '@internal/components'
 import { ActionResponseModal } from '@internal/components/ActionResponseModal'
 import { FormDetail } from '@internal/components/FormDetail'
 import { useAppStackNavigation } from '@internal/navigation'
@@ -24,6 +24,7 @@ export const CredentialOfferScreen: React.FunctionComponent<CredentialOfferScree
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const navigation = useAppStackNavigation()
+  const [showModal, setShowModal] = useState(false)
   const { credential, connection } = useAgentSelector(
     AriesSelectors.credentialWithConnectionByIdSelector(route.params.credentialId)
   )
@@ -38,27 +39,37 @@ export const CredentialOfferScreen: React.FunctionComponent<CredentialOfferScree
   }
 
   const onDeclineCredentialOffer = () => {
+    setShowModal(false)
     void dispatch(CredentialsThunks.deletCredential(credential.id))
     navigation.goBack()
   }
 
   return (
-    <ActionResponseModal onAccept={onAcceptCredentialOffer} onDecline={onDeclineCredentialOffer}>
-      {connection && (
-        <CredentialMetadata
-          i18nKey="feature.credentials.text.offer"
-          connectionRecord={connection}
-          credentialName={getCredentialDisplayName(credential.metadata.schemaId)}
-          issueDate={formatToDate(credential.createdAt, t('months', { returnObjects: true }))}
-        />
-      )}
-      {credential.credentialAttributes?.map((attribute) => (
-        <FormDetail
-          text={attribute.value}
-          headingText={convertToHumanFriendlyName(attribute.name)}
-          key={attribute.name}
-        />
-      ))}
-    </ActionResponseModal>
+    <>
+      <ActionResponseModal onAccept={onAcceptCredentialOffer} onDecline={() => setShowModal(true)}>
+        {connection && (
+          <CredentialMetadata
+            i18nKey="feature.credentials.text.offer"
+            connectionRecord={connection}
+            credentialName={getCredentialDisplayName(credential.metadata.schemaId)}
+            issueDate={formatToDate(credential.createdAt, t('months', { returnObjects: true }))}
+          />
+        )}
+        {credential.credentialAttributes?.map((attribute) => (
+          <FormDetail
+            text={attribute.value}
+            headingText={convertToHumanFriendlyName(attribute.name)}
+            key={attribute.name}
+          />
+        ))}
+      </ActionResponseModal>
+      <Modal
+        title={t('feature.credentials.titles.delete')}
+        text={t('feature.credentials.text.delete')}
+        onAccept={onDeclineCredentialOffer}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+    </>
   )
 }

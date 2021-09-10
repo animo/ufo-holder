@@ -32,7 +32,7 @@ export const DeleteBottomSheet: React.FunctionComponent<DeleteBottomSheetProps> 
         </FlexItem>
         <Spacer vertical />
         <FlexItem>
-          <Button variant="default" color="danger" onPress={onDelete}>
+          <Button color="danger" onPress={onDelete}>
             {t('actions.delete')}
           </Button>
         </FlexItem>

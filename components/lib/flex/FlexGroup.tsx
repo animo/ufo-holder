@@ -23,7 +23,6 @@ const FlexGroupBase: FunctionComponent<Props> = ({
   alignItems,
   justifyContent,
   wrap = false,
-  // gutterSize = 'm',
   style,
 }) => {
   return (

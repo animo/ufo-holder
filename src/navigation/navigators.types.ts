@@ -11,7 +11,7 @@ type RootNavigationParamList = {
   // Credentials
   CredentialsScreen: undefined
   CredentialOfferScreen: CredentialOfferScreenRouteParams
-  CredentialDetail: CredentialDetailRouteParams
+  CredentialDetailScreen: CredentialDetailRouteParams
 
   // Meta
   InformationScreen: undefined

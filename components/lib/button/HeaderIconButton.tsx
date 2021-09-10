@@ -5,6 +5,6 @@ import React from 'react'
 import { gutters } from '@components/global-stylesheets'
 import { IconButton } from '@internal/components'
 
-export const HeaderIconButton: React.FunctionComponent<IconButtonProps> = ({ onPress, iconType, iconColor }) => (
-  <IconButton onPress={onPress} iconType={iconType} iconSize="xl" style={gutters.largeRPadding} iconColor={iconColor} />
+export const HeaderIconButton: React.FunctionComponent<IconButtonProps> = ({ onPress, type, color }) => (
+  <IconButton onPress={onPress} type={type} size="l" style={gutters.largeRPadding} color={color} />
 )

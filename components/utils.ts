@@ -1,7 +1,7 @@
 import { colorInk, colorGhost } from './global-constants'
 
 export function hexToRgb(hex: string) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  const result = new RegExp(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).exec(hex)
   if (!result) {
     throw new Error('Expected "hex" to be "#" followed by 6 hex characters')
   }

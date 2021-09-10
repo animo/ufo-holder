@@ -1,26 +1,25 @@
-import type { FontSizes } from '../../global-constants'
+import type { IconSizes } from '../../global-constants'
 import type { ColorNames } from '@components/theme'
+import type { IIconProps } from 'native-base'
 
 import React from 'react'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 
-import { fontSize } from '../../global-constants'
+import { iconSize } from '../../global-constants'
 
 import { useTheme } from '@components/theme'
 
-export type IconSizes = keyof FontSizes
-
-export interface IconProps {
-  iconType: string
-  iconSize?: IconSizes | number
-  iconColor?: ColorNames
+export interface IconProps extends Omit<IIconProps, 'color'> {
+  type: string
+  size?: IconSizes
+  color?: ColorNames
 }
 
-export const Icon: React.FunctionComponent<IconProps> = ({ iconType, iconSize = 'm', iconColor = 'text' }) => {
+export const Icon: React.FunctionComponent<IconProps> = ({ type, size = 'm', color = 'text' }) => {
   const { colors } = useTheme()
 
-  const color = colors[iconColor]
-  const size = typeof iconSize === 'number' ? iconSize : fontSize[iconSize]
+  const mappedSize = iconSize[size]
+  const mappedColor = colors[color]
 
-  return <IonIcon name={iconType} size={size} color={color} />
+  return <IonIcon name={type} size={mappedSize} color={mappedColor} />
 }

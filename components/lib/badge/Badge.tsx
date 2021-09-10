@@ -23,7 +23,7 @@ interface StylesProps {
 
 export const Badge: React.FunctionComponent<BadgeProps> = ({
   display = false,
-  badgeSize: size = 's',
+  badgeSize: size = 'm',
   badgeColor = 'danger',
   badgeStyle,
   children,
@@ -47,8 +47,8 @@ const styles = ({ badgeColor, size, colors }: StylesProps) =>
       borderRadius: badgeSize[size] / 2,
       borderColor: colors.white,
       position: 'absolute',
-      right: -3,
+      right: 0,
       top: 0,
-      zIndex: 2,
+      zIndex: 100,
     },
   })

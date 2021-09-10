@@ -22,7 +22,7 @@ export const IconListItem: React.FunctionComponent<IconListItemProps> = ({
 }) => (
   <ListItem onPress={onPress} text={text} subText={subText} actionIconType={actionIconType}>
     <Box style={gutters.smallHMargin}>
-      <Icon iconType={iconType} iconSize="xxxl" />
+      <Icon type={iconType} size="xxxl" />
     </Box>
   </ListItem>
 )

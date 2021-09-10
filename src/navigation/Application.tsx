@@ -10,7 +10,7 @@ import { StatusBar } from 'react-native'
 
 import { navigationRef } from './root'
 
-import { Box, screenOptions, Toast } from '@internal/components'
+import { Box, screenOptions } from '@internal/components'
 import {
   CredentialDetailScreen,
   CredentialOfferScreen,
@@ -81,7 +81,7 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                   />
 
                   <Stack.Screen
-                    name="CredentialDetail"
+                    name="CredentialDetailScreen"
                     component={CredentialDetailScreen}
                     options={{ title: t('feature.credentials.titles.detail'), headerBackTitleVisible: false }}
                   />
@@ -96,7 +96,6 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                 <Stack.Screen name="OnboardingStack" component={OnboardingContainer} options={{ headerShown: false }} />
               )}
             </Stack.Navigator>
-            <Toast />
           </BottomSheetModalProvider>
         )}
       </NavigationContainer>

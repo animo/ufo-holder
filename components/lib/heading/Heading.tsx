@@ -1,24 +1,21 @@
-import type { ColorNames } from '@components/theme'
+import type { FontSizes } from '@components/global-constants'
 import type { FunctionComponent } from 'react'
-import type { TextProps } from 'react-native'
 
+import { Heading as _Heading } from 'native-base'
 import React from 'react'
 
-import { fontSizes } from '../../global-stylesheets'
-import { Text } from '../text/Text'
+import { fontSize } from '@components/global-constants'
 
-type FontSize = 's' | 'm' | 'l' | 'xl'
-
-interface Props extends TextProps {
-  size?: FontSize
-  color?: ColorNames
-  align?: 'auto' | 'left' | 'right' | 'center' | 'justify'
+interface TextProps {
+  align?: 'left' | 'right' | 'center' | 'justify'
+  size?: FontSizes
 }
 
-export const Heading: FunctionComponent<Props> = ({ size = 'l', color = 'text', align, style, children }) => {
+export const Heading: FunctionComponent<TextProps> = ({ size = 'l', align, children }) => {
+  const mappedSize = fontSize[size]
   return (
-    <Text style={[fontSizes.heading[size], style]} color={color} align={align}>
+    <_Heading fontSize={mappedSize} textAlign={align}>
       {children}
-    </Text>
+    </_Heading>
   )
 }
