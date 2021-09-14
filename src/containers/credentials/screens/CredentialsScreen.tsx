@@ -1,19 +1,18 @@
-import type { BottomSheetModal } from '@gorhom/bottom-sheet'
-
-import BottomSheet from '@gorhom/bottom-sheet'
-import React, { useEffect, useRef } from 'react'
+import { CredentialState } from '@aries-framework/core'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { HeaderIconButton, IconListItem, NoContent, Page, Text } from '@internal/components'
+import { AvatarListItem, Button, EmergencyBottomSheet, HeaderIconButton, NoContent, Page } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
+import { useAppDispatch } from '@internal/store'
+import { AppThunks } from '@internal/store/app'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { getConnectionDisplayName, getCredentialDisplayName } from '@internal/utils'
 
 export const CredentialsScreen: React.FunctionComponent = () => {
   const navigation = useAppStackNavigation()
   const { t } = useTranslation()
-
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const dispatch = useAppDispatch()
 
   const credentials = useAgentSelector(AriesSelectors.credentialsWithConnectionSelector)
 
@@ -23,12 +22,18 @@ export const CredentialsScreen: React.FunctionComponent = () => {
     }
 
     navigation.setOptions({
-      headerRight: () => <HeaderIconButton iconType="information-circle-outline" onPress={goToInformationScreen} />,
+      headerRight: () => <HeaderIconButton type="information-circle-outline" onPress={goToInformationScreen} />,
     })
   }, [navigation])
 
   const onPressCredentialDetails = (credentialId: string) => {
-    navigation.navigate('CredentialDetail', {
+    navigation.navigate('CredentialDetailScreen', {
+      credentialId,
+    })
+  }
+
+  const onPressCredentialOffer = (credentialId: string) => {
+    navigation.navigate('CredentialOfferScreen', {
       credentialId,
     })
   }
@@ -41,25 +46,30 @@ export const CredentialsScreen: React.FunctionComponent = () => {
           text={t('feature.credentials.text.noCredentials')}
           iconType="card-outline"
         />
+        <Button onPress={() => dispatch(AppThunks.newUser())}>Initialize</Button>
       </>
     )
   }
   return (
     <>
+      <Button onPress={() => dispatch(AppThunks.emergency({ emergency: true }))}>toggle</Button>
       <Page scrollable>
         {credentials.map(({ connection, credential }) => (
-          <IconListItem
+          <AvatarListItem
+            showBadge={credential.state === CredentialState.OfferReceived}
             key={credential.id}
             text={getCredentialDisplayName(credential.metadata.schemaId)}
             subText={connection ? getConnectionDisplayName(connection) : undefined}
-            onPress={() => onPressCredentialDetails(credential.id)}
-            iconType="card-outline"
+            onPress={() =>
+              credential.state === CredentialState.OfferReceived
+                ? onPressCredentialOffer(credential.id)
+                : onPressCredentialDetails(credential.id)
+            }
+            name={getCredentialDisplayName(credential.metadata.schemaId) ?? ''}
           />
         ))}
       </Page>
-      <BottomSheet snapPoints={['100%']} ref={bottomSheetModalRef}>
-        <Text align="center">TODO: Emergency</Text>
-      </BottomSheet>
+      <EmergencyBottomSheet title="BRAND" subtitle="Jaarbeursplein, Utrecht" />
     </>
   )
 }

@@ -4,7 +4,7 @@ import React from 'react'
 import { Trans } from 'react-i18next'
 
 import { gutters } from '@components/global-stylesheets'
-import { Panel, Text } from '@components/lib'
+import { Box, Text } from '@components/lib'
 import { getConnectionDisplayName } from '@internal/utils'
 
 export interface CredentialMetadataProps {
@@ -25,7 +25,7 @@ export const CredentialMetadata: React.FunctionComponent<CredentialMetadataProps
   }
 
   return (
-    <Panel style={gutters.mediumBMargin} paddingSize="xl">
+    <Box style={gutters.mediumBMargin} paddingSize="xl">
       <Text>
         <Trans
           values={{ connectionName: getConnectionDisplayName(connectionRecord), credentialName, issueDate }}
@@ -33,6 +33,6 @@ export const CredentialMetadata: React.FunctionComponent<CredentialMetadataProps
           components={{ bold: <Text weight="bold" /> }}
         />
       </Text>
-    </Panel>
+    </Box>
   )
 }

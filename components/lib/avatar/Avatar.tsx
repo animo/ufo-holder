@@ -1,27 +1,21 @@
-import type { AvatarSizes } from '@components/global-constants'
-import type { ImageStyle, TextStyle } from 'react-native'
-
+import { Avatar as _Avatar } from 'native-base'
 import React from 'react'
 
-import { UserAvatar } from './UserAvatar'
+import { getInitials } from './util'
 
-import { Box } from '@internal/components'
-import { stringToHslColor } from '@internal/utils/color'
+import { stringToHslColor } from '@internal/utils'
 
 export interface AvatarProps {
-  avatarName: string
-  avatarSize?: AvatarSizes
-  avatarStyle?: ImageStyle | ImageStyle[] | TextStyle | TextStyle[]
-  id: string
+  text?: string
+  size?: number
 }
 
-export const Avatar: React.FunctionComponent<AvatarProps> = ({
-  avatarSize: size = 'm',
-  avatarStyle,
-  avatarName,
-  id,
-}) => (
-  <Box style={avatarStyle}>
-    <UserAvatar textColor="white" name={avatarName} size={size} backgroundColor={stringToHslColor(id)} />
-  </Box>
-)
+export const Avatar: React.FunctionComponent<AvatarProps> = ({ text, size = 12 }) => {
+  const initials = text ? getInitials(text) : ''
+
+  return (
+    <_Avatar size={size} bg={stringToHslColor(text ?? '')}>
+      {initials}
+    </_Avatar>
+  )
+}
