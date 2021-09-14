@@ -51,6 +51,7 @@ export const paddingSize = {
   m: sizes.m * 0.5,
   l: sizes.l * 0.5,
   xl: sizes.xl * 0.5,
+  xxl: sizes.xxl * 0.5,
 }
 
 export const marginSize = {

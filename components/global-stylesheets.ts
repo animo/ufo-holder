@@ -237,6 +237,9 @@ export const paddingSizes = StyleSheet.create({
   xl: {
     padding: paddingSize.xl,
   },
+  xxl: {
+    padding: paddingSize.xxl,
+  },
   none: {
     padding: 0,
   },

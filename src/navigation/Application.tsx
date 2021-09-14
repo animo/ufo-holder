@@ -31,7 +31,7 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   const { colors, darkMode } = theme
   const { t } = useTranslation()
   const isAppInitialized = useAppSelector(AppSelectors.isInitializedSelector)
-  const isAgentInitialized = true
+  const isAgentInitialized = false
 
   const dispatch = useAppDispatch()
 

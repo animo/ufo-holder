@@ -1,5 +1,18 @@
 export const nl = {
   feature: {
+    onboarding: {
+      text: {
+        pilot: 'Adipisicing ut velit ut adipisicing nostrud laboris mollit sint occaecat duis qui.',
+        welcome: 'Laboris commodo et aliqua eu consequat sit tempor voluptate dolore.',
+        credentials: 'Incididunt duis ullamco est mollit.',
+        location: 'Culpa aute id incididunt voluptate dolore non elit.',
+        legal: 'Enim fugiat nulla quis in ea sint irure ullamco voluptate reprehenderit aliquip aliquip.',
+      },
+      actions: {
+        setPermissions: 'Zet mijn permissies',
+        understand: 'Ik begrijp het',
+      },
+    },
     credentials: {
       titles: {
         main: 'Kwalificaties',
