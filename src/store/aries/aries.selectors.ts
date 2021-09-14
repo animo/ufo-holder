@@ -14,6 +14,18 @@ const receivedCredentialsSelector = createSelector(CredentialsSelectors.credenti
   credentials.filter((c) => [CredentialState.CredentialReceived, CredentialState.Done].includes(c.state))
 )
 
+const credentialsSelector = createSelector(CredentialsSelectors.credentialRecordsSelector, (credentials) =>
+  credentials.sort((a, b) => {
+    if (a.state === CredentialState.OfferReceived) {
+      return -1
+    } else if (a.state === b.state) {
+      return 0
+    } else {
+      return 1
+    }
+  })
+)
+
 const readyConnectionsSelector = createSelector(ConnectionsSelectors.connectionRecordsSelector, (connections) =>
   connections.filter((c) => [ConnectionState.Responded, ConnectionState.Complete].includes(c.state))
 )
@@ -63,7 +75,7 @@ const proofWithConnectionByIdSelector =
   }
 
 const credentialsWithConnectionSelector = (state: RootState['aries']) => {
-  const credentials = receivedCredentialsSelector(state)
+  const credentials = credentialsSelector(state)
 
   return credentials.map((credential) => ({
     credential,
@@ -73,11 +85,6 @@ const credentialsWithConnectionSelector = (state: RootState['aries']) => {
   }))
 }
 
-const interactionRecordsSelector = createSelector(
-  [visibleConnectionsSelector, sharedProofsSelector, receivedCredentialsSelector],
-  (connections, proofs, credentials) => [...connections, ...proofs, ...credentials]
-)
-
 const actionRecordsSelector = createSelector(
   [
     ProofsSelectors.proofRecordsByStateSelector(ProofState.RequestReceived),
@@ -86,12 +93,8 @@ const actionRecordsSelector = createSelector(
   (proofs, credentials) => [...proofs, ...credentials]
 )
 
-const hasActionsSelector = createSelector(actionRecordsSelector, (actionRecords) => actionRecords.length > 0)
-
 const AriesSelectors = {
-  interactionRecordsSelector,
   actionRecordsSelector,
-  hasActionsSelector,
   receivedCredentialsSelector,
   readyConnectionsSelector,
   sharedProofsSelector,

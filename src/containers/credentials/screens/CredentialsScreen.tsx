@@ -1,7 +1,8 @@
+import { CredentialState } from '@aries-framework/core'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, EmergencyBottomSheet, HeaderIconButton, IconListItem, NoContent, Page } from '@internal/components'
+import { AvatarListItem, Button, EmergencyBottomSheet, HeaderIconButton, NoContent, Page } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
@@ -21,12 +22,18 @@ export const CredentialsScreen: React.FunctionComponent = () => {
     }
 
     navigation.setOptions({
-      headerRight: () => <HeaderIconButton iconType="information-circle-outline" onPress={goToInformationScreen} />,
+      headerRight: () => <HeaderIconButton type="information-circle-outline" onPress={goToInformationScreen} />,
     })
   }, [navigation])
 
   const onPressCredentialDetails = (credentialId: string) => {
-    navigation.navigate('CredentialDetail', {
+    navigation.navigate('CredentialDetailScreen', {
+      credentialId,
+    })
+  }
+
+  const onPressCredentialOffer = (credentialId: string) => {
+    navigation.navigate('CredentialOfferScreen', {
       credentialId,
     })
   }
@@ -39,6 +46,7 @@ export const CredentialsScreen: React.FunctionComponent = () => {
           text={t('feature.credentials.text.noCredentials')}
           iconType="card-outline"
         />
+        <Button onPress={() => dispatch(AppThunks.newUser())}>Initialize</Button>
       </>
     )
   }
@@ -47,12 +55,17 @@ export const CredentialsScreen: React.FunctionComponent = () => {
       <Button onPress={() => dispatch(AppThunks.emergency({ emergency: true }))}>toggle</Button>
       <Page scrollable>
         {credentials.map(({ connection, credential }) => (
-          <IconListItem
+          <AvatarListItem
+            showBadge={credential.state === CredentialState.OfferReceived}
             key={credential.id}
             text={getCredentialDisplayName(credential.metadata.schemaId)}
             subText={connection ? getConnectionDisplayName(connection) : undefined}
-            onPress={() => onPressCredentialDetails(credential.id)}
-            iconType="card-outline"
+            onPress={() =>
+              credential.state === CredentialState.OfferReceived
+                ? onPressCredentialOffer(credential.id)
+                : onPressCredentialDetails(credential.id)
+            }
+            name={getCredentialDisplayName(credential.metadata.schemaId) ?? ''}
           />
         ))}
       </Page>

@@ -17,11 +17,11 @@ export const NoContent: React.FunctionComponent<NoContentProps> = ({ text, headi
   <Page>
     <FlexGroup justifyContent="center" alignItems="center" direction="column">
       <FlexItem grow={false}>
-        <Icon iconSize={100} iconType={iconType} />
+        <Icon size="xxxl" type={iconType} />
       </FlexItem>
       {heading && (
         <FlexItem grow={false}>
-          <Heading size="l" align="center">
+          <Heading size="xl" align="center">
             {heading}
           </Heading>
           <Spacer />
@@ -33,7 +33,7 @@ export const NoContent: React.FunctionComponent<NoContentProps> = ({ text, headi
       {button && (
         <FlexItem grow={false}>
           <Spacer />
-          <Button iconType={button.iconType} variant="plain" onPress={button.onPress}>
+          <Button variant="ghost" onPress={button.onPress}>
             {button.text}
           </Button>
         </FlexItem>

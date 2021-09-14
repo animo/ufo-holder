@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ScrollViewPage } from '@components/lib'
+import { Page, ScrollViewPage } from '@components/lib'
 import { CredentialMetadata, FormDetail } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
@@ -36,7 +36,7 @@ export const CredentialDetailScreen: React.FunctionComponent<CredentialDetailScr
   }
 
   return (
-    <ScrollViewPage>
+    <Page scrollable>
       {connection && (
         <CredentialMetadata
           i18nKey="feature.credentials.text.meta"
@@ -56,6 +56,6 @@ export const CredentialDetailScreen: React.FunctionComponent<CredentialDetailScr
           )
         }
       })}
-    </ScrollViewPage>
+    </Page>
   )
 }

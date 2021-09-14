@@ -81,7 +81,7 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                   />
 
                   <Stack.Screen
-                    name="CredentialDetail"
+                    name="CredentialDetailScreen"
                     component={CredentialDetailScreen}
                     options={{ title: t('feature.credentials.titles.detail'), headerBackTitleVisible: false }}
                   />

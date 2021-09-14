@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ListItem } from './ListItem'
 
-import { Avatar, Spacer } from '@components/lib'
+import { Avatar, Badge, Spacer } from '@components/lib'
 
 export interface AvatarListItemProps {
   onPress: () => void
@@ -10,7 +10,7 @@ export interface AvatarListItemProps {
   subText?: string
   actionIconType?: string
   name: string
-  id: string
+  showBadge?: boolean
 }
 
 export const AvatarListItem: React.FunctionComponent<AvatarListItemProps> = ({
@@ -19,10 +19,12 @@ export const AvatarListItem: React.FunctionComponent<AvatarListItemProps> = ({
   subText,
   actionIconType = 'chevron-forward-outline',
   name,
-  id,
+  showBadge = false,
 }) => (
   <ListItem onPress={onPress} text={text} subText={subText} actionIconType={actionIconType}>
-    <Avatar avatarName={name} id={id} />
+    <Badge display={showBadge}>
+      <Avatar text={name} />
+    </Badge>
     <Spacer size="s" vertical />
   </ListItem>
 )

@@ -20,7 +20,8 @@
     "commitlint": "commitlint",
     "commit": "commit",
     "check-types": "tsc --noEmit",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "lint:check": "yarn lint && yarn check-types"
   },
   "dependencies": {
     "@aries-framework/core": "^0.1.0-alpha.258",

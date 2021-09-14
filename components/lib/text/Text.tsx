@@ -1,38 +1,30 @@
 import type { ColorNames } from '../../theme'
 import type { FunctionComponent } from 'react'
-import type { TextProps } from 'react-native'
+import type { FontWeight } from 'react-native-svg'
 
+import { Text as __Text } from 'native-base'
 import React from 'react'
-import { Text as _Text } from 'react-native'
 
-import { fontSizes } from '../../global-stylesheets'
 import { useTheme } from '../../theme'
+
+import { fontSize } from '@components/global-constants'
 
 export type FontSize = 'xs' | 's' | 'm' | 'l'
 
-interface Props extends TextProps {
+export interface TextProps {
+  weight?: FontWeight
   size?: FontSize
   color?: ColorNames
-  align?: 'auto' | 'left' | 'right' | 'center' | 'justify'
-  weight?: 'normal' | 'bold'
+  align?: 'left' | 'right' | 'center' | 'justify'
 }
 
-export const Text: FunctionComponent<Props> = ({
-  size = 'm',
-  color = 'text',
-  weight = 'normal',
-  children,
-  align,
-  style,
-  ...rest
-}) => {
+export const Text: FunctionComponent<TextProps> = ({ color = 'text', weight, size = 'm', align, children }) => {
   const { colors } = useTheme()
+  const mappedColor = colors[color]
+  const mappedSize = fontSize[size]
   return (
-    <_Text
-      style={[fontSizes.text[size], { textAlign: align, color: colors[color], fontWeight: weight }, style]}
-      {...rest}
-    >
+    <__Text fontWeight={weight} fontSize={mappedSize} textAlign={align} color={mappedColor}>
       {children}
-    </_Text>
+    </__Text>
   )
 }
