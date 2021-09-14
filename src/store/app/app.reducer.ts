@@ -6,14 +6,12 @@ import { AppThunks } from './app.thunks'
 export interface AppState {
   isInitialized: boolean
   isInitializing: boolean
-  hasEmergency: boolean
   error?: string
 }
 
 const initialState: AppState = {
   isInitialized: false,
   isInitializing: false,
-  hasEmergency: false,
 }
 
 const appSlice = createSlice({
@@ -32,9 +30,6 @@ const appSlice = createSlice({
     builder.addCase(AppThunks.initialize.rejected, (state) => {
       state.isInitialized = false
       state.isInitializing = false
-    })
-    builder.addCase(AppThunks.emergency.fulfilled, (state, action) => {
-      state.hasEmergency = action.payload
     })
   },
 })
