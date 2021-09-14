@@ -1,19 +1,19 @@
 import type { BottomSheetModal } from '@gorhom/bottom-sheet'
 
-import BottomSheet from '@gorhom/bottom-sheet'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { HeaderIconButton, IconListItem, NoContent, Page, Text } from '@internal/components'
+import { Button, EmergencyBottomSheet, HeaderIconButton, IconListItem, NoContent, Page } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
+import { useAppDispatch } from '@internal/store'
+import { AppThunks } from '@internal/store/app'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { getConnectionDisplayName, getCredentialDisplayName } from '@internal/utils'
 
 export const CredentialsScreen: React.FunctionComponent = () => {
   const navigation = useAppStackNavigation()
   const { t } = useTranslation()
-
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const dispatch = useAppDispatch()
 
   const credentials = useAgentSelector(AriesSelectors.credentialsWithConnectionSelector)
 
@@ -46,6 +46,7 @@ export const CredentialsScreen: React.FunctionComponent = () => {
   }
   return (
     <>
+      <Button onPress={() => dispatch(AppThunks.emergency({ emergency: true }))}>toggle</Button>
       <Page scrollable>
         {credentials.map(({ connection, credential }) => (
           <IconListItem
@@ -57,9 +58,7 @@ export const CredentialsScreen: React.FunctionComponent = () => {
           />
         ))}
       </Page>
-      <BottomSheet snapPoints={['100%']} ref={bottomSheetModalRef}>
-        <Text align="center">TODO: Emergency</Text>
-      </BottomSheet>
+      <EmergencyBottomSheet title="BRAND" subtitle="Jaarbeursplein, Utrecht" />
     </>
   )
 }
