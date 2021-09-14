@@ -1,6 +1,4 @@
-import type { BottomSheetModal } from '@gorhom/bottom-sheet'
-
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Button, EmergencyBottomSheet, HeaderIconButton, IconListItem, NoContent, Page } from '@internal/components'
