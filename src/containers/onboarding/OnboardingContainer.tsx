@@ -13,7 +13,7 @@ import { WelcomeScreen } from './screens/WelcomeScreen'
 import { Box, FlexItem } from '@components/lib'
 
 export const OnboardingContainer = () => {
-  const SLIDELENGTH = 4
+  const SLIDELENGTH = 5
   const [index, setIndex] = useState(0)
 
   const pagerViewRef = useRef<PagerView>(null)

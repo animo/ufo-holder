@@ -55,9 +55,7 @@ export const EmergencyBottomSheet: React.FunctionComponent<EmergencyBottomSheetP
         {/* TODO: extract to new component */}
         <FlexGroup alignItems="flexEnd" direction="row" style={gutters.mediumBMargin}>
           <FlexItem>
-            <Button variant="outline" onPress={onDecline}>
-              {t('actions.decline')}
-            </Button>
+            <Button onPress={onDecline}>{t('actions.decline')}</Button>
           </FlexItem>
           <Spacer vertical />
           <FlexItem>

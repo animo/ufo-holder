@@ -5,7 +5,7 @@ import { Image } from 'native-base'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { Box, Button, FlexGroup, FlexItem, Page, Spacer, Text } from '@components/lib'
+import { Box, Button, FlexItem, Page, Spacer, Text } from '@components/lib'
 
 export interface SlideProps {
   button?: {
@@ -42,25 +42,17 @@ export const Slide: React.FunctionComponent<SlideProps> = ({ image, text, button
   return (
     <View style={StyleSheet.absoluteFill} collapsable={false}>
       <Page safeArea paddingSize="xxl">
-        <FlexGroup>
-          <FlexItem grow={1} />
-          <FlexItem grow={3}>
-            <Image source={image} alt="onboarding-image" style={styles.image} />
-          </FlexItem>
-          <Spacer size="xl" />
-          <FlexItem grow={2}>
-            <Text align="center">{text}</Text>
-          </FlexItem>
-          {indicators}
-          {button && (
-            <>
-              <FlexItem justifyContent="flex-end">
-                <Button onPress={button.onPress}>{button.text}</Button>
-              </FlexItem>
-              <Spacer size="xl" />
-            </>
-          )}
-        </FlexGroup>
+        <FlexItem grow={3} />
+        <Image source={image} alt="onboarding-image" style={styles.image} />
+        <FlexItem grow={2} />
+        <FlexItem>
+          <Text align="center">{text}</Text>
+        </FlexItem>
+        {indicators}
+        <FlexItem justifyContent="flex-end" grow={2}>
+          {button && <Button onPress={button.onPress}>{button.text}</Button>}
+        </FlexItem>
+        <Spacer size="xl" />
       </Page>
     </View>
   )
@@ -68,7 +60,7 @@ export const Slide: React.FunctionComponent<SlideProps> = ({ image, text, button
 
 const styles = StyleSheet.create({
   image: {
-    flex: 1,
+    height: '35%',
     resizeMode: 'contain',
   },
   dot: {

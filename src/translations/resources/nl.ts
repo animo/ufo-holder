@@ -2,11 +2,16 @@ export const nl = {
   feature: {
     onboarding: {
       text: {
-        pilot: 'Adipisicing ut velit ut adipisicing nostrud laboris mollit sint occaecat duis qui.',
-        welcome: 'Laboris commodo et aliqua eu consequat sit tempor voluptate dolore.',
-        credentials: 'Incididunt duis ullamco est mollit.',
-        location: 'Culpa aute id incididunt voluptate dolore non elit.',
-        legal: 'Enim fugiat nulla quis in ea sint irure ullamco voluptate reprehenderit aliquip aliquip.',
+        pilot:
+          'De LMS en VRD onderzoeken het veilig inzetten van de professional buiten dienst bij incidenten met een lange aanrijdtijd. \n\n Deze app is in de pilotfase en heeft dus beperkte funtionaliteit. \n\n Via de informatiepagina kan je altijd alles nalezen en stoppen wanneer je wilt. ',
+        welcome:
+          'Bedankt voor het downloaden van Helpr! \n\n In een noodsituatie kan elke seconde van levensbelang zijn. \n\n Als Helpr, maak jij het verschil.',
+        credentials:
+          'Centralisten van de meldkamer kunnen je hulp vragen op basis van de kwalificaties die je hebt verzameld. \n\n Jij bepaalt wanneer je kan en wil helpen. ',
+        location:
+          'Voor het functioneren van deze app hebben wij je GPS-locatie nodig. \n\n Wij gebruiken alleen de locatie bij benadering, wanneer we je specifieke locatie willen gebruiken vragen wij dit. ',
+        legal:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare suscipit velit, ac malesuada enim cursus eget. Nam aliquet leo vel est pharetra ultrices. ',
       },
       actions: {
         setPermissions: 'Zet mijn permissies',
@@ -21,7 +26,7 @@ export const nl = {
         delete: 'Weet u het zeker?',
       },
       text: {
-        noCredentialsTitle: 'U heeft nog geen kwalificaties',
+        noCredentialsTitle: 'U heeft nog geen kwalificaties.',
         noCredentials: 'Wacht totdat iemand iets geeft.',
         offer: 'lorem',
         meta: 'lorem',

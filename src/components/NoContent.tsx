@@ -1,9 +1,12 @@
-import React from 'react'
+import type { ImageSourcePropType } from 'react-native'
 
-import { FlexGroup, FlexItem, Icon, Page, Text, Heading, Spacer, Button } from '@components/lib'
+import React from 'react'
+import { StyleSheet, Image } from 'react-native'
+
+import { Button, FlexGroup, FlexItem, Heading, Page, Spacer, Text } from '@components/lib'
 
 export interface NoContentProps {
-  iconType: string
+  image: ImageSourcePropType
   heading?: string
   button?: {
     text: string
@@ -13,11 +16,11 @@ export interface NoContentProps {
   text?: string
 }
 
-export const NoContent: React.FunctionComponent<NoContentProps> = ({ text, heading, iconType, button }) => (
+export const NoContent: React.FunctionComponent<NoContentProps> = ({ text, heading, image, button }) => (
   <Page>
     <FlexGroup justifyContent="center" alignItems="center" direction="column">
       <FlexItem grow={false}>
-        <Icon size="xxxl" type={iconType} />
+        <Image source={image} style={styles.image} />
       </FlexItem>
       {heading && (
         <FlexItem grow={false}>
@@ -41,3 +44,11 @@ export const NoContent: React.FunctionComponent<NoContentProps> = ({ text, headi
     </FlexGroup>
   </Page>
 )
+
+const styles = StyleSheet.create({
+  image: {
+    resizeMode: 'contain',
+    width: 150,
+    height: 200,
+  },
+})
