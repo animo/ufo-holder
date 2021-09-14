@@ -2,7 +2,7 @@ import { CredentialState } from '@aries-framework/core'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { AvatarListItem, Button, HeaderIconButton, NoContent, Page } from '@internal/components'
+import { AvatarListItem, Button, EmergencyBottomSheet, HeaderIconButton, NoContent, Page } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
@@ -52,6 +52,7 @@ export const CredentialsScreen: React.FunctionComponent = () => {
   }
   return (
     <>
+      <Button onPress={() => dispatch(AppThunks.emergency({ emergency: true }))}>toggle</Button>
       <Page scrollable>
         {credentials.map(({ connection, credential }) => (
           <AvatarListItem
@@ -68,6 +69,7 @@ export const CredentialsScreen: React.FunctionComponent = () => {
           />
         ))}
       </Page>
+      <EmergencyBottomSheet title="BRAND" subtitle="Jaarbeursplein, Utrecht" />
     </>
   )
 }

@@ -74,6 +74,11 @@ const AppThunks = {
       }
     }
   ),
+
+  emergency: createAsyncThunk<boolean, { emergency: boolean }, AsyncThunkOptions>(
+    'app/user/emergency',
+    ({ emergency }) => emergency
+  ),
 }
 
 export { AppThunks }
