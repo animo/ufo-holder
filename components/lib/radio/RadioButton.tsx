@@ -1,10 +1,10 @@
-import type { ColorNames } from '@components/theme'
+import type { ColorNames } from '@components/theme/themes'
 
 import React from 'react'
 import { RadioButton as _RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
 
 import { fontSizes, gutters } from '@components/global-stylesheets'
-import { useTheme } from '@components/theme'
+import { useAppTheme } from '@components/theme'
 
 export interface RadioButtonProps {
   color?: ColorNames
@@ -21,7 +21,7 @@ export const RadioButton: React.FunctionComponent<RadioButtonProps> = ({
   selected = false,
   setSelected,
 }) => {
-  const { colors } = useTheme()
+  const { colors } = useAppTheme()
   return (
     <_RadioButton style={gutters.smallVMargin}>
       <RadioButtonInput
@@ -30,14 +30,14 @@ export const RadioButton: React.FunctionComponent<RadioButtonProps> = ({
         index={index}
         buttonWrapStyle={gutters.smallRMargin}
         onPress={() => setSelected(index)}
-        buttonOuterColor={colors[color]}
-        buttonInnerColor={colors[color]}
+        buttonOuterColor={colors[color][500]}
+        buttonInnerColor={colors[color][500]}
         buttonSize={15}
       />
       <RadioButtonLabel
         obj={data}
         index={index}
-        labelStyle={[{ color: colors.text }, fontSizes.text.m]}
+        labelStyle={[{ color: colors.text[500] }, fontSizes.text.m]}
         onPress={() => setSelected(index)}
       />
     </_RadioButton>

@@ -1,45 +1,33 @@
-import type { ThemeTypes } from './themes'
-import type { Theme } from './types'
+import type { AppTheme } from './themes'
 import type { FunctionComponent } from 'react'
 
-import { extendTheme, NativeBaseProvider } from 'native-base'
-import React, { createContext, useContext, useMemo } from 'react'
+import { NativeBaseProvider, useTheme } from 'native-base'
+import React, { useMemo } from 'react'
 
-import { themes } from './themes'
+import { darkTheme, lightTheme } from './themes'
 
-interface ThemeContextValue extends Theme {
-  darkMode: boolean
+export interface ThemeTypes {
+  theme: AppTheme
 }
 
 interface ThemeContextProps {
-  themeName: ThemeTypes
+  darkMode: boolean
 }
 
-const ThemeContext = createContext<undefined | ThemeContextValue>(undefined)
+export const ThemeContextProvider: FunctionComponent<ThemeContextProps> = ({ children, darkMode }) => {
+  const theme = useMemo(() => {
+    return darkMode ? darkTheme() : lightTheme()
+  }, [darkMode])
 
-export const ThemeContextProvider: FunctionComponent<ThemeContextProps> = ({ children, themeName }) => {
-  const value = useMemo<ThemeContextValue>(() => {
-    const theme = themeName ? themes[themeName] : themes.light
-    return {
-      ...theme,
-      darkMode: themeName === 'dark',
-    }
-  }, [themeName])
-
-  const theme = extendTheme(value.colors)
-
-  return (
-    <ThemeContext.Provider value={value}>
-      <NativeBaseProvider theme={theme}>{children}</NativeBaseProvider>
-    </ThemeContext.Provider>
-  )
+  return <NativeBaseProvider theme={theme}>{children}</NativeBaseProvider>
 }
 
-export const useTheme = (): ThemeContextValue => {
-  const ctx = useContext(ThemeContext)
+export const useAppTheme = (): AppTheme => {
+  const ctx = useTheme()
+
   if (!ctx) {
-    throw Error('"useTheme" can only be used inside of "ThemeContextProvider"')
+    throw Error('"useAppTheme" can only be used inside of "ThemeContextProvider"')
   }
 
-  return ctx
+  return ctx as AppTheme
 }

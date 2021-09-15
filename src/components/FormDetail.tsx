@@ -14,7 +14,7 @@ export const FormDetail: React.FunctionComponent<FormDetailProps> = ({ headingTe
       {headingText}
     </Text>
     <Text size="m">{text}</Text>
-    <Text size="xs" color="textSubduedDarker">
+    <Text size="xs" color="textSubdued">
       {helpText}
     </Text>
   </>

@@ -1,9 +1,14 @@
-import { theme as dark } from './dark'
-import { theme as light } from './light'
+import type { dark } from './dark'
+import type { light } from './light'
 
-export const themes = {
-  dark,
-  light,
-} as const
+export { darkTheme } from './dark'
+export { lightTheme } from './light'
 
-export type ThemeTypes = keyof typeof themes
+export type AppTheme = typeof light | typeof dark
+export type ColorNames = keyof AppTheme['colors']
+
+/**
+ * base.ts  -> includes the base colors that will be used in the app
+ * light.ts -> includes the light theme specifc colors (extends the base.ts)
+ * dark.ts  -> includes the dark theme specific colors (extends the base.ts)
+ */

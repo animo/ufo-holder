@@ -1,83 +1,48 @@
-import type { Theme } from '../types'
+import { extendTheme } from 'native-base'
 
-import { colorInk, colorGhost } from '../../global-constants'
-import { relativeLuminanceW3C, tint, shade } from '../../utils'
+import { baseColors } from './base'
 
-const darkestShade = colorInk
-const lightestShade = colorGhost
-const lighterShade = shade(lightestShade, 1)
-
-const getHighContrastText = (hex: string) => (relativeLuminanceW3C(hex) > 0.5 ? darkestShade : lightestShade)
-
-const primary = '#71a9f7'
-const secondary = '#3c5a85'
-
-const accent = '#af7595'
-
-const text = '#000000'
-const textSubdued = '#AAAAAA'
-const textSubduedDarker = '#979797'
-
-const success = '#63d471'
-const warning = '#f8bd4f'
-const danger = '#d8464b'
-const transparent = 'rgba(0,0,0,0)'
-
-const textPrimary = getHighContrastText(primary)
-const textSecondary = getHighContrastText(secondary)
-const textSuccess = lightestShade
-const textAccent = getHighContrastText(accent)
-const textWarning = getHighContrastText(warning)
-const textDanger = getHighContrastText(danger)
-
-const background = '#FFFFFF'
-const bottomBarBackground = lighterShade
-const backgroundShade = '#EEEEEE'
-
-const border = '#222222'
-const borderSubdued = tint(border, 75)
-const card = '#FFFFFF'
-const notification = '#394363'
-
-const black = '#000000'
-const white = '#FFFFFF'
-
-export const theme: Theme = {
+export const light = {
   colors: {
-    darkestShade,
-    lightestShade,
-
-    primary,
-    secondary,
-
-    accent,
-
-    text,
-    textSubdued,
-    textSubduedDarker,
-
-    success,
-    warning,
-    danger,
-    transparent,
-
-    textPrimary,
-    textSecondary,
-    textSuccess,
-    textAccent,
-    textWarning,
-    textDanger,
-
-    background,
-    bottomBarBackground,
-    backgroundShade,
-
-    border,
-    borderSubdued,
-    card,
-    notification,
-
-    black,
-    white,
+    ...baseColors,
+    background: {
+      '50': '#ffffff',
+      '100': '#ffffff',
+      '200': '#ffffff',
+      '300': '#ffffff',
+      '400': '#ffffff',
+      '500': '#FFFFFF',
+      '600': '#e6e6e6',
+      '700': '#bfbfbf',
+      '800': '#999999',
+      '900': '#7d7d7d',
+    },
+    text: {
+      '50': '#f2f2f2',
+      '100': '#e6e6e6',
+      '200': '#bfbfbf',
+      '300': '#999999',
+      '400': '#4d4d4d',
+      '500': '#000000',
+      '600': '#000000',
+      '700': '#000000',
+      '800': '#000000',
+      '900': '#000000',
+    },
+    textSubdued: {
+      '50': '#fafafa',
+      '100': '#f4f4f4',
+      '200': '#e4e4e4',
+      '300': '#d4d4d4',
+      '400': '#b3b3b3',
+      '500': '#939393',
+      '600': '#848484',
+      '700': '#6e6e6e',
+      '800': '#585858',
+      '900': '#484848',
+    },
   },
+  darkMode: false,
 }
+
+export const lightTheme = () => extendTheme(light)
