@@ -32,13 +32,14 @@ export const OnboardingContainer = () => {
     }
   }
 
+  /**
+   * @todo ask for permissions
+   */
   const onSetPermissions = () => {
-    Alert.alert('PERMISSIONS')
-    pagerViewRef.current?.setPage(4)
+    Alert.alert('PERMISSIONS', undefined, [{ text: 'Accepteren', onPress: () => pagerViewRef.current?.setPage(4) }])
   }
 
   const onUnderstandLegal = () => {
-    Alert.alert('x')
     void dispatch(AppThunks.newUser())
   }
 

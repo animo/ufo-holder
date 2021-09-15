@@ -2,12 +2,14 @@
 # yarn lockfile v1
 
 
-"@aries-framework/core@0.1.0-alpha.258+ee1a229", "@aries-framework/core@^0.1.0-alpha.258":
-  version "0.1.0-alpha.258"
-  resolved "https://registry.yarnpkg.com/@aries-framework/core/-/core-0.1.0-alpha.258.tgz#318a20766d88325b3507274affb8777b79b973ac"
-  integrity sha512-Z9x0BR6NjprmNm1pSr12oeZTn4QVlAAu7B+9IKiWjgl4Q2WhwxeM0owLXQzvhaDlU70r2yoDaUrw8RC9KfZZXg==
+"@aries-framework/core@0.1.0-alpha.268", "@aries-framework/core@0.1.0-alpha.268+f3790c9":
+  version "0.1.0-alpha.268"
+  resolved "https://registry.yarnpkg.com/@aries-framework/core/-/core-0.1.0-alpha.268.tgz#2847dbb273051095eabaf598f6451ce328babc6a"
+  integrity sha512-bg9j//3C51zlEoH2GCtgzae+sHG0HFBSzlN6kTnqOMsxFRs4DYzVvTHZg6y+Fi/6h8EMdX5vA9I/xZMV7Xx3TA==
   dependencies:
     "@types/indy-sdk" "^1.16.6"
+    "@types/node-fetch" "^2.5.10"
+    "@types/ws" "^7.4.4"
     abort-controller "^3.0.0"
     bn.js "^5.2.0"
     borc "^3.0.0"
@@ -25,23 +27,22 @@
     tsyringe "^4.5.0"
     uuid "^8.3.2"
 
-"@aries-framework/react-native@^0.1.0-alpha.258":
-  version "0.1.0-alpha.258"
-  resolved "https://registry.yarnpkg.com/@aries-framework/react-native/-/react-native-0.1.0-alpha.258.tgz#8c274b845e7c4321270173762a6c9fe8f384f6f6"
-  integrity sha512-IvbYBRFJmU/5AWPkkw7Kfh2jodQwjCZxs8qij55tMliOlZAkkpgy7230Mojj421gvH/AhhhdmyH4SHkh1malOQ==
+"@aries-framework/react-native@0.1.0-alpha.268":
+  version "0.1.0-alpha.268"
+  resolved "https://registry.yarnpkg.com/@aries-framework/react-native/-/react-native-0.1.0-alpha.268.tgz#4f9c41b9577de4a406b244c8546e0bb5743cb1fa"
+  integrity sha512-6xYXmTGBQAWdebTGhqpVQT+7iw2nYkDZw9+d2uiMPxvdq7jx988JiIM1VjbJZkNVV4mNjs0GilECbEAdzylEKQ==
   dependencies:
-    "@aries-framework/core" "0.1.0-alpha.258+ee1a229"
+    "@aries-framework/core" "0.1.0-alpha.268+f3790c9"
     "@azure/core-asynciterator-polyfill" "^1.0.0"
     events "^3.3.0"
 
-"@aries-framework/redux-store@^0.1.0-alpha.258":
-  version "0.1.0-alpha.258"
-  resolved "https://registry.yarnpkg.com/@aries-framework/redux-store/-/redux-store-0.1.0-alpha.258.tgz#576609b79e932aebbbe2db8cbe408cfc0dfd989c"
-  integrity sha512-o6BwByKM2qItESoXq+PBtsnquI9HR6NFgQ+V6nacxtuNNo+pbhmzb0LsmGx8eMRuqvITFHPm0PiVZKQVZc1Wgw==
+"@aries-framework/redux-store@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@aries-framework/redux-store/-/redux-store-0.1.0.tgz#12e42ae280bf08fe72e94365468652d6f6df973a"
+  integrity sha512-ogTeWFM8uljSHYO0BeU+NI4KxtgxPU9/kGp+6+oBFhL3TxwlE6k411tpxjwaQRb5KfB0CA8+qbQoFfTovTsJAg==
   dependencies:
-    "@aries-framework/core" "0.1.0-alpha.258+ee1a229"
     "@reduxjs/toolkit" "^1.6.0"
-    react-redux "^7.2.4"
+    react-redux "^7.2.5"
 
 "@azure/core-asynciterator-polyfill@^1.0.0":
   version "1.0.0"
@@ -3357,6 +3358,11 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
+"@types/html-escaper@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/html-escaper/-/html-escaper-3.0.0.tgz#97d7df443c0fc86e3abdd0971f4814a58e3ca762"
+  integrity sha512-OcJcvP3Yk8mjYwf/IdXZtTE1tb/u0WF0qa29ER07ZHCYUBZXSN29Z1mBS+/96+kNMGTFUAbSz9X+pHmHpZrTCw==
+
 "@types/indy-sdk@^1.16.6":
   version "1.16.7"
   resolved "https://registry.yarnpkg.com/@types/indy-sdk/-/indy-sdk-1.16.7.tgz#ee8a14e0ef690d675fd173e2cae8abe933856fb7"
@@ -3410,6 +3416,14 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
+
+"@types/node-fetch@^2.5.10":
+  version "2.5.12"
+  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.5.12.tgz#8a6f779b1d4e60b7a57fb6fd48d84fb545b9cc66"
+  integrity sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==
+  dependencies:
+    "@types/node" "*"
+    form-data "^3.0.0"
 
 "@types/node@*":
   version "16.7.2"
@@ -3547,6 +3561,13 @@
   version "1.16.2"
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.16.2.tgz#8db514b059c1b2ae14ce9d7bb325296de6a9a0fa"
   integrity sha512-vKx7WNQNZDyJveYcHAm9ZxhqSGLYwoyLhrHjLBOkw3a7cT76sTdjgtwyijhk1MaHyRIuSztcVwrUOO/NEu68Dw==
+
+"@types/ws@^7.4.4":
+  version "7.4.7"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-7.4.7.tgz#f7c390a36f7a0679aa69de2d501319f4f8d9b702"
+  integrity sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==
+  dependencies:
+    "@types/node" "*"
 
 "@types/yargs-parser@*":
   version "20.2.1"
@@ -6568,6 +6589,11 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
+html-escaper@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-3.0.3.tgz#4d336674652beb1dcbc29ef6b6ba7f6be6fdfed6"
+  integrity sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==
+
 html-parse-stringify@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/html-parse-stringify/-/html-parse-stringify-3.0.1.tgz#dfc1017347ce9f77c8141a507f233040c59c55d2"
@@ -9561,6 +9587,11 @@ pump@^3.0.0:
     end-of-stream "^1.1.0"
     once "^1.3.1"
 
+punycode@1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
+  integrity sha1-llOgNvt8HuQjQvIyXM7v6jkmxI0=
+
 punycode@^2.1.0, punycode@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
@@ -9587,6 +9618,11 @@ query-string@^7.0.0:
     filter-obj "^1.1.0"
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
+
+querystring@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
+  integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
 querystringify@^2.1.1:
   version "2.2.0"
@@ -9962,6 +9998,18 @@ react-redux@^7.2.4:
   version "7.2.4"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.4.tgz#1ebb474032b72d806de2e0519cd07761e222e225"
   integrity sha512-hOQ5eOSkEJEXdpIKbnRyl04LhaWabkDPV+Ix97wqQX3T3d2NQ8DUblNXXtNMavc7DpswyQM6xfaN4HQDKNY2JA==
+  dependencies:
+    "@babel/runtime" "^7.12.1"
+    "@types/react-redux" "^7.1.16"
+    hoist-non-react-statics "^3.3.2"
+    loose-envify "^1.4.0"
+    prop-types "^15.7.2"
+    react-is "^16.13.1"
+
+react-redux@^7.2.5:
+  version "7.2.5"
+  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.5.tgz#213c1b05aa1187d9c940ddfc0b29450957f6a3b8"
+  integrity sha512-Dt29bNyBsbQaysp6s/dN0gUodcq+dVKKER8Qv82UrpeygwYeX1raTtil7O/fftw/rFqzaf6gJhDZRkkZnn6bjg==
   dependencies:
     "@babel/runtime" "^7.12.1"
     "@types/react-redux" "^7.1.16"
@@ -11648,6 +11696,14 @@ url-parse@^1.4.4:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
+
+url@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/url/-/url-0.11.0.tgz#3838e97cfc60521eb73c525a8e55bfdd9e2e28f1"
+  integrity sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=
+  dependencies:
+    punycode "1.3.2"
+    querystring "0.2.0"
 
 use-callback-ref@^1.2.5:
   version "1.2.5"

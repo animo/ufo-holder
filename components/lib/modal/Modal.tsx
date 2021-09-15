@@ -16,7 +16,7 @@ export interface ModalProps {
 export const Modal: React.FunctionComponent<ModalProps> = ({ title, text, showModal, setShowModal, onAccept }) => {
   const { t } = useTranslation()
   return (
-    <_Modal isOpen={showModal}>
+    <_Modal isOpen={showModal} overlayVisible={false}>
       <_Modal.Content>
         <_Modal.Header>{title}</_Modal.Header>
         <_Modal.Body>{text}</_Modal.Body>

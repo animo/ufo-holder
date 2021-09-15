@@ -30,7 +30,6 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   const theme = useAppTheme()
   const { colors, darkMode } = theme
   const { t } = useTranslation()
-  // const isAppInitialized = useAppSelector(AppSelectors.isInitializedSelector)
   const isFirstLaunch = useAppSelector(AppSelectors.isFirstLaunchSelector)
 
   const dispatch = useAppDispatch()
@@ -39,7 +38,8 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
     if (!isFirstLaunch) {
       void dispatch(AppThunks.initialize())
     }
-  }, [dispatch, isFirstLaunch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Flipper debugging
   useFlipper(navigationRef)
@@ -60,7 +60,11 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
           dark: darkMode,
         }}
       >
-        <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} translucent />
+        <StatusBar
+          barStyle={darkMode ? 'light-content' : 'dark-content'}
+          translucent
+          backgroundColor={colors.transparent[100]}
+        />
         <BottomSheetModalProvider>
           <Stack.Navigator screenOptions={screenOptions(theme)}>
             {isFirstLaunch ? (

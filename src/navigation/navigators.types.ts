@@ -1,5 +1,5 @@
 import type { CredentialDetailRouteParams } from '@internal/containers'
-import type { CredentialOfferScreenRouteParams } from '@internal/containers/credentials/screens/CredentialModalScreen'
+import type { CredentialOfferScreenRouteParams } from '@internal/containers/credentials/screens/CredentialOfferScreen'
 import type { NavigationProp } from '@react-navigation/native'
 import type { StackNavigationProp } from '@react-navigation/stack'
 

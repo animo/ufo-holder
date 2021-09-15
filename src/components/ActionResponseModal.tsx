@@ -4,8 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { paddingSize } from '@components/global-constants'
 import { gutters, layout } from '@components/global-stylesheets'
-import { Box, Page } from '@components/lib'
-import { Button, FlexItem, Text } from '@internal/components'
+import { Box, Page, Button, FlexItem } from '@components/lib'
 
 export interface ActionResponseModalProps {
   onDecline: () => void
@@ -35,8 +34,8 @@ export const ActionResponseModal: React.FunctionComponent<ActionResponseModalPro
         ]}
       >
         <FlexItem style={gutters.mediumHPadding}>
-          <Button color="danger" onPress={onDecline}>
-            <Text>{t('actions.decline')}</Text>
+          <Button variant="outline" color="danger" onPress={onDecline}>
+            {t('actions.decline')}
           </Button>
         </FlexItem>
         <FlexItem style={gutters.mediumHPadding}>

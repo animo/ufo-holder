@@ -24,9 +24,9 @@
     "lint:check": "yarn lint && yarn check-types"
   },
   "dependencies": {
-    "@aries-framework/core": "^0.1.0-alpha.258",
-    "@aries-framework/react-native": "^0.1.0-alpha.258",
-    "@aries-framework/redux-store": "^0.1.0-alpha.258",
+    "@aries-framework/core": "0.1.0-alpha.268",
+    "@aries-framework/react-native": "0.1.0-alpha.268",
+    "@aries-framework/redux-store": "^0.1.0",
     "@gorhom/bottom-sheet": "^4.0.0",
     "@react-native-async-storage/async-storage": "^1.15.5",
     "@react-native-community/masked-view": "^0.1.11",
@@ -39,6 +39,7 @@
     "expo-camera": "^11.2.1",
     "expo-face-detector": "^10.0.1",
     "expo-splash-screen": "^0.11.2",
+    "html-escaper": "^3.0.3",
     "i18next": "^20.3.1",
     "indy-sdk-react-native": "^0.1.13",
     "native-base": "^3.1.0",
@@ -65,7 +66,8 @@
     "redux-persist": "^6.0.0",
     "redux-persist-transform-filter": "^0.0.20",
     "styled-components": "^5.3.1",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -81,6 +83,7 @@
     "@storybook/addon-ondevice-actions": "^5.3.23",
     "@storybook/addon-ondevice-knobs": "^5.3.25",
     "@storybook/react-native": "^5.3.25",
+    "@types/html-escaper": "^3.0.0",
     "@types/indy-sdk": "^1.16.6",
     "@types/jest": "^27.0.1",
     "@types/react": "^17",

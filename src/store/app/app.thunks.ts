@@ -53,7 +53,7 @@ const AppThunks = {
   ),
 
   newUser: createAsyncThunk<void, void, AsyncThunkOptions>('app/newUser', async (_, { dispatch }) => {
-    await dispatch(AppThunks.initializeAgent())
+    await dispatch(AppThunks.initialize())
     await dispatch(AppThunks.agentSetup())
   }),
 
@@ -67,8 +67,8 @@ const AppThunks = {
       if (mediator) {
         await agent.mediationRecipient.initiateMessagePickup(mediator)
         // TODO: get dispatch and issuer connection
-        await dispatch(AriesThunks.createDispatchConnection()).unwrap()
-        await dispatch(AriesThunks.createIssuerConnection()).unwrap()
+        await dispatch(AriesThunks.createIssuerConnection())
+        // await dispatch(AriesThunks.createDispatchConnection())
       }
     }
   ),

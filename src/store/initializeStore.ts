@@ -12,7 +12,7 @@ export function initializeStore(agent: Agent) {
   const rootPersistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['theme'],
+    whitelist: ['theme', 'aries'],
   }
 
   const persistedReducer = persistReducer(rootPersistConfig, RootReducer)

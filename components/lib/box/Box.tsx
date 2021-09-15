@@ -16,6 +16,9 @@ export interface BoxProps {
   scrollable?: boolean
 }
 
+/**
+ * @todo native-base
+ */
 export const Box: React.FunctionComponent<BoxProps> = ({
   paddingSize = 'none',
   marginSize = 'none',
