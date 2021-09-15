@@ -1,21 +1,19 @@
 import type { PaddingSizes } from '../../global-stylesheets'
-import type { Theme } from '../../theme'
+import type { ColorNames, AppTheme } from '@components/theme/themes'
 import type { ViewStyle } from 'react-native'
 
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
 import { borderRadiusSizes } from '../../global-stylesheets'
-import { useStyles, useTheme } from '../../theme'
+import { useAppTheme, useStyles } from '../../theme'
 
 import { Box } from '@internal/components'
-
-type PanelColor = 'warning' | 'danger' | 'success' | 'primary' | 'transparent' | 'card'
 
 export interface PanelProps {
   paddingSize?: PaddingSizes
   borderRadius?: 's' | 'none'
-  color?: PanelColor
+  color?: ColorNames
   style?: ViewStyle | ViewStyle[]
 }
 
@@ -23,18 +21,18 @@ export const Panel: React.FunctionComponent<PanelProps> = ({
   children,
   paddingSize = 'l',
   borderRadius = 's',
-  color = 'card',
+  color = 'background',
   style,
 }) => {
   const styles = useStyles(PanelStyles)
-  const { colors } = useTheme()
+  const { colors } = useAppTheme()
 
   return (
     <Box
       paddingSize={paddingSize}
       style={[
         StyleSheet.flatten(style),
-        { backgroundColor: colors[color] },
+        { backgroundColor: colors[color][500] },
         borderRadiusSizes[borderRadius],
         styles.panel,
       ]}
@@ -45,10 +43,10 @@ export const Panel: React.FunctionComponent<PanelProps> = ({
 }
 
 // from: https://ethercreative.github.io/react-native-shadow-generator/
-const PanelStyles = ({ colors }: Theme) => {
+const PanelStyles = ({ colors }: AppTheme) => {
   return {
     panel: {
-      shadowColor: colors.black,
+      shadowColor: colors.black[500],
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.2,
       shadowRadius: 2,

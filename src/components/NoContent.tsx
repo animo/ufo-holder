@@ -1,7 +1,7 @@
 import type { ImageSourcePropType } from 'react-native'
 
 import React from 'react'
-import { StyleSheet, Image } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 
 import { Button, FlexGroup, FlexItem, Heading, Page, Spacer, Text } from '@components/lib'
 

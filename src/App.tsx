@@ -31,9 +31,9 @@ const AppThemeProvider: React.FunctionComponent = ({ children }) => {
   // Listen for light/dark color scheme preferences and update state accordingly
   useThemeSwitcher()
 
-  const themeName = useAppSelector((state) => state.theme.theme) ?? 'light'
+  const themeName = useAppSelector((state) => state.theme).themeName
 
-  return <ThemeContextProvider themeName={themeName}>{children}</ThemeContextProvider>
+  return <ThemeContextProvider darkMode={themeName === 'dark'}>{children}</ThemeContextProvider>
 }
 
 export const App: React.FunctionComponent = () => {

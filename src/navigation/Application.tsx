@@ -10,6 +10,7 @@ import { StatusBar } from 'react-native'
 
 import { navigationRef } from './root'
 
+import { useAppTheme } from '@components/theme/context'
 import { Box, EmergencyBottomSheet, screenOptions } from '@internal/components'
 import {
   CredentialDetailScreen,
@@ -21,13 +22,12 @@ import { OnboardingContainer } from '@internal/containers/onboarding'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
-import { useTheme } from '@internal/theme'
 
 const Stack = createStackNavigator<RootNavigationParamList>()
 
 export const ApplicationNavigator: React.FunctionComponent = () => {
   useSplashScreen()
-  const theme = useTheme()
+  const theme = useAppTheme()
   const { colors, darkMode } = theme
   const { t } = useTranslation()
   const isAppInitialized = useAppSelector(AppSelectors.isInitializedSelector)
@@ -43,16 +43,16 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   useFlipper(navigationRef)
 
   return (
-    <Box fill style={{ backgroundColor: colors.background }}>
+    <Box fill style={{ backgroundColor: colors.background[500] }}>
       <NavigationContainer
         theme={{
           colors: {
-            background: colors.background,
-            border: colors.borderSubdued,
-            card: colors.bottomBarBackground,
-            notification: colors.background,
-            text: colors.text,
-            primary: colors.text,
+            background: colors.background[500],
+            border: colors.background[500],
+            card: colors.background[500],
+            notification: colors.background[500],
+            text: colors.text[500],
+            primary: colors.text[500],
           },
           dark: darkMode,
         }}
@@ -60,7 +60,7 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
       >
         <StatusBar
           barStyle={darkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={colors.transparent}
+          backgroundColor={colors.transparent[500]}
           translucent
         />
         {isAppInitialized && (
