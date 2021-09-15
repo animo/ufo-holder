@@ -53,10 +53,8 @@ const AppThunks = {
   ),
 
   newUser: createAsyncThunk<void, void, AsyncThunkOptions>('app/newUser', async (_, { dispatch }) => {
-    // TODO: uncomment with onboarding
-    // await dispatch(AppThunks.initializeAgent()).unwrap()
-
-    await dispatch(AppThunks.agentSetup()).unwrap()
+    await dispatch(AppThunks.initializeAgent())
+    await dispatch(AppThunks.agentSetup())
   }),
 
   agentSetup: createAsyncThunk<void, void, AsyncThunkOptions>(

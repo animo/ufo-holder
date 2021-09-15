@@ -30,76 +30,60 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   const theme = useTheme()
   const { colors, darkMode } = theme
   const { t } = useTranslation()
-  const isAppInitialized = useAppSelector(AppSelectors.isInitializedSelector)
-  const isAgentInitialized = true
+  // const isAppInitialized = useAppSelector(AppSelectors.isInitializedSelector)
+  const isFirstLaunch = useAppSelector(AppSelectors.isFirstLaunchSelector)
+  console.log(isFirstLaunch)
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    void dispatch(AppThunks.initialize())
-  }, [dispatch])
+    if (!isFirstLaunch) {
+      void dispatch(AppThunks.initialize())
+    }
+  }, [dispatch, isFirstLaunch])
 
   // Flipper debugging
   useFlipper(navigationRef)
 
   return (
-    <Box fill style={{ backgroundColor: colors.background }}>
-      <NavigationContainer
-        theme={{
-          colors: {
-            background: colors.background,
-            border: colors.borderSubdued,
-            card: colors.bottomBarBackground,
-            notification: colors.background,
-            text: colors.text,
-            primary: colors.text,
-          },
-          dark: darkMode,
-        }}
-        ref={navigationRef}
-      >
-        <StatusBar
-          barStyle={darkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={colors.transparent}
-          translucent
-        />
-        {isAppInitialized && (
-          <BottomSheetModalProvider>
-            <Stack.Navigator screenOptions={screenOptions(theme)}>
-              {isAgentInitialized ? (
-                <>
-                  <Stack.Screen
-                    name="CredentialsScreen"
-                    component={CredentialsScreen}
-                    options={{ title: t('feature.credentials.titles.main') }}
-                  />
+    <Box fill>
+      <NavigationContainer ref={navigationRef}>
+        <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} translucent />
+        <BottomSheetModalProvider>
+          <Stack.Navigator screenOptions={screenOptions(theme)}>
+            {isFirstLaunch ? (
+              <Stack.Screen name="OnboardingStack" component={OnboardingContainer} options={{ headerShown: false }} />
+            ) : (
+              <>
+                <Stack.Screen
+                  name="CredentialsScreen"
+                  component={CredentialsScreen}
+                  options={{ title: t('feature.credentials.titles.main') }}
+                />
 
-                  <Stack.Screen
-                    name="CredentialOfferScreen"
-                    component={CredentialOfferScreen}
-                    options={{ title: t('feature.credentials.titles.offer'), headerBackTitleVisible: false }}
-                  />
+                <Stack.Screen
+                  name="CredentialOfferScreen"
+                  component={CredentialOfferScreen}
+                  options={{ title: t('feature.credentials.titles.offer'), headerBackTitleVisible: false }}
+                />
 
-                  <Stack.Screen
-                    name="CredentialDetailScreen"
-                    component={CredentialDetailScreen}
-                    options={{ title: t('feature.credentials.titles.detail'), headerBackTitleVisible: false }}
-                  />
+                <Stack.Screen
+                  name="CredentialDetailScreen"
+                  component={CredentialDetailScreen}
+                  options={{ title: t('feature.credentials.titles.detail'), headerBackTitleVisible: false }}
+                />
 
-                  <Stack.Screen
-                    name="InformationScreen"
-                    component={InformationScreen}
-                    options={{ title: t('feature.information.titles.main') }}
-                  />
-                </>
-              ) : (
-                <Stack.Screen name="OnboardingStack" component={OnboardingContainer} options={{ headerShown: false }} />
-              )}
-            </Stack.Navigator>
-            {/* TODO: call emergency via function and this would be a provider */}
-            <EmergencyBottomSheet title="BRAND" subtitle="Jaarbeursplein, Utrecht" />
-          </BottomSheetModalProvider>
-        )}
+                <Stack.Screen
+                  name="InformationScreen"
+                  component={InformationScreen}
+                  options={{ title: t('feature.information.titles.main') }}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+          {/* TODO: call emergency via function and this would be a provider */}
+          <EmergencyBottomSheet title="BRAND" subtitle="Jaarbeursplein, Utrecht" />
+        </BottomSheetModalProvider>
       </NavigationContainer>
     </Box>
   )

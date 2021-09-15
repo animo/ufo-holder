@@ -6,6 +6,7 @@ import { AppThunks } from './app.thunks'
 export interface AppState {
   isInitialized: boolean
   isInitializing: boolean
+  isFirstLaunch: boolean
   hasEmergency: boolean
   error?: string
 }
@@ -13,6 +14,7 @@ export interface AppState {
 const initialState: AppState = {
   isInitialized: false,
   isInitializing: false,
+  isFirstLaunch: true,
   hasEmergency: false,
 }
 
@@ -35,6 +37,9 @@ const appSlice = createSlice({
     })
     builder.addCase(AppThunks.emergency.fulfilled, (state, action) => {
       state.hasEmergency = action.payload
+    })
+    builder.addCase(AppThunks.newUser.fulfilled, (state) => {
+      state.isFirstLaunch = false
     })
   },
 })

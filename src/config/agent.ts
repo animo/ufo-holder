@@ -16,7 +16,7 @@ import { genesisConfigs } from '@internal/utils'
 
 export const agentConfig: InitConfig = {
   label: 'UFO-HOLDER',
-  logger: new ConsoleLogger(LogLevel.debug),
+  logger: new ConsoleLogger(LogLevel.info),
   ...genesisConfigs.BCovrinTestNetwork,
   autoAcceptConnections: true,
   autoAcceptCredentials: AutoAcceptCredential.ContentApproved,

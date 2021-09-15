@@ -8,14 +8,14 @@ import { RootReducer } from './root.reducer'
 
 export function initializeStore(agent: Agent) {
   // Set up persistence
-  const persistedReducer = persistReducer(
-    {
-      key: 'root',
-      storage: AsyncStorage,
-      whitelist: ['theme'],
-    },
-    RootReducer
-  )
+
+  const rootPersistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+    whitelist: ['theme'],
+  }
+
+  const persistedReducer = persistReducer(rootPersistConfig, RootReducer)
 
   // Initialize store
   const store = configureStore({
