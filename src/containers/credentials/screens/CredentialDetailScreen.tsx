@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Page, ScrollViewPage } from '@components/lib'
+import { Page } from '@components/lib'
 import { CredentialMetadata, FormDetail } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'

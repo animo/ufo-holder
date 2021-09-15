@@ -10,7 +10,7 @@ import { StatusBar } from 'react-native'
 
 import { navigationRef } from './root'
 
-import { Box, screenOptions } from '@internal/components'
+import { Box, EmergencyBottomSheet, screenOptions } from '@internal/components'
 import {
   CredentialDetailScreen,
   CredentialOfferScreen,
@@ -96,6 +96,8 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                 <Stack.Screen name="OnboardingStack" component={OnboardingContainer} options={{ headerShown: false }} />
               )}
             </Stack.Navigator>
+            {/* TODO: call emergency via function and this would be a provider */}
+            <EmergencyBottomSheet title="BRAND" subtitle="Jaarbeursplein, Utrecht" />
           </BottomSheetModalProvider>
         )}
       </NavigationContainer>
