@@ -9,11 +9,11 @@ export const useThemeSwitcher = () => {
   const colorScheme = useColorScheme()
   const dispatch = useAppDispatch()
 
-  const { automaticColorScheme, theme: themeName } = useAppSelector((state) => state.theme)
+  const themeName = useAppSelector((state) => state.theme).themeName
 
   useEffect(() => {
-    if (colorScheme && automaticColorScheme && colorScheme !== themeName) {
-      dispatch(ThemeActions.changeTheme({ theme: colorScheme }))
+    if (colorScheme && colorScheme !== themeName) {
+      dispatch(ThemeActions.changeTheme({ themeName: colorScheme }))
     }
-  }, [dispatch, colorScheme, automaticColorScheme, themeName])
+  }, [colorScheme, dispatch, themeName])
 }

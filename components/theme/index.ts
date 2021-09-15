@@ -1,3 +1,5 @@
 export { useStyles } from './use-styles'
-export { ThemeContextProvider, useTheme } from './context'
-export type { Theme, ThemedStylesFunction, ColorNames } from './types'
+export { ThemeContextProvider, useAppTheme } from './context'
+export type { ThemedStylesFunction } from './types'
+export type { AppTheme, ColorNames } from './themes'
+export { lightTheme, darkTheme } from './themes'

@@ -5,6 +5,7 @@ import { Heading as _Heading } from 'native-base'
 import React from 'react'
 
 import { fontSize } from '@components/global-constants'
+import { useAppTheme } from '@components/theme'
 
 interface TextProps {
   align?: 'left' | 'right' | 'center' | 'justify'
@@ -12,9 +13,10 @@ interface TextProps {
 }
 
 export const Heading: FunctionComponent<TextProps> = ({ size = 'l', align, children }) => {
+  const { colors } = useAppTheme()
   const mappedSize = fontSize[size]
   return (
-    <_Heading fontSize={mappedSize} textAlign={align}>
+    <_Heading fontSize={mappedSize} textAlign={align} color={colors.text[500]}>
       {children}
     </_Heading>
   )

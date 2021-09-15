@@ -4,9 +4,6 @@
  */
 const size = 16
 
-export const colorInk = '#000000'
-export const colorGhost = '#FFFFFF'
-
 export const sizes = {
   xs: size * 0.25,
   s: size * 0.5,

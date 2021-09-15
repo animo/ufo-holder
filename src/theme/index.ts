@@ -1,3 +1,1 @@
-export { useTheme, useStyles, ThemeContextProvider } from '@components/theme'
-
-export type { Theme, ColorNames } from '@components/theme/types'
+export { useAppTheme, useStyles, ThemeContextProvider } from '@components/theme'

@@ -1,12 +1,12 @@
 import type { BadgeSizes } from '@components/global-constants'
-import type { Theme } from '@components/theme'
+import type { AppTheme } from '@components/theme/themes'
 import type { ViewStyle } from 'react-native'
 
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { badgeSize } from '@components/global-constants'
-import { useTheme } from '@components/theme'
+import { useAppTheme } from '@components/theme/context'
 
 export interface BadgeProps {
   badgeSize?: BadgeSizes
@@ -18,7 +18,7 @@ export interface BadgeProps {
 interface StylesProps {
   badgeColor: 'success' | 'danger' | 'warning'
   size: BadgeSizes
-  colors: Theme['colors']
+  colors: AppTheme['colors']
 }
 
 export const Badge: React.FunctionComponent<BadgeProps> = ({
@@ -28,7 +28,7 @@ export const Badge: React.FunctionComponent<BadgeProps> = ({
   badgeStyle,
   children,
 }) => {
-  const { colors } = useTheme()
+  const { colors } = useAppTheme()
 
   return (
     <View>
@@ -41,11 +41,11 @@ export const Badge: React.FunctionComponent<BadgeProps> = ({
 const styles = ({ badgeColor, size, colors }: StylesProps) =>
   StyleSheet.create({
     badge: {
-      backgroundColor: colors[badgeColor],
+      backgroundColor: colors[badgeColor][500],
       width: badgeSize[size],
       height: badgeSize[size],
       borderRadius: badgeSize[size] / 2,
-      borderColor: colors.white,
+      borderColor: colors.white[500],
       position: 'absolute',
       right: 0,
       top: 0,

@@ -10,6 +10,7 @@ import { StatusBar } from 'react-native'
 
 import { navigationRef } from './root'
 
+import { useAppTheme } from '@components/theme/context'
 import { Box, EmergencyBottomSheet, screenOptions } from '@internal/components'
 import {
   CredentialDetailScreen,
@@ -21,18 +22,16 @@ import { OnboardingContainer } from '@internal/containers/onboarding'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
-import { useTheme } from '@internal/theme'
 
 const Stack = createStackNavigator<RootNavigationParamList>()
 
 export const ApplicationNavigator: React.FunctionComponent = () => {
   useSplashScreen()
-  const theme = useTheme()
+  const theme = useAppTheme()
   const { colors, darkMode } = theme
   const { t } = useTranslation()
   // const isAppInitialized = useAppSelector(AppSelectors.isInitializedSelector)
   const isFirstLaunch = useAppSelector(AppSelectors.isFirstLaunchSelector)
-  console.log(isFirstLaunch)
 
   const dispatch = useAppDispatch()
 
@@ -47,7 +46,20 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
 
   return (
     <Box fill>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer
+        ref={navigationRef}
+        theme={{
+          colors: {
+            background: colors.background[500],
+            border: colors.background[500],
+            card: colors.background[500],
+            notification: colors.background[500],
+            primary: colors.primary[500],
+            text: colors.text[500],
+          },
+          dark: darkMode,
+        }}
+      >
         <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} translucent />
         <BottomSheetModalProvider>
           <Stack.Navigator screenOptions={screenOptions(theme)}>

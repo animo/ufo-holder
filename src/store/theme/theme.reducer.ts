@@ -1,15 +1,16 @@
-import type { ThemeTypes } from '@components/theme/themes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 import { createSlice } from '@reduxjs/toolkit'
 
+type ThemeName = 'light' | 'dark'
+
 export interface ThemeState {
-  theme: ThemeTypes | null
+  themeName: ThemeName
   automaticColorScheme: boolean
 }
 
 const initialState: ThemeState = {
-  theme: null,
+  themeName: 'light',
   automaticColorScheme: true,
 }
 
@@ -17,13 +18,11 @@ const themeSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
-    setDefaultTheme(state, { payload }: PayloadAction<{ theme: ThemeTypes }>) {
-      if (!state.theme) {
-        state.theme = payload.theme
-      }
+    setDefaultTheme(state, { payload }: PayloadAction<{ themeName: ThemeName }>) {
+      state.themeName = payload.themeName
     },
-    changeTheme(state, { payload }: PayloadAction<{ theme: ThemeTypes }>) {
-      state.theme = payload.theme
+    changeTheme(state, { payload }: PayloadAction<{ themeName: ThemeName }>) {
+      state.themeName = payload.themeName
     },
   },
 })
