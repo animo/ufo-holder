@@ -29,7 +29,7 @@ export const nl = {
         noCredentialsTitle: 'U heeft nog geen kwalificaties.',
         noCredentials: 'Wacht totdat iemand iets geeft.',
         offer:
-          '<bold>{{connectionName}}</bold> wilt u de volgende kwalificate geven, <bold>{{credentialName}}</bold>. Deze is binnen gekomen op <bold>{{issueDate}}</bold>. Bij het accepteren van deze kwalificatie wordt deze beveiligd opgeslagen in uw applicatie.',
+          '<bold>{{connectionName}}</bold> wilt u de volgende kwalificate geven: <bold>{{credentialName}}</bold>. Deze is binnen gekomen op <bold>{{issueDate}}</bold>. Bij het accepteren van deze kwalificatie wordt deze beveiligd opgeslagen in uw applicatie.',
         meta: '<bold>{{connectionName}}</bold> heeft u de kwalificate <bold>{{credentialName}}</bold> gegeven op <bold>{{issueDate}}</bold>.',
         deny: 'Als u een nieuwe kwalificatie wil moet u hier opnieuw om vragen',
       },
