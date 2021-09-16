@@ -11,12 +11,16 @@ import { PilotScreen } from './screens/PilotScreen'
 import { WelcomeScreen } from './screens/WelcomeScreen'
 
 import { Box, FlexItem } from '@components/lib'
+import { useAppDispatch } from '@internal/store'
+import { AppThunks } from '@internal/store/app'
 
 export const OnboardingContainer = () => {
   const SLIDELENGTH = 5
   const [index, setIndex] = useState(0)
 
   const pagerViewRef = useRef<PagerView>(null)
+
+  const dispatch = useAppDispatch()
 
   const onPageSelected = (event: PagerViewOnPageSelectedEvent) => {
     const currentIndex = event.nativeEvent.position
@@ -28,9 +32,15 @@ export const OnboardingContainer = () => {
     }
   }
 
+  /**
+   * @todo ask for permissions
+   */
   const onSetPermissions = () => {
-    Alert.alert('PERMISSIONS')
-    pagerViewRef.current?.setPage(4)
+    Alert.alert('PERMISSIONS', undefined, [{ text: 'Accepteren', onPress: () => pagerViewRef.current?.setPage(4) }])
+  }
+
+  const onUnderstandLegal = () => {
+    void dispatch(AppThunks.newUser())
   }
 
   const indicators = []
@@ -50,7 +60,7 @@ export const OnboardingContainer = () => {
         <WelcomeScreen />
         <CredentialsScreen />
         <LocationScreen onPress={onSetPermissions} />
-        <LegalScreen />
+        <LegalScreen onPress={onUnderstandLegal} />
       </PagerView>
       <FlexItem style={styles.container}>{indicators}</FlexItem>
     </>

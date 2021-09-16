@@ -11,15 +11,14 @@ type LocationScreenProps = IndicatorSlideProps & {
   onPress: () => void
 }
 
-export const LocationScreen: React.FunctionComponent<LocationScreenProps> = ({ onPress, indicator }) => {
+export const LocationScreen: React.FunctionComponent<LocationScreenProps> = ({ onPress }) => {
   const { t } = useTranslation()
 
   return (
     <Slide
       image={images.location}
       text={t('feature.onboarding.text.location')}
-      button={{ onPress: onPress, text: t('feature.onboarding.actions.setPermissions') }}
-      indicator={indicator}
+      button={{ onPress, text: t('feature.onboarding.actions.setPermissions') }}
     />
   )
 }

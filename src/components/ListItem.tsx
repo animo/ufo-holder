@@ -29,7 +29,7 @@ export const ListItem: React.FunctionComponent<ListItemProps> = ({
           </Text>
         )}
       </FlexItem>
-      <Icon type={actionIconType} size="l" />
+      <Icon type={actionIconType} size="m" />
     </FlexGroup>
   </TouchableOpacity>
 )

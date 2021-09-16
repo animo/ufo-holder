@@ -40,7 +40,7 @@ export const CredentialOfferScreen: React.FunctionComponent<CredentialOfferScree
 
   const onDeclineCredentialOffer = () => {
     setShowModal(false)
-    void dispatch(CredentialsThunks.deletCredential(credential.id))
+    void dispatch(CredentialsThunks.deleteCredential(credential.id))
     navigation.goBack()
   }
 
@@ -64,8 +64,8 @@ export const CredentialOfferScreen: React.FunctionComponent<CredentialOfferScree
         ))}
       </ActionResponseModal>
       <Modal
-        title={t('feature.credentials.titles.delete')}
-        text={t('feature.credentials.text.delete')}
+        title={t('feature.credentials.titles.deny')}
+        text={t('feature.credentials.text.deny')}
         onAccept={onDeclineCredentialOffer}
         showModal={showModal}
         setShowModal={setShowModal}
