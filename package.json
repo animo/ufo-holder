@@ -26,7 +26,7 @@
   "dependencies": {
     "@aries-framework/core": "0.1.0-alpha.268",
     "@aries-framework/react-native": "0.1.0-alpha.268",
-    "@aries-framework/redux-store": "^0.1.0",
+    "@aries-framework/redux-store": "^0.1.1",
     "@gorhom/bottom-sheet": "^4.0.0",
     "@react-native-async-storage/async-storage": "^1.15.5",
     "@react-native-community/masked-view": "^0.1.11",

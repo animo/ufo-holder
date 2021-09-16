@@ -36,10 +36,10 @@
     "@azure/core-asynciterator-polyfill" "^1.0.0"
     events "^3.3.0"
 
-"@aries-framework/redux-store@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@aries-framework/redux-store/-/redux-store-0.1.0.tgz#12e42ae280bf08fe72e94365468652d6f6df973a"
-  integrity sha512-ogTeWFM8uljSHYO0BeU+NI4KxtgxPU9/kGp+6+oBFhL3TxwlE6k411tpxjwaQRb5KfB0CA8+qbQoFfTovTsJAg==
+"@aries-framework/redux-store@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@aries-framework/redux-store/-/redux-store-0.1.1.tgz#5a002e2dbcd704d2a97055de45c03205ecbefe12"
+  integrity sha512-nobtHvYs9H+l3mGoQT3ZwSmfant6r7mG7WCNjzKclCsPFFVbXdBKDuTwxQ9tV+46oV77bQ4fYbkOIJcLBsdOJw==
   dependencies:
     "@reduxjs/toolkit" "^1.6.0"
     react-redux "^7.2.5"

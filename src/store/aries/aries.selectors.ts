@@ -43,7 +43,7 @@ const credentialWithConnectionByIdSelector =
   (credentialId: string) =>
   (
     state: RootState['aries']
-  ): { credential: CredentialRecord | undefined; connection: ConnectionRecord | undefined | null } => {
+  ): { credential: CredentialRecord | null; connection: ConnectionRecord | undefined | null } => {
     const credential = CredentialsSelectors.credentialRecordByIdSelector(credentialId)(state)
 
     return {
