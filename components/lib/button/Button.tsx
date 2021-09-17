@@ -4,8 +4,8 @@ import type { IButtonProps } from 'native-base'
 import { Button as _Button } from 'native-base'
 import React from 'react'
 
+import { Text } from '@components/lib'
 import { useAppTheme } from '@components/theme/context'
-import { Text } from '@internal/components'
 
 export interface ButtonProps extends Pick<IButtonProps, 'variant'> {
   color?: ColorNames
@@ -22,8 +22,14 @@ export const Button: React.FunctionComponent<ButtonProps> = ({
 }) => {
   const { colors } = useAppTheme()
   return (
-    <_Button bg={colors[color][500]} onPress={onPress} variant={variant} disabled={disabled}>
-      <Text color="white">{children}</Text>
+    <_Button
+      borderColor={variant === 'outline' ? colors[color][500] : undefined}
+      bg={variant === 'outline' ? colors.transparent[500] : colors[color][500]}
+      onPress={onPress}
+      variant={variant}
+      disabled={disabled}
+    >
+      <Text color={variant === 'outline' ? color : 'white'}>{children}</Text>
     </_Button>
   )
 }

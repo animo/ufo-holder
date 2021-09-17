@@ -1,29 +1,22 @@
-import type { IndicatorSlideProps } from '../components/Slide'
-
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Alert } from 'react-native'
 
 import { Slide } from '../components/Slide'
 
-import { useAppNavigation } from '@internal/navigation'
 import { images } from '@internal/theme/images'
 
-export const LegalScreen: React.FunctionComponent<IndicatorSlideProps> = ({ indicator }) => {
-  const { t } = useTranslation()
-  const navigation = useAppNavigation()
+type LegalScreenProps = {
+  onPress: () => void
+}
 
-  const onUnderstandLegal = () => {
-    Alert.alert('LEGAL')
-    navigation.navigate('CredentialsScreen')
-  }
+export const LegalScreen: React.FunctionComponent<LegalScreenProps> = ({ onPress }) => {
+  const { t } = useTranslation()
 
   return (
     <Slide
-      image={images.location}
+      image={images.legal}
       text={t('feature.onboarding.text.legal')}
-      button={{ onPress: () => onUnderstandLegal, text: t('feature.onboarding.actions.understand') }}
-      indicator={indicator}
+      button={{ onPress, text: t('feature.onboarding.actions.understand') }}
     />
   )
 }

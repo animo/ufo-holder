@@ -4,9 +4,9 @@ import type { ConnectionRecord, CredentialRecord, ProofRecord } from '@aries-fra
 import { ConnectionState, CredentialState, ProofState } from '@aries-framework/core'
 import {
   ConnectionsSelectors,
-  ProofsSelectors,
   CredentialsSelectors,
   MediationSelectors,
+  ProofsSelectors,
 } from '@aries-framework/redux-store'
 import { createSelector } from '@reduxjs/toolkit'
 
@@ -14,16 +14,9 @@ const receivedCredentialsSelector = createSelector(CredentialsSelectors.credenti
   credentials.filter((c) => [CredentialState.CredentialReceived, CredentialState.Done].includes(c.state))
 )
 
+// Sorts offerreceived to the top
 const credentialsSelector = createSelector(CredentialsSelectors.credentialRecordsSelector, (credentials) =>
-  credentials.sort((a, b) => {
-    if (a.state === CredentialState.OfferReceived) {
-      return -1
-    } else if (a.state === b.state) {
-      return 0
-    } else {
-      return 1
-    }
-  })
+  credentials.sort((a, b) => (a.state === CredentialState.OfferReceived ? -1 : a.state === b.state ? 0 : 1))
 )
 
 const readyConnectionsSelector = createSelector(ConnectionsSelectors.connectionRecordsSelector, (connections) =>
@@ -50,7 +43,7 @@ const credentialWithConnectionByIdSelector =
   (credentialId: string) =>
   (
     state: RootState['aries']
-  ): { credential: CredentialRecord | undefined; connection: ConnectionRecord | undefined | null } => {
+  ): { credential: CredentialRecord | null; connection: ConnectionRecord | undefined | null } => {
     const credential = CredentialsSelectors.credentialRecordByIdSelector(credentialId)(state)
 
     return {
@@ -63,7 +56,7 @@ const credentialWithConnectionByIdSelector =
 
 const proofWithConnectionByIdSelector =
   (proofId: string) =>
-  (state: RootState['aries']): { proof: ProofRecord | undefined; connection: ConnectionRecord | undefined | null } => {
+  (state: RootState['aries']): { proof: ProofRecord | null; connection: ConnectionRecord | undefined | null } => {
     const proof = ProofsSelectors.proofRecordByIdSelector(proofId)(state)
 
     return {
