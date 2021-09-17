@@ -1,3 +1,4 @@
+import type { ThemedStylesFunction } from '@components/theme'
 import type { PagerViewOnPageSelectedEvent } from 'react-native-pager-view'
 
 import React, { useRef, useState } from 'react'
@@ -11,15 +12,16 @@ import { PilotScreen } from './screens/PilotScreen'
 import { WelcomeScreen } from './screens/WelcomeScreen'
 
 import { Box, FlexItem } from '@components/lib'
+import { useStyles } from '@components/theme'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
 
 export const OnboardingContainer = () => {
   const SLIDELENGTH = 5
+
   const [index, setIndex] = useState(0)
-
+  const themedStyles = useStyles(Styles)
   const pagerViewRef = useRef<PagerView>(null)
-
   const dispatch = useAppDispatch()
 
   const onPageSelected = (event: PagerViewOnPageSelectedEvent) => {
@@ -47,9 +49,9 @@ export const OnboardingContainer = () => {
 
   for (let i = 0; i < SLIDELENGTH; i++) {
     if (i === index) {
-      indicators.push(<Box style={[styles.dot, styles.indexedDot]} key={i} />)
+      indicators.push(<Box style={[themedStyles.dot, themedStyles.indexedDot]} key={i} />)
     } else {
-      indicators.push(<Box style={styles.dot} key={i} />)
+      indicators.push(<Box style={themedStyles.dot} key={i} />)
     }
   }
 
@@ -62,26 +64,28 @@ export const OnboardingContainer = () => {
         <LocationScreen onPress={onSetPermissions} />
         <LegalScreen onPress={onUnderstandLegal} />
       </PagerView>
-      <FlexItem style={styles.container}>{indicators}</FlexItem>
+      <FlexItem style={themedStyles.container}>{indicators}</FlexItem>
     </>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignSelf: 'center',
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 15,
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-    backgroundColor: 'lightgrey',
-    margin: 5,
-  },
-  indexedDot: {
-    backgroundColor: 'black',
-  },
-})
+const Styles: ThemedStylesFunction = ({ colors }) => {
+  return {
+    container: {
+      alignSelf: 'center',
+      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 15,
+    },
+    dot: {
+      width: 10,
+      height: 10,
+      borderRadius: 10,
+      backgroundColor: colors.textSubdued[500],
+      margin: 5,
+    },
+    indexedDot: {
+      backgroundColor: colors.background[500],
+    },
+  }
+}

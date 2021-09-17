@@ -1,12 +1,14 @@
 import type { MarginSizes, PaddingSizes } from '@components/global-stylesheets'
+import type { IBoxProps } from 'native-base'
 import type { LayoutChangeEvent, ViewStyle } from 'react-native'
 
+import { Box as _Box } from 'native-base'
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 
 import { layout, marginSizes, paddingSizes } from '@components/global-stylesheets'
 
-export interface BoxProps {
+export interface BoxProps extends IBoxProps {
   paddingSize?: PaddingSizes
   marginSize?: MarginSizes
   style?: ViewStyle | ViewStyle[]
@@ -28,6 +30,7 @@ export const Box: React.FunctionComponent<BoxProps> = ({
   children,
   center,
   scrollable = false,
+  ...rest
 }) => {
   const filled = fill ? layout.fill : {}
   const centered = center ? layout.center : {}
@@ -36,12 +39,17 @@ export const Box: React.FunctionComponent<BoxProps> = ({
     <ScrollView
       style={[paddingSizes[paddingSize], marginSizes[marginSize], filled, centered, style]}
       onLayout={onLayout}
+      {...rest}
     >
       {children}
     </ScrollView>
   ) : (
-    <View style={[paddingSizes[paddingSize], marginSizes[marginSize], filled, centered, style]} onLayout={onLayout}>
+    <_Box
+      style={[paddingSizes[paddingSize], marginSizes[marginSize], filled, centered, style]}
+      onLayout={onLayout}
+      {...rest}
+    >
       {children}
-    </View>
+    </_Box>
   )
 }
