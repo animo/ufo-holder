@@ -3,8 +3,9 @@ import type { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { gutters } from '@components/global-stylesheets'
-import { BottomSheet, Button, FlexGroup, FlexItem, Heading, Page, Spacer, Text } from '@components/lib'
+import { BottomButtonBar } from './BottomButtonBar'
+
+import { BottomSheet, Heading, Page, Spacer, Text } from '@components/lib'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
 
@@ -52,18 +53,12 @@ export const EmergencyBottomSheet: React.FunctionComponent<EmergencyBottomSheetP
         <Text color="textSubdued" align="center">
           {subtitle}
         </Text>
-        {/* TODO: extract to new component */}
-        <FlexGroup alignItems="flexEnd" direction="row" style={gutters.mediumBMargin}>
-          <FlexItem>
-            <Button variant="outline" color="danger" onPress={onDecline}>
-              {t('actions.decline')}
-            </Button>
-          </FlexItem>
-          <Spacer vertical />
-          <FlexItem>
-            <Button onPress={onAccept}>{t('actions.accept')}</Button>
-          </FlexItem>
-        </FlexGroup>
+        <BottomButtonBar
+          buttons={[
+            { onPress: onDecline, text: t('actions.decline'), color: 'danger' },
+            { onPress: onAccept, text: t('actions.accept') },
+          ]}
+        />
       </Page>
     </BottomSheet>
   )

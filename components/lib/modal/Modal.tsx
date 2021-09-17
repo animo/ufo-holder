@@ -2,7 +2,8 @@ import { Modal as _Modal } from 'native-base'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Spacer } from '@components/lib'
+import { Button, Heading, Spacer, Text } from '@components/lib'
+import { useAppTheme } from '@components/theme'
 
 export interface ModalProps {
   title: string
@@ -12,20 +13,22 @@ export interface ModalProps {
   onAccept: () => void
 }
 
-// TODO: Unable to close it normally
 export const Modal: React.FunctionComponent<ModalProps> = ({ title, text, showModal, setShowModal, onAccept }) => {
   const { t } = useTranslation()
+  const { colors } = useAppTheme()
   return (
     <_Modal isOpen={showModal} overlayVisible={false}>
-      <_Modal.Content>
-        <_Modal.Header>{title}</_Modal.Header>
-        <_Modal.Body>{text}</_Modal.Body>
+      <_Modal.Content bg={colors.background[500]}>
+        <_Modal.Header>
+          <Heading>{title}</Heading>
+        </_Modal.Header>
+        <_Modal.Body>
+          <Text>{text}</Text>
+        </_Modal.Body>
         <_Modal.Footer>
-          <Button onPress={() => setShowModal(false)} color="danger" variant="unstyled">
-            {t('actions.no')}
-          </Button>
+          <Button onPress={() => setShowModal(false)}>{t('actions.no')}</Button>
           <Spacer size="m" vertical />
-          <Button onPress={onAccept} variant="unstyled">
+          <Button onPress={onAccept} color="danger">
             {t('actions.yes')}
           </Button>
         </_Modal.Footer>

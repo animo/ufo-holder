@@ -25,6 +25,6 @@ export const AvatarListItem: React.FunctionComponent<AvatarListItemProps> = ({
     <Badge display={showBadge}>
       <Avatar text={name} />
     </Badge>
-    <Spacer size="s" vertical />
+    <Spacer size="m" vertical />
   </ListItem>
 )
