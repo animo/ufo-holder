@@ -51,6 +51,14 @@ export const nl = {
     camera: {
       noPermissions: 'Lorem',
     },
+    maps: {
+      title: {
+        modal: 'Weet u het zeker?',
+      },
+      text: {
+        modal: 'Cupidatat quis est tempor non consequat velit elit laborum eu dolore commodo.',
+      },
+    },
   },
   actions: {
     delete: 'Verwijderen',
