@@ -1,6 +1,5 @@
-import type { ConnectionRecord } from '@aries-framework/core'
 import type { ThemedStylesFunction } from '@components/theme'
-import type { RegisteredDevice, RegisteredDeviceDenied } from '@internal/utils'
+import type { RegisteredDevice } from '@internal/utils'
 import type { PagerViewOnPageSelectedEvent } from 'react-native-pager-view'
 
 import React, { useRef, useState } from 'react'
