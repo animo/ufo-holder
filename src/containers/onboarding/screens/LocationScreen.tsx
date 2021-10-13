@@ -18,7 +18,7 @@ export const LocationScreen: React.FunctionComponent<LocationScreenProps> = ({ o
     <Slide
       image={images.location}
       text={t('feature.onboarding.text.location')}
-      button={{ onPress, text: t('feature.onboarding.actions.setPermissions') }}
+      button={{ onPress, text: t('feature.onboarding.actions.setLocationPermissions') }}
     />
   )
 }

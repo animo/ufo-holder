@@ -8,13 +8,15 @@ export const nl = {
           'Bedankt voor het downloaden van Helpr! \n\n In een noodsituatie kan elke seconde van levensbelang zijn. \n\n Als Helpr, maak jij het verschil.',
         credentials:
           'Centralisten van de meldkamer kunnen je hulp vragen op basis van de kwalificaties die je hebt verzameld. \n\n Jij bepaalt wanneer je kan en wil helpen. ',
+        notifications: 'Culpa deserunt elit nulla minim ea id mollit duis pariatur velit id.',
         location:
           'Voor het functioneren van deze app hebben wij je GPS-locatie nodig. \n\n Wij gebruiken alleen de locatie bij benadering, wanneer we je specifieke locatie willen gebruiken vragen wij dit. ',
         legal:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare suscipit velit, ac malesuada enim cursus eget. Nam aliquet leo vel est pharetra ultrices. ',
       },
       actions: {
-        setPermissions: 'Zet mijn permissies',
+        setLocationPermissions: 'Zet mijn locatie permissies',
+        setNotificationPermissions: 'Zet mijn notificatie permissies',
         understand: 'Ik begrijp het',
       },
     },

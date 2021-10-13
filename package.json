@@ -53,6 +53,7 @@
     "react-native-get-random-values": "^1.7.0",
     "react-native-hole-view": "^2.0.2",
     "react-native-keychain": "^7.0.0",
+    "react-native-notifications": "^4.1.2",
     "react-native-pager-view": "^5.4.0",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.3.2",
