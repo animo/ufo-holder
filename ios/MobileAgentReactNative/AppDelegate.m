@@ -16,6 +16,8 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
+#import "RNNotifications.h"
+
 @interface AppDelegate () <RCTBridgeDelegate>
  
 @property (nonatomic, strong) UMModuleRegistryAdapter *moduleRegistryAdapter;
@@ -60,6 +62,8 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  [RNNotifications startMonitorNotifications]; 
   return YES;
 }
 
@@ -78,6 +82,14 @@ static void InitializeFlipper(UIApplication *application) {
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [RNNotifications didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  [RNNotifications didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 @end

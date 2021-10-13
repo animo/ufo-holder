@@ -1,13 +1,16 @@
+import type { ConnectionRecord } from '@aries-framework/core'
 import type { ThemedStylesFunction } from '@components/theme'
+import type { RegisteredDevice, RegisteredDeviceDenied } from '@internal/utils'
 import type { PagerViewOnPageSelectedEvent } from 'react-native-pager-view'
 
 import React, { useRef, useState } from 'react'
-import { Alert, StyleSheet } from 'react-native'
+import { Alert, Platform, StyleSheet } from 'react-native'
 import PagerView from 'react-native-pager-view'
 
 import { CredentialsScreen } from './screens/CredentialsScreen'
 import { LegalScreen } from './screens/LegalScreen'
 import { LocationScreen } from './screens/LocationScreen'
+import { NotificationScreen } from './screens/NotificationsScreen'
 import { PilotScreen } from './screens/PilotScreen'
 import { WelcomeScreen } from './screens/WelcomeScreen'
 
@@ -15,9 +18,10 @@ import { Box, FlexItem } from '@components/lib'
 import { useStyles } from '@components/theme'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
+import { Notifications } from '@internal/utils'
 
 export const OnboardingContainer = () => {
-  const SLIDELENGTH = 5
+  const SLIDELENGTH = 6
 
   const [index, setIndex] = useState(0)
   const themedStyles = useStyles(Styles)
@@ -28,8 +32,8 @@ export const OnboardingContainer = () => {
     const currentIndex = event.nativeEvent.position
     setIndex(currentIndex)
 
-    // LocationScreen OR LegalScreen
-    if (currentIndex === 3 || currentIndex === 4) {
+    // LocationScreen OR NotificationScreen OR LegalScreen
+    if (currentIndex === 3 || currentIndex === 4 || currentIndex === 5) {
       pagerViewRef.current?.setScrollEnabled(false)
     }
   }
@@ -37,13 +41,31 @@ export const OnboardingContainer = () => {
   /**
    * @todo ask for permissions
    */
-  const onSetPermissions = () => {
+  const onSetLocation = () =>
     Alert.alert('PERMISSIONS', undefined, [{ text: 'Accepteren', onPress: () => pagerViewRef.current?.setPage(4) }])
+
+  /**
+   * @todo should use a callback (maybe?)
+   */
+  const onSetNotifications = () => {
+    const platform = Platform.OS === 'android' || Platform.OS === 'ios' ? Platform.OS : null
+    if (platform) {
+      Notifications.registered((event: RegisteredDevice) => {
+        Notifications.registerDeviceAtNotificationServer({ token: event.deviceToken, platform })
+        new Notifications().handleEvents()
+        pagerViewRef.current?.setPage(5)
+      })
+      Notifications.registeredError(() => {
+        pagerViewRef.current?.setPage(5)
+      })
+      Notifications.register()
+    } else {
+      // could not detect the OS (should NEVER EVER happen)
+      pagerViewRef.current?.setPage(5)
+    }
   }
 
-  const onUnderstandLegal = () => {
-    void dispatch(AppThunks.newUser())
-  }
+  const onUnderstandLegal = () => dispatch(AppThunks.newUser())
 
   const indicators = []
 
@@ -61,7 +83,8 @@ export const OnboardingContainer = () => {
         <PilotScreen />
         <WelcomeScreen />
         <CredentialsScreen />
-        <LocationScreen onPress={onSetPermissions} />
+        <LocationScreen onPress={onSetLocation} />
+        <NotificationScreen onPress={onSetNotifications} />
         <LegalScreen onPress={onUnderstandLegal} />
       </PagerView>
       <FlexItem style={themedStyles.container}>{indicators}</FlexItem>
@@ -85,7 +108,7 @@ const Styles: ThemedStylesFunction = ({ colors }) => {
       margin: 5,
     },
     indexedDot: {
-      backgroundColor: colors.background[500],
+      backgroundColor: colors.background[600],
     },
   }
 }

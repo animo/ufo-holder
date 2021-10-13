@@ -5,6 +5,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.google.gms.google-services'
+
 import com.android.build.OutputFile
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -197,6 +199,9 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     addUnimodulesDependencies()
+    
+    implementation project(':react-native-notifications')
+    implementation 'com.google.firebase:firebase-core:16.0.0'
 
     // JNA for indy-sdk
      implementation 'net.java.dev.jna:jna:5.2.0'

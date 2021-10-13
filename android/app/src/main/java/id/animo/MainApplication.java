@@ -23,6 +23,8 @@ import org.unimodules.core.interfaces.SingletonModule;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 
+import com.wix.reactnativenotifications.RNNotificationsPackage;
+
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
     new BasePackageList().getPackageList(), null

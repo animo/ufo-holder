@@ -543,7 +543,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = id.animo.mobile.agent;
+				PRODUCT_BUNDLE_IDENTIFIER = id.animo;
 				PRODUCT_NAME = MobileAgentReactNative;
 				SWIFT_OBJC_BRIDGING_HEADER = "MobileAgentReactNative-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -559,6 +559,8 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MobileAgentReactNative/MobileAgentReactNative.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G9667JTP83;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -576,8 +578,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = id.animo.mobile.agent;
+				PRODUCT_BUNDLE_IDENTIFIER = id.animo;
 				PRODUCT_NAME = MobileAgentReactNative;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MobileAgentReactNative-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
