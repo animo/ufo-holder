@@ -35,14 +35,55 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>We use the Camera for scanning invitations</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>We use FaceID to securely unlock the wallet</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This has to be fixed, Expo Camera requires this setting.</string>
+  <!-- Permission messages -->
+  <key>NSLocationWhenInUseUsageDescription</key>
+	<string>We use location for navigating towards incidents</string>
+
+  <!-- 
+  <key>NSAppleMusicUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSBluetoothAlwaysUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSBluetoothPeripheralUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSCameraUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSContactsUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSFaceIDUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSMotionUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSRemindersUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSSiriUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSUserTrackingUsageDescription</key>
+  <string>YOUR TEXT</string>
+  <key>NSLocationTemporaryUsageDescriptionDictionary</key>
+  <dict>
+    <key>YOUR-PURPOSE-KEY</key>
+    <string>YOUR TEXT</string>
+  </dict> 
+  -->
+
+  <!-- / Permission messages -->
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

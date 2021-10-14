@@ -142,8 +142,7 @@ export class Notifications {
    * Registers the token and vendor at a notification server
    * @param data token and vendor of the device
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public static registerDeviceAtNotificationServer(data: { token: string; platform: 'ios' | 'android' }) {
-    return true
+    console.log(`Registered: ${data.token}, ${data.platform}`)
   }
 }

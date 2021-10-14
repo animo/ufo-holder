@@ -55,6 +55,7 @@
     "react-native-keychain": "^7.0.0",
     "react-native-notifications": "^4.1.2",
     "react-native-pager-view": "^5.4.0",
+    "react-native-permissions": "^3.0.6",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.5.0",
