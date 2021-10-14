@@ -3,7 +3,7 @@ import type { RegisteredDevice } from '@internal/utils'
 import type { PagerViewOnPageSelectedEvent } from 'react-native-pager-view'
 
 import React, { useRef, useState } from 'react'
-import { Alert, Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import PagerView from 'react-native-pager-view'
 
 import { CredentialsScreen } from './screens/CredentialsScreen'
@@ -17,7 +17,7 @@ import { Box, FlexItem } from '@components/lib'
 import { useStyles } from '@components/theme'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
-import { openSettings, requestPermission, Notifications } from '@internal/utils'
+import { Notifications, openSettings, requestPermission } from '@internal/utils'
 
 export const OnboardingContainer = () => {
   const SLIDELENGTH = 6
