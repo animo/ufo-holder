@@ -3,7 +3,8 @@ import type { RegisteredDevice } from '@internal/utils'
 import type { PagerViewOnPageSelectedEvent } from 'react-native-pager-view'
 
 import React, { useRef, useState } from 'react'
-import { Alert, Platform, StyleSheet } from 'react-native'
+import { PermissionsAndroid, Platform, StyleSheet } from 'react-native'
+import Geolocation from 'react-native-geolocation-service'
 import PagerView from 'react-native-pager-view'
 
 import { CredentialsScreen } from './screens/CredentialsScreen'
@@ -17,7 +18,7 @@ import { Box, FlexItem } from '@components/lib'
 import { useStyles } from '@components/theme'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
-import { Notifications } from '@internal/utils'
+import { requestPermissionsLocation, Notifications } from '@internal/utils'
 
 export const OnboardingContainer = () => {
   const SLIDELENGTH = 6
@@ -38,10 +39,19 @@ export const OnboardingContainer = () => {
   }
 
   /**
-   * @todo ask for permissions
+   * @todo handle never_ask_again case (and denied)
+   * @todo custom message
+   * @see https://reactnative.dev/docs/permissionsandroid
    */
-  const onSetLocation = () =>
-    Alert.alert('PERMISSIONS', undefined, [{ text: 'Accepteren', onPress: () => pagerViewRef.current?.setPage(4) }])
+  const onSetLocation = async () => {
+    const hasLocationPermissions = await requestPermissionsLocation()
+    if (hasLocationPermissions) {
+      pagerViewRef.current?.setPage(4)
+    } else {
+      // TODO: handle no permissions
+      pagerViewRef.current?.setPage(4)
+    }
+  }
 
   /**
    * @todo should use a callback (maybe?)
