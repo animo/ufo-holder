@@ -18,6 +18,7 @@ import {
   CredentialsScreen,
   InformationScreen,
 } from '@internal/containers'
+import { MapsScreen } from '@internal/containers/map'
 import { OnboardingContainer } from '@internal/containers/onboarding'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
@@ -102,6 +103,7 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                   component={InformationScreen}
                   options={{ title: t('feature.information.titles.main') }}
                 />
+                <Stack.Screen name="MapsScreen" component={MapsScreen} options={{ headerShown: false }} />
               </>
             )}
           </Stack.Navigator>

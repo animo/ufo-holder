@@ -15,6 +15,9 @@ type RootNavigationParamList = {
 
   // Meta
   InformationScreen: undefined
+
+  // Maps
+  MapsScreen: undefined
 }
 
 const useAppNavigation = () => useNavigation<NavigationProp<RootNavigationParamList>>()

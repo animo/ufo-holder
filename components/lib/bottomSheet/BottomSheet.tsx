@@ -24,7 +24,7 @@ export const BottomSheet: React.FunctionComponent<BottomSheetProps> = ({
   const insets = useSafeAreaInsets()
   const { colors } = useAppTheme()
 
-  const snapPoints = emergency ? ['87%'] : ['25%', '75%']
+  const snapPoints = emergency ? ['87%'] : ['15%', '87%']
 
   const renderBackdrop = useCallback(
     ({ style, ...rest }: React.PropsWithChildren<BottomSheetBackgroundProps>) => (
@@ -41,7 +41,7 @@ export const BottomSheet: React.FunctionComponent<BottomSheetProps> = ({
 
   return (
     <BottomSheetModal
-      enablePanDownToClose={!emergency}
+      enablePanDownToClose={false}
       ref={bottomSheetModalRef}
       snapPoints={snapPoints}
       index={0}

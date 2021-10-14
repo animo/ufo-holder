@@ -17,6 +17,7 @@
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
 #import "RNNotifications.h"
+#import <GoogleMaps/GoogleMaps.h>
 
 @interface AppDelegate () <RCTBridgeDelegate>
  
@@ -39,6 +40,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+[GMSServices provideAPIKey:@"AIzaSyAl8p0VTiyhq_PD6kxk0V3s7J6_PfANaXc"];
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
