@@ -48,4 +48,12 @@ target 'MobileAgentReactNative' do
   post_install do |installer|
     react_native_post_install(installer)
   end
+
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+   pod 'Permission-LocationAccuracy', :path => "#{permissions_path}/LocationAccuracy"
+   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+
 end

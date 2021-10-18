@@ -15,9 +15,10 @@ import { WelcomeScreen } from './screens/WelcomeScreen'
 
 import { Box, FlexItem } from '@components/lib'
 import { useStyles } from '@components/theme'
+import { openSettings, requestPermission } from '@internal/modules'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
-import { Notifications, requestPermissionsLocation } from '@internal/utils'
+import { Notifications } from '@internal/utils'
 
 export const OnboardingContainer = () => {
   const SLIDELENGTH = 6
@@ -38,39 +39,34 @@ export const OnboardingContainer = () => {
   }
 
   /**
-   * @todo handle never_ask_again case (and denied)
-   * @todo custom message
-   * @see https://reactnative.dev/docs/permissionsandroid
+   * @todo: We ignore the answer, BUT we should only continue if the user said yes.
+   * If they said we should prompt a new screen to open the system settings to change the answer
    */
   const onSetLocation = async () => {
-    const hasLocationPermissions = await requestPermissionsLocation()
-    if (hasLocationPermissions) {
-      pagerViewRef.current?.setPage(4)
-    } else {
-      // TODO: handle no permissions
-      pagerViewRef.current?.setPage(4)
-    }
+    await requestPermission('location').then((answer) => {
+      if (answer === 'granted') {
+        pagerViewRef.current?.setPage(4)
+      }
+      if (answer === 'blocked') {
+        void openSettings()
+      }
+    })
   }
 
   /**
-   * @todo should use a callback (maybe?)
+   * @todo handleevents should not happen here but at init of wallet
    */
   const onSetNotifications = () => {
-    const platform = Platform.OS === 'android' || Platform.OS === 'ios' ? Platform.OS : null
-    if (platform) {
-      Notifications.registered((event: RegisteredDevice) => {
-        Notifications.registerDeviceAtNotificationServer({ token: event.deviceToken, platform })
-        new Notifications().handleEvents()
-        pagerViewRef.current?.setPage(5)
-      })
-      Notifications.registeredError(() => {
-        pagerViewRef.current?.setPage(5)
-      })
-      Notifications.register()
-    } else {
-      // could not detect the OS (should NEVER EVER happen)
+    void requestPermission('notifications').then((answer) => {
+      if (answer) {
+        Notifications.registered((event: RegisteredDevice) => {
+          const platform = Platform.OS === 'ios' ? 'ios' : 'android'
+          Notifications.registerDeviceAtNotificationServer({ token: event.deviceToken, platform })
+          new Notifications().handleEvents()
+        })
+      }
       pagerViewRef.current?.setPage(5)
-    }
+    })
   }
 
   const onUnderstandLegal = () => dispatch(AppThunks.newUser())

@@ -2,11 +2,11 @@ import type { IndicatorSlideProps } from '../components/Slide'
 
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
 
 import { Slide } from '../components/Slide'
 
 import { images } from '@internal/theme/images'
+import { requestPlatform } from '@internal/utils'
 
 type NotificationScreenProps = IndicatorSlideProps & {
   onPress: () => void
@@ -15,7 +15,7 @@ type NotificationScreenProps = IndicatorSlideProps & {
 export const NotificationScreen: React.FunctionComponent<NotificationScreenProps> = ({ onPress }) => {
   const { t } = useTranslation()
   const buttonText =
-    Platform.OS === 'android'
+    requestPlatform() === 'android'
       ? t('feature.onboarding.actions.understand')
       : t('feature.onboarding.actions.setNotificationPermissions')
 
