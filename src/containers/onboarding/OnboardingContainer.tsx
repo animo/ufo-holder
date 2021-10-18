@@ -3,7 +3,7 @@ import type { RegisteredDevice } from '@internal/utils'
 import type { PagerViewOnPageSelectedEvent } from 'react-native-pager-view'
 
 import React, { useRef, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import PagerView from 'react-native-pager-view'
 
 import { CredentialsScreen } from './screens/CredentialsScreen'
@@ -18,7 +18,7 @@ import { useStyles } from '@components/theme'
 import { openSettings, requestPermission } from '@internal/modules'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
-import { Notifications, requestPlatform } from '@internal/utils'
+import { Notifications } from '@internal/utils'
 
 export const OnboardingContainer = () => {
   const SLIDELENGTH = 6
@@ -60,7 +60,7 @@ export const OnboardingContainer = () => {
     void requestPermission('notifications').then((answer) => {
       if (answer) {
         Notifications.registered((event: RegisteredDevice) => {
-          const platform = requestPlatform()
+          const platform = Platform.OS === 'ios' ? 'ios' : 'android'
           Notifications.registerDeviceAtNotificationServer({ token: event.deviceToken, platform })
           new Notifications().handleEvents()
         })

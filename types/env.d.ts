@@ -1,3 +1,3 @@
 declare module '@env' {
-  export const STORYBOOK_APP: string
+  export const API_KEY: string
 }
