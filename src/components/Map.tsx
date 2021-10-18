@@ -10,8 +10,8 @@ import MapViewDirections from 'react-native-maps-directions'
 import { layout } from '@components/global-stylesheets'
 import { Page } from '@components/lib'
 import { useAppTheme } from '@components/theme'
-import { requestPermissionsLocation } from '@internal/utils'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
+import { requestPermissionsLocation } from '@internal/utils/permissions'
 
 interface MapProps extends MapViewProps {
   shouldFollowUser: boolean
