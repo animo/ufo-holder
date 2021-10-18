@@ -3,7 +3,7 @@ import type { RegisteredDevice } from '@internal/utils'
 import type { PagerViewOnPageSelectedEvent } from 'react-native-pager-view'
 
 import React, { useRef, useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import PagerView from 'react-native-pager-view'
 
 import { CredentialsScreen } from './screens/CredentialsScreen'
@@ -15,9 +15,10 @@ import { WelcomeScreen } from './screens/WelcomeScreen'
 
 import { Box, FlexItem } from '@components/lib'
 import { useStyles } from '@components/theme'
+import { openSettings, requestPermission } from '@internal/modules'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
-import { Notifications, openSettings, requestPermission } from '@internal/utils'
+import { Notifications, requestPlatform } from '@internal/utils'
 
 export const OnboardingContainer = () => {
   const SLIDELENGTH = 6
@@ -43,9 +44,10 @@ export const OnboardingContainer = () => {
    */
   const onSetLocation = async () => {
     await requestPermission('location').then((answer) => {
-      if (answer) {
+      if (answer === 'granted') {
         pagerViewRef.current?.setPage(4)
-      } else {
+      }
+      if (answer === 'blocked') {
         void openSettings()
       }
     })
@@ -58,7 +60,7 @@ export const OnboardingContainer = () => {
     void requestPermission('notifications').then((answer) => {
       if (answer) {
         Notifications.registered((event: RegisteredDevice) => {
-          const platform = Platform.OS === 'ios' ? 'ios' : 'android'
+          const platform = requestPlatform()
           Notifications.registerDeviceAtNotificationServer({ token: event.deviceToken, platform })
           new Notifications().handleEvents()
         })
