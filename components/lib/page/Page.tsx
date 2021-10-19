@@ -55,7 +55,7 @@ export const Page: React.FunctionComponent<PropsWithChildren<PageProps>> = ({
   }
 
   return (
-    <Box paddingSize={paddingSize} onLayout={onLayout} fill style={style} scrollable={scrollable}>
+    <Box paddingSize={paddingSize} onLayout={onLayout} fill style={style} scrollable={scrollable} center={center}>
       {children}
     </Box>
   )
