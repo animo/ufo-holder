@@ -24,12 +24,14 @@ export const Button: React.FunctionComponent<ButtonProps> = ({
   return (
     <_Button
       borderColor={variant === 'outline' ? colors[color][500] : undefined}
-      bg={variant === 'outline' ? colors.transparent[500] : colors[color][500]}
+      bg={variant === 'outline' || variant === 'link' ? colors.transparent[500] : colors[color][500]}
       onPress={onPress}
       variant={variant}
       disabled={disabled}
     >
-      <Text color={variant === 'outline' ? color : 'white'}>{children}</Text>
+      <Text color={variant === 'outline' || variant === 'link' ? color : 'white'} underline={variant === 'link'}>
+        {children}
+      </Text>
     </_Button>
   )
 }

@@ -27,6 +27,8 @@ export const EmergencyBottomSheet: React.FunctionComponent<EmergencyBottomSheetP
    */
   const onDecline = () => {
     void dispatch(AppThunks.emergency({ emergency: false }))
+    // TODO: Should be handled by state
+    bottomSheetModalRef.current?.close()
   }
 
   /**

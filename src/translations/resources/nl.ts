@@ -48,17 +48,19 @@ export const nl = {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel mattis risus. Aliquam lorem turpis, scelerisque. ',
       },
     },
-    camera: {
-      noPermissions: 'Lorem',
-    },
     maps: {
       title: {
         modal: 'Weet u het zeker?',
       },
       text: {
         modal: 'Cupidatat quis est tempor non consequat velit elit laborum eu dolore commodo.',
+        noLocation: 'We hebben uw locatie niet op kunnen halen.',
       },
     },
+  },
+  noPermissions: {
+    text: 'Je hebt geen toestemming gegeven voor ',
+    location: 'locatie',
   },
   actions: {
     delete: 'Verwijderen',
