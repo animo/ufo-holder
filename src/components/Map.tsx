@@ -10,7 +10,7 @@ import MapViewDirections from 'react-native-maps-directions'
 import { layout } from '@components/global-stylesheets'
 import { Page } from '@components/lib'
 import { useAppTheme } from '@components/theme'
-import { requestPermissionsLocation } from '@internal/utils'
+import { requestPermission } from '@internal/modules'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
 interface MapProps extends MapViewProps {
@@ -49,7 +49,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
 
   useEffect(() => {
     const run = async () => {
-      setHasLocationPermissions(await requestPermissionsLocation())
+      setHasLocationPermissions((await requestPermission('location')) === 'granted')
       Geolocation.getCurrentPosition((position) => {
         setUserCoordinates({ longitude: position.coords.longitude, latitude: position.coords.latitude })
       })

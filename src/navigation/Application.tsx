@@ -20,10 +20,10 @@ import {
 } from '@internal/containers'
 import { MapsScreen } from '@internal/containers/map'
 import { OnboardingContainer } from '@internal/containers/onboarding'
+import { Notifications } from '@internal/modules'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
-import { Notifications } from '@internal/utils'
 
 const Stack = createStackNavigator<RootNavigationParamList>()
 
@@ -38,14 +38,9 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!isFirstLaunch) {
-      void dispatch(AppThunks.initialize())
-      Notifications.setNotificationChannelForAndroid(
-        'emergency',
-        'Emergencies',
-        'A channel for emergency notifications',
-        5
-      )
-      new Notifications().handleEvents()
+      void dispatch(AppThunks.initializeAgent({ name: 'TODO' }))
+      const notifications = new Notifications()
+      notifications.registerHandlers()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
