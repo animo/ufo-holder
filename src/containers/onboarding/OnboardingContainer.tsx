@@ -1,9 +1,9 @@
 import type { ThemedStylesFunction } from '@components/theme'
-import type { RegisteredDevice } from '@internal/utils'
+import type { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import type { PagerViewOnPageSelectedEvent } from 'react-native-pager-view'
 
 import React, { useRef, useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import PagerView from 'react-native-pager-view'
 
 import { CredentialsScreen } from './screens/CredentialsScreen'
@@ -11,74 +11,91 @@ import { LegalScreen } from './screens/LegalScreen'
 import { LocationScreen } from './screens/LocationScreen'
 import { NotificationScreen } from './screens/NotificationsScreen'
 import { PilotScreen } from './screens/PilotScreen'
+import { RegisterScreen } from './screens/RegisterScreen'
 import { WelcomeScreen } from './screens/WelcomeScreen'
 
 import { Box, FlexItem } from '@components/lib'
 import { useStyles } from '@components/theme'
+import { Notifications, openSettings, requestPermission } from '@internal/modules'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
-import { Notifications, requestPermissionsLocation } from '@internal/utils'
 
 export const OnboardingContainer = () => {
-  const SLIDELENGTH = 6
+  const pages = ['pilot', 'register', 'welcome', 'credentials', 'location', 'notifications', 'legal'] as const
+  type Page = typeof pages[number]
 
-  const [index, setIndex] = useState(0)
+  const SLIDELENGTH = pages.length
+
+  const [pageIndex, setPageIndex] = useState(0)
+  const [name, setName] = useState('')
   const themedStyles = useStyles(Styles)
   const pagerViewRef = useRef<PagerView>(null)
   const dispatch = useAppDispatch()
 
+  const goToPage = (page: Page | 'next') => {
+    let index = pageIndex + 1
+    if (page !== 'next') {
+      index = pages.indexOf(page)
+    }
+
+    pagerViewRef.current?.setPage(index)
+
+    setPageIndex(index)
+  }
+
   const onPageSelected = (event: PagerViewOnPageSelectedEvent) => {
     const currentIndex = event.nativeEvent.position
-    setIndex(currentIndex)
+    setPageIndex(currentIndex)
+    const page = pages[currentIndex]
 
-    // LocationScreen OR NotificationScreen OR LegalScreen
-    if (currentIndex === 3 || currentIndex === 4 || currentIndex === 5) {
+    if (page === 'register' || page === 'location' || page === 'notifications' || page === 'legal') {
       pagerViewRef.current?.setScrollEnabled(false)
+    } else {
+      pagerViewRef.current?.setScrollEnabled(true)
     }
   }
 
-  /**
-   * @todo handle never_ask_again case (and denied)
-   * @todo custom message
-   * @see https://reactnative.dev/docs/permissionsandroid
-   */
+  const onRegister = () => {
+    goToPage('next')
+  }
+
+  const onRegisterInputChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    // when registering a new user this name has to be used as the label
+    setName(e.nativeEvent.text)
+  }
+
   const onSetLocation = async () => {
-    const hasLocationPermissions = await requestPermissionsLocation()
-    if (hasLocationPermissions) {
-      pagerViewRef.current?.setPage(4)
+    const hasLocationPermissions = await requestPermission('location')
+    if (hasLocationPermissions === 'granted') {
+      goToPage('next')
     } else {
-      // TODO: handle no permissions
-      pagerViewRef.current?.setPage(4)
+      // TODO: page should show a different view where you press on
+      // `openSettings` yourself
+      void openSettings()
     }
   }
 
-  /**
-   * @todo should use a callback (maybe?)
-   */
   const onSetNotifications = () => {
-    const platform = Platform.OS === 'android' || Platform.OS === 'ios' ? Platform.OS : null
-    if (platform) {
-      Notifications.registered((event: RegisteredDevice) => {
-        Notifications.registerDeviceAtNotificationServer({ token: event.deviceToken, platform })
-        new Notifications().handleEvents()
-        pagerViewRef.current?.setPage(5)
-      })
-      Notifications.registeredError(() => {
-        pagerViewRef.current?.setPage(5)
-      })
-      Notifications.register()
-    } else {
-      // could not detect the OS (should NEVER EVER happen)
-      pagerViewRef.current?.setPage(5)
-    }
+    const notifications = new Notifications()
+    void requestPermission('notifications').then((answer) => {
+      switch (answer) {
+        case 'granted':
+          notifications.setup()
+          goToPage('next')
+          break
+        case 'blocked':
+          goToPage('next')
+          break
+      }
+    })
   }
 
-  const onUnderstandLegal = () => dispatch(AppThunks.newUser())
+  const onUnderstandLegal = () => dispatch(AppThunks.newUser({ name }))
 
   const indicators = []
 
   for (let i = 0; i < SLIDELENGTH; i++) {
-    if (i === index) {
+    if (i === pageIndex) {
       indicators.push(<Box style={[themedStyles.dot, themedStyles.indexedDot]} key={i} />)
     } else {
       indicators.push(<Box style={themedStyles.dot} key={i} />)
@@ -89,6 +106,7 @@ export const OnboardingContainer = () => {
     <>
       <PagerView style={StyleSheet.absoluteFill} initialPage={0} ref={pagerViewRef} onPageSelected={onPageSelected}>
         <PilotScreen />
+        <RegisterScreen onPress={onRegister} onChange={onRegisterInputChange} />
         <WelcomeScreen />
         <CredentialsScreen />
         <LocationScreen onPress={onSetLocation} />

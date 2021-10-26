@@ -46,7 +46,7 @@ const AriesThunks = {
     AsyncThunkOptions
   >('aries/createIssuerConnection', async (_, { dispatch, extra: { agent } }) => {
     const invitationUrl =
-      'https://didcomm.faber.agent.animo.id?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiNzVmMDg1ZmEtYTJkZS00ZWU2LTlhODQtMTBhNzQwNzI2NTViIiwgInNlcnZpY2VFbmRwb2ludCI6ICJodHRwczovL2RpZGNvbW0uZmFiZXIuYWdlbnQuYW5pbW8uaWQiLCAibGFiZWwiOiAia2xhYXMiLCAicmVjaXBpZW50S2V5cyI6IFsiSDc5OWFYa2lrWUZ1NkNtTHFhY1oxeTRUZGk4TnhOWEVQeE1TR2tYdmNrYjYiXX0='
+      'http://agent.community.animo.id:8001?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiOGQ4NDA3MWItYzE4Zi00MzgwLTg1NTgtMzIxYTFlYWY5NWY0IiwgInNlcnZpY2VFbmRwb2ludCI6ICJodHRwOi8vYWdlbnQuY29tbXVuaXR5LmFuaW1vLmlkOjgwMDEiLCAibGFiZWwiOiAiQW5pbW8gQ29tbXVuaXR5IEFnZW50IiwgInJlY2lwaWVudEtleXMiOiBbIkZkVDFaMnZoS2Q4QzduWnVBYVY5QnhVTnNqd0Z4OHVvWEo3QkR4eTFEOEVMIl19'
 
     let connection = await dispatch(
       ConnectionThunks.receiveInvitationFromUrl({

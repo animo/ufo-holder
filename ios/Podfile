@@ -14,6 +14,11 @@ target 'MobileAgentReactNative' do
   # https://stackoverflow.com/a/60914505/10552895
   pre_install do |installer|
     installer.pod_targets.each do |pod|
+      if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
+        def pod.build_type;
+          Pod::BuildType.static_library # >= 1.9
+        end
+      end
       if !dynamic_frameworks.include?(pod.name)
         puts "Overriding the static_framework? method for #{pod.name}"
         def pod.static_framework?;
@@ -48,4 +53,10 @@ target 'MobileAgentReactNative' do
   post_install do |installer|
     react_native_post_install(installer)
   end
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+
 end

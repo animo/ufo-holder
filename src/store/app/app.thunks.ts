@@ -18,11 +18,7 @@ import { config } from '@internal/config'
 import { generateAgentKey, getAgentWalletKey, storeAgentWalletKey } from '@internal/modules/Keychain'
 
 const AppThunks = {
-  initialize: createAsyncThunk<void, void, AsyncThunkOptions>('app/initialize', async (_, { dispatch }) => {
-    await dispatch(AppThunks.initializeAgent())
-  }),
-
-  initializeAgent: createAsyncThunk<void, void, AsyncThunkOptions>(
+  initializeAgent: createAsyncThunk<void, { name: string }, AsyncThunkOptions>(
     'app/initializeAgent',
     async (_, { dispatch, extra: { agent } }) => {
       let walletKey: string | false
@@ -39,9 +35,12 @@ const AppThunks = {
       // Manually set up wallet with wallet key from key chain
       const wallet = agent.injectionContainer.resolve<Wallet>(InjectionSymbols.Wallet)
       await wallet.initialize({
-        id: 'MOBILE-AGENT-REACT-NATIVE',
+        // TODO: should this be name?
+        id: 'UFO-MOBILE-AGENT',
         key: walletKey,
       })
+
+      // TODO: set the name here on the agent. pr will be created for this in afj
 
       await dispatch(AgentThunks.initializeAgent())
 
@@ -52,8 +51,8 @@ const AppThunks = {
     }
   ),
 
-  newUser: createAsyncThunk<void, void, AsyncThunkOptions>('app/newUser', async (_, { dispatch }) => {
-    await dispatch(AppThunks.initialize())
+  newUser: createAsyncThunk<void, { name: string }, AsyncThunkOptions>('app/newUser', async (data, { dispatch }) => {
+    await dispatch(AppThunks.initializeAgent(data))
     await dispatch(AppThunks.agentSetup())
   }),
 

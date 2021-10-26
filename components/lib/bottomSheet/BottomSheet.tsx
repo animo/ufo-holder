@@ -29,6 +29,7 @@ export const BottomSheet: React.FunctionComponent<BottomSheetProps> = ({
   const renderBackdrop = useCallback(
     ({ style, ...rest }: React.PropsWithChildren<BottomSheetBackgroundProps>) => (
       <BottomSheetBackdrop
+        pressBehavior="none"
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.9}

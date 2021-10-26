@@ -23,15 +23,15 @@ const appSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(AppThunks.initialize.pending, (state) => {
+    builder.addCase(AppThunks.initializeAgent.pending, (state) => {
       state.isInitialized = false
       state.isInitializing = true
     })
-    builder.addCase(AppThunks.initialize.fulfilled, (state) => {
+    builder.addCase(AppThunks.initializeAgent.fulfilled, (state) => {
       state.isInitialized = true
       state.isInitializing = false
     })
-    builder.addCase(AppThunks.initialize.rejected, (state) => {
+    builder.addCase(AppThunks.initializeAgent.rejected, (state) => {
       state.isInitialized = false
       state.isInitializing = false
     })

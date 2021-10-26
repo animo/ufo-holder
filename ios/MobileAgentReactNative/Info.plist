@@ -37,14 +37,8 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>We use the Camera for scanning invitations</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>We use FaceID to securely unlock the wallet</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This has to be fixed, Expo Camera requires this setting.</string>
+	<string>Location is required for guiding you to an emergency</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
