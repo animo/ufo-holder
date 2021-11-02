@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { Notification, NotificationCompletion } from 'react-native-notifications'
 
 import { Alert } from 'react-native'
@@ -37,7 +38,6 @@ export class Notifications {
    */
   private registerOnServerSuccess() {
     _Notifications.events().registerRemoteNotificationsRegistered(({ deviceToken }) => {
-      // eslint-disable-next-line no-console
       console.log(`TOKEN: ${deviceToken}`)
     })
   }
@@ -48,11 +48,8 @@ export class Notifications {
    */
   private registerOnServerFailed() {
     _Notifications.events().registerRemoteNotificationsRegistrationFailed(({ code, domain, localizedDescription }) => {
-      // eslint-disable-next-line no-console
       console.log(`code: ${code}`)
-      // eslint-disable-next-line no-console
       console.log(`domain: ${domain}`)
-      // eslint-disable-next-line no-console
       console.log(`localizedDescription: ${localizedDescription}`)
     })
   }
