@@ -7,8 +7,9 @@ export class Notifications {
    * Register everything when onboarding accepts push notifications
    */
   public setup() {
-    this.registerOnServer()
     this.register()
+    this.registerOnServerSuccess()
+    this.registerOnServerFailed()
     this.registerChannels()
   }
 
@@ -17,6 +18,7 @@ export class Notifications {
    */
   public registerHandlers() {
     this.handleBackground()
+    this.handleOpened()
   }
 
   /**
@@ -31,10 +33,25 @@ export class Notifications {
    * Emits the device token when register call was succesful
    * @todo Should send the token to the server
    */
-  private registerOnServer() {
+  private registerOnServerSuccess() {
     _Notifications.events().registerRemoteNotificationsRegistered(({ deviceToken }) => {
       // eslint-disable-next-line no-console
       console.log(`TOKEN: ${deviceToken}`)
+    })
+  }
+
+  /**
+   * Handler for when registering for remote notifications fails
+   * @todo Should handle errors properly
+   */
+  private registerOnServerFailed() {
+    _Notifications.events().registerRemoteNotificationsRegistrationFailed(({ code, domain, localizedDescription }) => {
+      // eslint-disable-next-line no-console
+      console.log(`code: ${code}`)
+      // eslint-disable-next-line no-console
+      console.log(`domain: ${domain}`)
+      // eslint-disable-next-line no-console
+      console.log(`localizedDescription: ${localizedDescription}`)
     })
   }
 
@@ -51,8 +68,14 @@ export class Notifications {
       )
   }
 
+  /**
+   * Handler function for when a user opens a notification
+   * @todo check if this is useful
+   */
   private handleOpened() {
-    _Notifications.events().registerNotificationOpened((notification: Notification, completion: () => void) => {
+    _Notifications.events().registerNotificationOpened((notification, completion: () => void) => {
+      // eslint-disable-next-line no-console
+      console.log(notification)
       completion()
     })
   }
