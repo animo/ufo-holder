@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { AvatarListItem, HeaderIconButton, NoContent, Page } from '@internal/components'
+import { Notifications } from '@internal/modules'
 import { useAppStackNavigation } from '@internal/navigation'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
@@ -44,6 +45,15 @@ export const CredentialsScreen: React.FunctionComponent = () => {
     return (
       <>
         <NoContent heading={t('feature.credentials.text.noCredentialsTitle')} image={images.noData} />
+        <Button
+          onPress={() => {
+            const notifications = new Notifications()
+            notifications.setup()
+            notifications.registerHandlers()
+          }}
+        >
+          Simuleer Registreer
+        </Button>
         <Button onPress={() => dispatch(AppThunks.emergency({ emergency: true }))}>Simuleer Incident</Button>
       </>
     )

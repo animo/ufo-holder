@@ -1,5 +1,6 @@
-import type { Notification } from 'react-native-notifications'
+import type { Notification, NotificationCompletion } from 'react-native-notifications'
 
+import { Alert } from 'react-native'
 import { NotificationBackgroundFetchResult, Notifications as _Notifications } from 'react-native-notifications'
 
 export class Notifications {
@@ -18,6 +19,7 @@ export class Notifications {
    */
   public registerHandlers() {
     this.handleBackground()
+    this.handleForeground()
     this.handleOpened()
   }
 
@@ -63,7 +65,23 @@ export class Notifications {
       .events()
       .registerNotificationReceivedBackground(
         (_: Notification, completion: (response: NotificationBackgroundFetchResult) => void) => {
+          Alert.alert('hi')
           completion(NotificationBackgroundFetchResult.NO_DATA)
+        }
+      )
+  }
+
+  /**
+   * Adds a generic handler for the background notifications
+   */
+  private handleForeground() {
+    _Notifications
+      .events()
+      .registerNotificationReceivedForeground(
+        (notification: Notification, completion: (response: NotificationCompletion) => void) => {
+          console.log('foreground')
+          console.log(notification)
+          completion({ alert: false, badge: false, sound: false })
         }
       )
   }
