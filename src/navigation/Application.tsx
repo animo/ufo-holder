@@ -4,7 +4,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useFlipper } from '@react-navigation/devtools'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StatusBar } from 'react-native'
 
@@ -20,10 +20,9 @@ import {
 } from '@internal/containers'
 import { MapsScreen } from '@internal/containers/map'
 import { OnboardingContainer } from '@internal/containers/onboarding'
-import { Notifications } from '@internal/modules'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
-import { useAppDispatch, useAppSelector } from '@internal/store'
-import { AppSelectors, AppThunks } from '@internal/store/app'
+import { useAppSelector } from '@internal/store'
+import { AppSelectors } from '@internal/store/app'
 
 const Stack = createStackNavigator<RootNavigationParamList>()
 
@@ -33,17 +32,6 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   const { colors, darkMode } = theme
   const { t } = useTranslation()
   const isFirstLaunch = useAppSelector(AppSelectors.isFirstLaunchSelector)
-
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (!isFirstLaunch) {
-      void dispatch(AppThunks.initializeAgent({ name: 'TODO' }))
-      const notifications = new Notifications()
-      notifications.registerHandlers()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   // Flipper debugging
   useFlipper(navigationRef)

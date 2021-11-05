@@ -1,6 +1,8 @@
 import type { AsyncThunkOptions } from '../store.types'
 import type { Wallet } from '@aries-framework/core'
+import type { Coordinate } from '@internal/components/Map'
 
+import { PreciseLocationModule } from '@animo/ufo-precise-location'
 import { InjectionSymbols } from '@aries-framework/core'
 import {
   AgentThunks,
@@ -13,12 +15,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import { AriesThunks } from '../aries'
+import { ProofRequestThunks } from '../aries/proofRequest/proofRequest.thunks'
 
 import { config } from '@internal/config'
+import { setupNotificationsHandler } from '@internal/modules'
 import { generateAgentKey, getAgentWalletKey, storeAgentWalletKey } from '@internal/modules/Keychain'
 
 const AppThunks = {
-  initializeAgent: createAsyncThunk<void, { name: string }, AsyncThunkOptions>(
+  initializeAgent: createAsyncThunk<void, void, AsyncThunkOptions>(
     'app/initializeAgent',
     async (_, { dispatch, extra: { agent } }) => {
       let walletKey: string | false
@@ -35,12 +39,11 @@ const AppThunks = {
       // Manually set up wallet with wallet key from key chain
       const wallet = agent.injectionContainer.resolve<Wallet>(InjectionSymbols.Wallet)
       await wallet.initialize({
-        // TODO: should this be name?
         id: 'UFO-MOBILE-AGENT',
         key: walletKey,
       })
 
-      // TODO: set the name here on the agent. pr will be created for this in afj
+      // TODO: refatcor to new thunk and use the store
 
       await dispatch(AgentThunks.initializeAgent())
 
@@ -51,8 +54,8 @@ const AppThunks = {
     }
   ),
 
-  newUser: createAsyncThunk<void, { name: string }, AsyncThunkOptions>('app/newUser', async (data, { dispatch }) => {
-    await dispatch(AppThunks.initializeAgent(data))
+  newUser: createAsyncThunk<void, void, AsyncThunkOptions>('app/newUser', async (_, { dispatch }) => {
+    await dispatch(AppThunks.initializeAgent())
     await dispatch(AppThunks.agentSetup())
   }),
 
@@ -66,9 +69,17 @@ const AppThunks = {
       if (mediator) {
         await agent.mediationRecipient.initiateMessagePickup(mediator)
         // TODO: get dispatch and issuer connection
-        await dispatch(AriesThunks.createIssuerConnection())
+        await dispatch(AriesThunks.createDispatchServiceConnection())
         // await dispatch(AriesThunks.createDispatchConnection())
       }
+    }
+  ),
+
+  pingPreciseLocation: createAsyncThunk<void, { connectionId: string; coordinate: Coordinate }, AsyncThunkOptions>(
+    'app/user/pingPreciseLocation',
+    (data, { extra: { agent } }) => {
+      const plm = agent.injectionContainer.resolve(PreciseLocationModule)
+      void plm.sendPreciseLocation(data.connectionId, data.coordinate)
     }
   ),
 
@@ -76,6 +87,38 @@ const AppThunks = {
     'app/user/emergency',
     ({ emergency }) => emergency
   ),
+
+  deviceToken: createAsyncThunk<string, { deviceToken: string }, AsyncThunkOptions>(
+    'app/user/deviceToken',
+    ({ deviceToken }) => deviceToken
+  ),
+
+  denyEmergency: createAsyncThunk<void, { id: string }, AsyncThunkOptions>(
+    'app/user/denyEmergency',
+    async (data, { dispatch }) => {
+      await dispatch(ProofsThunks.deleteProof(data.id))
+      await dispatch(AppThunks.emergency({ emergency: false }))
+    }
+  ),
+
+  acceptEmergency: createAsyncThunk<void, { id: string }, AsyncThunkOptions>(
+    'app/user/acceptEmergency',
+    async (data, { dispatch }) => {
+      await dispatch(ProofRequestThunks.acceptRequest({ proofRecordId: data.id }))
+      await dispatch(AppThunks.emergency({ emergency: false }))
+    }
+  ),
+
+  storeEmergencyInfo: createAsyncThunk<
+    { coordinate: Coordinate; emergency: { description: string; title: string; travelTime: number } },
+    { coordinate: Coordinate; emergency: { description: string; title: string; travelTime: number } },
+    AsyncThunkOptions
+  >('app/user/storeEmergencyInfo', ({ coordinate, emergency }) => {
+    return {
+      coordinate,
+      emergency,
+    }
+  }),
 }
 
 export { AppThunks }

@@ -11,6 +11,9 @@ import { layout } from '@components/global-stylesheets'
 import { Page } from '@components/lib'
 import { useAppTheme } from '@components/theme'
 import { requestPermission } from '@internal/modules'
+import { useAppDispatch, useAppSelector } from '@internal/store'
+import { AppSelectors, AppThunks } from '@internal/store/app'
+import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
 interface MapProps extends MapViewProps {
@@ -30,11 +33,6 @@ export interface Coordinate {
 
 export type Coordinates = Coordinate[]
 
-const EMERGENCY = {
-  latitude: 52.0869214592593,
-  longitude: 5.12363309259259,
-}
-
 const DELTA = {
   latitudeDelta: 0.0025,
   longitudeDelta: 0.0025,
@@ -44,6 +42,9 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const [userCoordinates, setUserCoordinates] = useState<{ latitude: number; longitude: number } | null>(null)
   const [hasLocationPermissions, setHasLocationPermissions] = useState(true)
   const { darkMode } = useAppTheme()
+  const dispatch = useAppDispatch()
+  const dispatchConnection = useAgentSelector(AriesSelectors.dispatchServiceProofSelector)
+  const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
 
   const mapRef = useRef<MapView>(null)
 
@@ -64,6 +65,11 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const focusOnUser = () => mapRef.current?.animateToRegion({ ...userCoordinates, ...DELTA }, 2000)
 
   const onUserLocationChange = (event: EventUserLocation) => {
+    if (dispatchConnection) {
+      void dispatch(
+        AppThunks.pingPreciseLocation({ connectionId: dispatchConnection.id, coordinate: event.nativeEvent.coordinate })
+      )
+    }
     if (shouldFollowUser) {
       const coordinates = {
         longitude: event.nativeEvent.coordinate.longitude,
@@ -73,6 +79,10 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
       setUserCoordinates(coordinates)
       focusOnUser()
     }
+  }
+
+  if (!emergencyInfo) {
+    return null
   }
 
   return (
@@ -94,8 +104,8 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
       onMapReady={focusOnUser}
       {...rest}
     >
-      <Directions origin={userCoordinates} destination={EMERGENCY} />
-      <Marker coordinate={EMERGENCY} />
+      <Directions origin={userCoordinates} destination={emergencyInfo.coordinate} />
+      <Marker coordinate={emergencyInfo.coordinate} />
     </MapView>
   )
 }

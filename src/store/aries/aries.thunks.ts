@@ -1,8 +1,11 @@
 import type { AsyncThunkOptions } from '@internal/store/store.types'
 
 import { ConnectionRepository } from '@aries-framework/core'
+import { DevicePlatform, PushNotificationsModule } from '@aries-framework/push-notifications'
 import { connectionsSlice, ConnectionThunks } from '@aries-framework/redux-store'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+
+import { AppSelectors } from '../app'
 
 const AriesThunks = {
   updateConnectionAlias: createAsyncThunk<void, { connectionId: string; alias?: string }, AsyncThunkOptions>(
@@ -16,37 +19,15 @@ const AriesThunks = {
     }
   ),
 
-  createDispatchConnection: createAsyncThunk<
+  createDispatchServiceConnection: createAsyncThunk<
     {
-      dispatchConnectionId: string
+      dispatchServiceConnectionId: string
     },
     void,
     AsyncThunkOptions
-  >('aries/createDispatchConnection', async (_, { dispatch, extra: { agent } }) => {
-    const invitationUrl = ''
-
-    let connection = await dispatch(
-      ConnectionThunks.receiveInvitationFromUrl({
-        invitationUrl,
-      })
-    ).unwrap()
-
-    connection = await agent.connections.returnWhenIsConnected(connection.id)
-
-    return {
-      dispatchConnectionId: connection.id,
-    }
-  }),
-
-  createIssuerConnection: createAsyncThunk<
-    {
-      issuerConnectionId: string
-    },
-    void,
-    AsyncThunkOptions
-  >('aries/createIssuerConnection', async (_, { dispatch, extra: { agent } }) => {
+  >('aries/createDispatchServiceConnection', async (_, { dispatch, extra: { agent }, getState }) => {
     const invitationUrl =
-      'http://agent.community.animo.id:8001?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiOGQ4NDA3MWItYzE4Zi00MzgwLTg1NTgtMzIxYTFlYWY5NWY0IiwgInNlcnZpY2VFbmRwb2ludCI6ICJodHRwOi8vYWdlbnQuY29tbXVuaXR5LmFuaW1vLmlkOjgwMDEiLCAibGFiZWwiOiAiQW5pbW8gQ29tbXVuaXR5IEFnZW50IiwgInJlY2lwaWVudEtleXMiOiBbIkZkVDFaMnZoS2Q4QzduWnVBYVY5QnhVTnNqd0Z4OHVvWEo3QkR4eTFEOEVMIl19'
+      'http://dispatch-service.ufo.development.animo.id:8081?c_i=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvY29ubmVjdGlvbnMvMS4wL2ludml0YXRpb24iLCJAaWQiOiIyNWFiNjEyMS0zY2FkLTQ5ODAtOGZlMS0xNGJiYjJkOGM4NTYiLCJsYWJlbCI6ImRpc3BhdGNoLXNlcnZpY2UiLCJyZWNpcGllbnRLZXlzIjpbIkZ2MVJxZU1NWWZCaUh4ZUZEU1l6cXVGc0JyRnpvQVpHZGRqNUdGQVdFNXB5Il0sInNlcnZpY2VFbmRwb2ludCI6Imh0dHA6Ly9kaXNwYXRjaC1zZXJ2aWNlLnVmby5kZXZlbG9wbWVudC5hbmltby5pZDo4MDgxIiwicm91dGluZ0tleXMiOltdfQ'
 
     let connection = await dispatch(
       ConnectionThunks.receiveInvitationFromUrl({
@@ -56,8 +37,13 @@ const AriesThunks = {
 
     connection = await agent.connections.returnWhenIsConnected(connection.id)
 
+    const deviceToken = AppSelectors.deviceTokenSelector(getState()) ?? 'TODO'
+
+    const pns = agent.injectionContainer.resolve(PushNotificationsModule)
+    await pns.setDeviceInfo(connection.id, { deviceToken, devicePlatform: DevicePlatform.Android })
+
     return {
-      issuerConnectionId: connection.id,
+      dispatchServiceConnectionId: connection.id,
     }
   }),
 }

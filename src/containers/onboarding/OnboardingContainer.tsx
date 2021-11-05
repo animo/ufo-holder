@@ -16,7 +16,7 @@ import { WelcomeScreen } from './screens/WelcomeScreen'
 
 import { Box, FlexItem } from '@components/lib'
 import { useStyles } from '@components/theme'
-import { Notifications, openSettings, requestPermission } from '@internal/modules'
+import { openSettings, requestPermission } from '@internal/modules'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
 
@@ -76,21 +76,12 @@ export const OnboardingContainer = () => {
   }
 
   const onSetNotifications = () => {
-    const notifications = new Notifications()
-    void requestPermission('notifications').then((answer) => {
-      switch (answer) {
-        case 'granted':
-          notifications.setup()
-          goToPage('next')
-          break
-        case 'blocked':
-          goToPage('next')
-          break
-      }
+    void requestPermission('notifications').then((_) => {
+      goToPage('next')
     })
   }
 
-  const onUnderstandLegal = () => dispatch(AppThunks.newUser({ name }))
+  const onUnderstandLegal = () => dispatch(AppThunks.newUser())
 
   const indicators = []
 

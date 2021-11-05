@@ -9,7 +9,7 @@ import { ThemeReducer } from './theme'
 const appPersistConfig = {
   key: 'app',
   storage: AsyncStorage,
-  whitelist: ['isFirstLaunch'],
+  whitelist: ['isFirstLaunch', 'deviceToken', 'emergencyInfo'],
 }
 
 const RootReducer = combineReducers({

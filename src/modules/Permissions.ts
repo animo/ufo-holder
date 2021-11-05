@@ -1,13 +1,7 @@
 import type { PermissionStatus, Rationale } from 'react-native-permissions'
 
-import {
-  check,
-  checkNotifications,
-  openSettings,
-  PERMISSIONS,
-  request,
-  requestNotifications,
-} from 'react-native-permissions'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import { check, checkNotifications, openSettings, PERMISSIONS, request } from 'react-native-permissions'
 
 import { requestPlatform } from '@internal/utils'
 
@@ -59,10 +53,26 @@ const hasPermission = async (permission: keyof typeof AppPermissionsMap): Promis
 }
 
 const requestPermission = async (permission: keyof typeof AppPermissionsMap, rationale?: Rationale) => {
-  let permissionStatus: PermissionStatus
+  let permissionStatus: PermissionStatus = 'granted'
 
   if (permission === 'notifications') {
-    permissionStatus = (await requestNotifications(['alert', 'sound'])).status
+    if (requestPlatform() === 'ios') {
+      await PushNotificationIOS.requestPermissions({
+        alert: true,
+        badge: true,
+        sound: true,
+        lockScreen: true,
+        notificationCenter: true,
+        authorizationStatus: 3,
+      }).then(
+        () => {
+          permissionStatus = 'granted'
+        },
+        () => {
+          permissionStatus = 'blocked'
+        }
+      )
+    }
   } else {
     const platform = requestPlatform()
     const mappedPermission = AppPermissionsMap[permission][platform]
