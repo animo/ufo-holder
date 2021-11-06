@@ -43,7 +43,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const [hasLocationPermissions, setHasLocationPermissions] = useState(true)
   const { darkMode } = useAppTheme()
   const dispatch = useAppDispatch()
-  const dispatchConnection = useAgentSelector(AriesSelectors.dispatchServiceProofSelector)
+  const dispatchConnection = useAgentSelector(AriesSelectors.dispatchServiceSelector)
   const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
 
   const mapRef = useRef<MapView>(null)

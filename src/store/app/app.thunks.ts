@@ -5,11 +5,10 @@ import type { DeCustomPayload } from '@internal/modules'
 
 import { EmergencyResponseModule } from '@animo/ufo-emergency-response'
 import { PreciseLocationModule } from '@animo/ufo-precise-location'
-import { CredentialState, InjectionSymbols } from '@aries-framework/core'
+import { InjectionSymbols } from '@aries-framework/core'
 import {
   AgentThunks,
   ConnectionThunks,
-  CredentialsSelectors,
   CredentialsThunks,
   MediationThunks,
   ProofsThunks,
@@ -17,12 +16,11 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { AriesSelectors, AriesThunks } from '../aries'
+import { AriesSelectors } from '../aries/aries.selectors'
+import { AriesThunks } from '../aries/aries.thunks'
 import { ProofRequestThunks } from '../aries/proofRequest/proofRequest.thunks'
 
-import { AppSelectors } from './app.selectors'
-
-import { getTravelTime, sendResponseToSilentnotification } from '@internal/api'
+import { getTravelTime } from '@internal/api'
 import { config } from '@internal/config'
 import { generateAgentKey, getAgentWalletKey, storeAgentWalletKey } from '@internal/modules/Keychain'
 

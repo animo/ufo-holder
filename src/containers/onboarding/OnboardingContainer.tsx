@@ -9,7 +9,6 @@ import PagerView from 'react-native-pager-view'
 import { CredentialsScreen } from './screens/CredentialsScreen'
 import { LegalScreen } from './screens/LegalScreen'
 import { LocationScreen } from './screens/LocationScreen'
-import { NotificationScreen } from './screens/NotificationsScreen'
 import { PilotScreen } from './screens/PilotScreen'
 import { RegisterScreen } from './screens/RegisterScreen'
 import { WelcomeScreen } from './screens/WelcomeScreen'
@@ -19,9 +18,10 @@ import { useStyles } from '@components/theme'
 import { openSettings, requestPermission } from '@internal/modules'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
+import { AriesThunks } from '@internal/store/aries'
 
 export const OnboardingContainer = () => {
-  const pages = ['pilot', 'register', 'welcome', 'credentials', 'location', 'notifications', 'legal'] as const
+  const pages = ['pilot', 'register', 'welcome', 'credentials', 'location', 'legal'] as const
   type Page = typeof pages[number]
 
   const SLIDELENGTH = pages.length
@@ -48,7 +48,7 @@ export const OnboardingContainer = () => {
     setPageIndex(currentIndex)
     const page = pages[currentIndex]
 
-    if (page === 'register' || page === 'location' || page === 'notifications' || page === 'legal') {
+    if (page === 'register' || page === 'location' || page === 'legal') {
       pagerViewRef.current?.setScrollEnabled(false)
     } else {
       pagerViewRef.current?.setScrollEnabled(true)
@@ -56,6 +56,7 @@ export const OnboardingContainer = () => {
   }
 
   const onRegister = () => {
+    void dispatch(AriesThunks.updateAgentName({ name }))
     goToPage('next')
   }
 
@@ -73,12 +74,6 @@ export const OnboardingContainer = () => {
       // `openSettings` yourself
       void openSettings()
     }
-  }
-
-  const onSetNotifications = () => {
-    void requestPermission('notifications').then((_) => {
-      goToPage('next')
-    })
   }
 
   const onUnderstandLegal = () => dispatch(AppThunks.newUser())
@@ -101,7 +96,6 @@ export const OnboardingContainer = () => {
         <WelcomeScreen />
         <CredentialsScreen />
         <LocationScreen onPress={onSetLocation} />
-        <NotificationScreen onPress={onSetNotifications} />
         <LegalScreen onPress={onUnderstandLegal} />
       </PagerView>
       <FlexItem style={themedStyles.container}>{indicators}</FlexItem>

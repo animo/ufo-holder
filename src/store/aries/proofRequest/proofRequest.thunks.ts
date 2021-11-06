@@ -1,7 +1,6 @@
 import type { RetrievedCredentials } from '@aries-framework/core'
 import type { AsyncThunkOptions } from '@internal/store/store.types'
 
-import { PreciseLocationModule } from '@animo/ufo-precise-location'
 import { ProofsSelectors, ProofsThunks } from '@aries-framework/redux-store'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
@@ -34,7 +33,7 @@ const ProofRequestThunks = {
 
   acceptRequest: createAsyncThunk<void, { proofRecordId: string }, AsyncThunkOptions>(
     'aries/acceptProofRequest',
-    async ({ proofRecordId }, { dispatch, getState, rejectWithValue, extra: { agent } }) => {
+    async ({ proofRecordId }, { dispatch, getState, rejectWithValue }) => {
       const proofRequestData = ProofRequestSelectors.proofRequestDataSelector(proofRecordId)(getState())
 
       if (!proofRequestData) {
@@ -43,8 +42,6 @@ const ProofRequestThunks = {
 
       const requestedCredentials = toRequestedCredentials(proofRequestData)
       await dispatch(ProofsThunks.acceptRequest({ proofRecordId, requestedCredentials })).unwrap()
-
-      const plm = agent.injectionContainer.resolve(PreciseLocationModule)
     }
   ),
 

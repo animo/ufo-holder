@@ -5,7 +5,7 @@ import { DevicePlatform, PushNotificationsModule } from '@aries-framework/push-n
 import { connectionsSlice, ConnectionThunks } from '@aries-framework/redux-store'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { AppSelectors } from '../app'
+import { AppSelectors } from '../app/app.selectors'
 
 const AriesThunks = {
   updateConnectionAlias: createAsyncThunk<void, { connectionId: string; alias?: string }, AsyncThunkOptions>(
@@ -37,14 +37,26 @@ const AriesThunks = {
 
     connection = await agent.connections.returnWhenIsConnected(connection.id)
 
-    const deviceToken = AppSelectors.deviceTokenSelector(getState()) ?? 'TODO'
+    const deviceToken = AppSelectors.deviceTokenSelector(getState())
 
-    const pns = agent.injectionContainer.resolve(PushNotificationsModule)
-    await pns.setDeviceInfo(connection.id, { deviceToken, devicePlatform: DevicePlatform.Android })
+    if (deviceToken) {
+      const pns = agent.injectionContainer.resolve(PushNotificationsModule)
+      await pns.setDeviceInfo(connection.id, { deviceToken, devicePlatform: DevicePlatform.Android })
+    }
 
     return {
       dispatchServiceConnectionId: connection.id,
     }
+  }),
+
+  updateAgentName: createAsyncThunk<
+    void,
+    {
+      name: string
+    },
+    AsyncThunkOptions
+  >('aries/agent/updateName', (data, { extra: { agent } }) => {
+    agent.config.label = data.name
   }),
 }
 
