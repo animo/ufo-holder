@@ -17,7 +17,7 @@ export interface AppState {
     emergency: {
       description: string
       title: string
-      travelTime: string
+      travelTime: number
     }
   }
 }
