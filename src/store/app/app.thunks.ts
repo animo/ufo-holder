@@ -1,12 +1,15 @@
 import type { AsyncThunkOptions } from '../store.types'
-import type { Wallet } from '@aries-framework/core'
+import type { ConnectionRecord, Wallet } from '@aries-framework/core'
 import type { Coordinate } from '@internal/components/Map'
+import type { DeCustomPayload } from '@internal/modules'
 
+import { EmergencyResponseModule } from '@animo/ufo-emergency-response'
 import { PreciseLocationModule } from '@animo/ufo-precise-location'
-import { InjectionSymbols } from '@aries-framework/core'
+import { CredentialState, InjectionSymbols } from '@aries-framework/core'
 import {
   AgentThunks,
   ConnectionThunks,
+  CredentialsSelectors,
   CredentialsThunks,
   MediationThunks,
   ProofsThunks,
@@ -14,11 +17,13 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { AriesThunks } from '../aries'
+import { AriesSelectors, AriesThunks } from '../aries'
 import { ProofRequestThunks } from '../aries/proofRequest/proofRequest.thunks'
 
+import { AppSelectors } from './app.selectors'
+
+import { getTravelTime, sendResponseToSilentnotification } from '@internal/api'
 import { config } from '@internal/config'
-import { setupNotificationsHandler } from '@internal/modules'
 import { generateAgentKey, getAgentWalletKey, storeAgentWalletKey } from '@internal/modules/Keychain'
 
 const AppThunks = {
@@ -42,8 +47,6 @@ const AppThunks = {
         id: 'UFO-MOBILE-AGENT',
         key: walletKey,
       })
-
-      // TODO: refatcor to new thunk and use the store
 
       await dispatch(AgentThunks.initializeAgent())
 
@@ -72,6 +75,34 @@ const AppThunks = {
         await dispatch(AriesThunks.createDispatchServiceConnection())
         // await dispatch(AriesThunks.createDispatchConnection())
       }
+    }
+  ),
+
+  handleNotification: createAsyncThunk<void, { payload: DeCustomPayload; coordinate: Coordinate }, AsyncThunkOptions>(
+    'app/user/handleNotification',
+    async (data, { extra: { agent }, getState, rejectWithValue }) => {
+      const { coordinate, payload } = data
+      const credentials = AriesSelectors.receivedCredentialsSelector(getState().aries)
+      const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
+
+      if (credentials.length < data.payload.requiredSkills.length || !connectionWithDispatch) {
+        rejectWithValue(
+          `requirements have not been satisfied. connObj: ${connectionWithDispatch ? 'defined' : 'undefined'}. len ${
+            credentials.length
+          } vs ${data.payload.requiredSkills.length} `
+        )
+      }
+
+      const credentialDefinitionIds = credentials.map((credential) => credential.metadata.credentialDefinitionId)
+      const hasRequiredCredentials = payload.requiredSkills.every((skill) => credentialDefinitionIds.includes(skill))
+      const travelTime = await getTravelTime(coordinate, payload.location)
+
+      const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
+      void erm.sendEmergencyResponse(
+        (connectionWithDispatch as ConnectionRecord).id,
+        hasRequiredCredentials,
+        hasRequiredCredentials ? travelTime : undefined
+      )
     }
   ),
 

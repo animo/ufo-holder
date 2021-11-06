@@ -1,21 +1,16 @@
 /* eslint-disable no-console */
-import type { Agent } from '@aries-framework/core'
 import type { Coordinate } from '@internal/components/Map'
+import type { Store } from '@internal/store/store.types'
 import type { ReceivedNotification } from 'react-native-push-notification'
 
-import { EmergencyResponseModule } from '@animo/ufo-emergency-response'
-import { CredentialState } from '@aries-framework/core'
-import { DevicePlatform, PushNotificationsModule } from '@aries-framework/push-notifications'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import Geolocation from 'react-native-geolocation-service'
-// eslint-disable-next-line import/no-named-as-default
-import PushNotification, { Importance } from 'react-native-push-notification'
+import { default as PushNotification, Importance } from 'react-native-push-notification'
 
-import { getTravelTime, sendResponseToSilentnotification } from '@internal/api'
 import { AppThunks } from '@internal/store/app'
-import { credentialRecordToListItem, requestPlatform } from '@internal/utils'
+import { requestPlatform } from '@internal/utils'
 
-type DeCustomPayload = {
+export type DeCustomPayload = {
   location: Coordinate
   requiredSkills: string[]
   emergency: Emergency
@@ -27,8 +22,7 @@ type Emergency = {
 }
 
 // This is called when a silent notification is received
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, agent: Agent, store: any) => {
+const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, store: Store) => {
   const data = notification.data
   let parsedData: DeCustomPayload
 
@@ -44,56 +38,23 @@ const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, ag
 
   Geolocation.getCurrentPosition(
     (position) => {
-      const run = async () => {
-        const travelTime = await getTravelTime(position.coords, parsedData.location)
-
-        const credentials = await agent.credentials.getAll()
-        const connection = (await agent.connections.getAll()).find((conn) => conn.theirLabel === 'dispatch-service')
-
-        const credentialDefinitionIds = credentials
-          .filter(
-            (credential) =>
-              credential.state === CredentialState.Done || credential.state === CredentialState.CredentialReceived
-          )
-          .map((credential) => credential.metadata.credentialDefinitionId)
-
-        const hasCredentials = parsedData.requiredSkills.every((skill) => credentialDefinitionIds.includes(skill))
-
-        sendResponseToSilentnotification({ hasCredentials, travelTime })
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-        store.dispatch(
-          AppThunks.storeEmergencyInfo({
-            emergency: { ...parsedData.emergency, travelTime },
-            coordinate: parsedData.location,
-          })
-        )
-
-        if (connection?.id) {
-          const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
-          void erm.sendEmergencyResponse(connection.id, hasCredentials, travelTime)
-        }
-      }
-      void run()
+      void store.dispatch(AppThunks.handleNotification({ payload: parsedData, coordinate: position.coords }))
     },
     (error) => console.error(error)
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const onRegister = ({ token }: { os: string; token: string }, store: any) => {
+const onRegister = ({ token }: { os: string; token: string }, store: Store) => {
   console.log('TOKEN: ' + token)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-  store.dispatch(AppThunks.deviceToken({ deviceToken: token }))
+  void store.dispatch(AppThunks.deviceToken({ deviceToken: token }))
 }
 
 const onRegistrationError = (err: Error) => console.error(err)
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const setupNotificationsHandler = (agent: Agent, store: any) => {
+export const setupNotificationsHandler = (store: Store) => {
   PushNotification.configure({
     onRegister: (token) => onRegister(token, store),
-    onNotification: (notification) => onNotification(notification, agent, store),
+    onNotification: (notification) => onNotification(notification, store),
     onRegistrationError,
     permissions: {
       alert: true,
