@@ -51,7 +51,7 @@ const AriesThunks = {
   }),
 
   createIssuerConnection: createAsyncThunk<void, void, AsyncThunkOptions>(
-    'aries/createDispatchServiceConnection',
+    'aries/createIssuerConnection',
     async (_, { dispatch, extra: { agent } }) => {
       const invitationUrl =
         'http://agent.community.animo.id:8001?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiNDM1ODJhOTgtYWM5ZS00YjVhLWE5ZmUtOTJhYTg5OWY4MjU2IiwgInJlY2lwaWVudEtleXMiOiBbInNYVWNpY1ZtaUZSU1hQMThTSnVzQ1JpdmZ2cWJ6WFlFQ2NZRnV2OWpmMUsiXSwgImxhYmVsIjogIkFuaW1vIENvbW11bml0eSBBZ2VudCIsICJzZXJ2aWNlRW5kcG9pbnQiOiAiaHR0cDovL2FnZW50LmNvbW11bml0eS5hbmltby5pZDo4MDAxIn0='
