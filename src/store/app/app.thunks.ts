@@ -98,11 +98,10 @@ const AppThunks = {
       const travelTime = await getTravelTime(origin, destination)
 
       const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
-      void erm.sendEmergencyResponse(
-        (connectionWithDispatch as ConnectionRecord).id,
-        hasRequiredCredentials,
-        hasRequiredCredentials ? travelTime : undefined
-      )
+      void erm.sendEmergencyResponse((connectionWithDispatch as ConnectionRecord).id, {
+        hasCredentials: hasRequiredCredentials,
+        travelTime: hasRequiredCredentials ? travelTime : undefined,
+      })
 
       void dispatch(AppThunks.emergency({ emergency: true }))
       void dispatch(
