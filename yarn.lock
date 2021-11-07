@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@animo/ufo-emergency-response@^1.0.1":
-  version "1.0.1"
-  resolved "https://npm.pkg.github.com/download/@animo/ufo-emergency-response/1.0.1/a5af1fd3dc114d8bd35a21874afd330eeac86462dd15cc884c8c7a9e62b247d9#65be7ff22c3a9369961ccd9070a012882dfaa448"
-  integrity sha512-4TgOTWFLc/WRmQNYJHnWvPji1Eh0nHzo2N/+ZWbQty+7/SIpIEj5ILW1dYIWtDLBssVcLr5FQlxEOv4NQXpPnA==
+"@animo/ufo-emergency-response@^1.0.2":
+  version "1.0.4"
+  resolved "https://npm.pkg.github.com/download/@animo/ufo-emergency-response/1.0.4/e3b70f82b2efee9f7c0472830e4033b44e54a0e190f096a81d174c9a58101059#d6c28da32d47147f6edecef272aa36a5eb9b353a"
+  integrity sha512-Eockkxvb2mdatYlY/5FXqVki/GmjrVAUixH+i25SCDri3XBaoct/IaB/pSQlTLY4z76DPKwMjovrayep/zxPmw==
   dependencies:
     "@aries-framework/core" "^0.1.0-alpha.299"
     class-transformer "^0.4.0"
