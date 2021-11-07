@@ -16,7 +16,7 @@ export type MappedPermissionStatus = 'granted' | 'not answered yet' | 'blocked'
 
 export const AppPermissionsMap = {
   // iOS and Android
-  location: { ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE, android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION },
+  location: { ios: PERMISSIONS.IOS.LOCATION_ALWAYS, android: PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION },
   // iOS only
   notifications: null,
 }

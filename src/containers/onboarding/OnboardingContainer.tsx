@@ -67,6 +67,7 @@ export const OnboardingContainer = () => {
 
   const onSetLocation = async () => {
     const hasLocationPermissions = await requestPermission('location')
+    console.log(hasLocationPermissions)
     if (hasLocationPermissions === 'granted') {
       goToPage('next')
     } else {

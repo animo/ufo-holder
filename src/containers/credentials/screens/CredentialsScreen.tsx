@@ -36,8 +36,9 @@ export const CredentialsScreen: React.FunctionComponent = () => {
     })
   }
 
-  if (credentials.length === 0)
-    <NoContent heading={t('feature.credentials.text.noCredentialsTitle')} image={images.noData} />
+  if (credentials.length === 0) {
+    return <NoContent heading={t('feature.credentials.text.noCredentialsTitle')} image={images.noData} />
+  }
 
   return (
     <Page scrollable>

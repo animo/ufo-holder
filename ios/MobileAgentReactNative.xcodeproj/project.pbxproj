@@ -15,6 +15,7 @@
 		8B04CCCA0E5B44C3BA0EC5F7 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBC123E1B78344F4AB0C4633 /* SplashScreen.storyboard */; };
 		9D520B65E465AEF0AF3ED539 /* Pods_MobileAgentReactNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 193F1CC920B8378F21A05E4F /* Pods_MobileAgentReactNative.framework */; };
 		BFCE24775A2718B44CAEE6E3 /* Pods_MobileAgentReactNative_MobileAgentReactNativeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E7336FA3CF9D6FDC148B44 /* Pods_MobileAgentReactNative_MobileAgentReactNativeTests.framework */; };
+		C10A777D273863BA009FD11B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C10A777C273863BA009FD11B /* MapKit.framework */; };
 		F297748E264EBB0C005A8E46 /* Indy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F297748D264EBB0C005A8E46 /* Indy.framework */; };
 		F297748F264EBB0C005A8E46 /* Indy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F297748D264EBB0C005A8E46 /* Indy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		58CDCD21A5E993CE5BDA1353 /* Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig"; path = "Target Support Files/Pods-MobileAgentReactNative-MobileAgentReactNativeTests/Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B96AF0D22D88D915D4BC0CA5 /* Pods-MobileAgentReactNative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileAgentReactNative.release.xcconfig"; path = "Target Support Files/Pods-MobileAgentReactNative/Pods-MobileAgentReactNative.release.xcconfig"; sourceTree = "<group>"; };
+		C10A777C273863BA009FD11B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CA7C64AE2B606E51A45FB576 /* Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig"; path = "Target Support Files/Pods-MobileAgentReactNative-MobileAgentReactNativeTests/Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D5E7336FA3CF9D6FDC148B44 /* Pods_MobileAgentReactNative_MobileAgentReactNativeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MobileAgentReactNative_MobileAgentReactNativeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -83,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F297748E264EBB0C005A8E46 /* Indy.framework in Frameworks */,
+				C10A777D273863BA009FD11B /* MapKit.framework in Frameworks */,
 				9D520B65E465AEF0AF3ED539 /* Pods_MobileAgentReactNative.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,6 +129,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C10A777C273863BA009FD11B /* MapKit.framework */,
 				F297748D264EBB0C005A8E46 /* Indy.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				193F1CC920B8378F21A05E4F /* Pods_MobileAgentReactNative.framework */,
@@ -523,6 +527,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C4B80C9A79662FB1E5AE035 /* Pods-MobileAgentReactNative.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MobileAgentReactNative/MobileAgentReactNative.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
@@ -557,6 +562,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B96AF0D22D88D915D4BC0CA5 /* Pods-MobileAgentReactNative.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MobileAgentReactNative/MobileAgentReactNative.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";

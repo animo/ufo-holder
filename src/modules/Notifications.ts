@@ -40,7 +40,8 @@ const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, st
     (position) => {
       void store.dispatch(AppThunks.handleNotification({ payload: parsedData, coordinate: position.coords }))
     },
-    (error) => console.error(error)
+    (error) => console.error(error),
+    { timeout: 10000 }
   )
 }
 

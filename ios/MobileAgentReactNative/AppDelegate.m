@@ -87,6 +87,7 @@ static void InitializeFlipper(UIApplication *application) {
               (void (^)(UIBackgroundFetchResult))completionHandler {
   [RNCPushNotificationIOS didReceiveRemoteNotification:userInfo
                                 fetchCompletionHandler:completionHandler];
+  NSLog(@"push-notification received");
 }
 // Required for the registrationError event.
 - (void)application:(UIApplication *)application
