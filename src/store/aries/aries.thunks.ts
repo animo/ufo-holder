@@ -27,7 +27,8 @@ const AriesThunks = {
     AsyncThunkOptions
   >('aries/createDispatchServiceConnection', async (_, { dispatch, extra: { agent }, getState }) => {
     const invitationUrl =
-      'http://dispatch-service.ufo.development.animo.id:8081?c_i=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvY29ubmVjdGlvbnMvMS4wL2ludml0YXRpb24iLCJAaWQiOiIyNWFiNjEyMS0zY2FkLTQ5ODAtOGZlMS0xNGJiYjJkOGM4NTYiLCJsYWJlbCI6ImRpc3BhdGNoLXNlcnZpY2UiLCJyZWNpcGllbnRLZXlzIjpbIkZ2MVJxZU1NWWZCaUh4ZUZEU1l6cXVGc0JyRnpvQVpHZGRqNUdGQVdFNXB5Il0sInNlcnZpY2VFbmRwb2ludCI6Imh0dHA6Ly9kaXNwYXRjaC1zZXJ2aWNlLnVmby5kZXZlbG9wbWVudC5hbmltby5pZDo4MDgxIiwicm91dGluZ0tleXMiOltdfQ'
+      'http://dispatch-service.ufo.development.animo.id:8081?c_i=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvY29ubmVjdGlvbnMvMS4wL2ludml0YXRpb24iLCJAaWQiOiJiMzAzZjcyMS01MWIzLTQxMWUtOTgwMS1hZGJmZTg2NmI2ZDYiLCJsYWJlbCI6ImRpc3BhdGNoLXNlcnZpY2UiLCJyZWNpcGllbnRLZXlzIjpbIkdOWkZYQlVYRmozZFFKRWFjQm9tRWExN0djQVEyQjVuWXBGOHVXbnduYjdrIl0sInNlcnZpY2VFbmRwb2ludCI6Imh0dHA6Ly9kaXNwYXRjaC1zZXJ2aWNlLnVmby5kZXZlbG9wbWVudC5hbmltby5pZDo4MDgxIiwicm91dGluZ0tleXMiOltdfQ'
+    //'http://agent.community.animo.id:8001?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiNDM1ODJhOTgtYWM5ZS00YjVhLWE5ZmUtOTJhYTg5OWY4MjU2IiwgInJlY2lwaWVudEtleXMiOiBbInNYVWNpY1ZtaUZSU1hQMThTSnVzQ1JpdmZ2cWJ6WFlFQ2NZRnV2OWpmMUsiXSwgImxhYmVsIjogIkFuaW1vIENvbW11bml0eSBBZ2VudCIsICJzZXJ2aWNlRW5kcG9pbnQiOiAiaHR0cDovL2FnZW50LmNvbW11bml0eS5hbmltby5pZDo4MDAxIn0='
 
     let connection = await dispatch(
       ConnectionThunks.receiveInvitationFromUrl({
@@ -48,6 +49,22 @@ const AriesThunks = {
       dispatchServiceConnectionId: connection.id,
     }
   }),
+
+  createIssuerConnection: createAsyncThunk<void, void, AsyncThunkOptions>(
+    'aries/createDispatchServiceConnection',
+    async (_, { dispatch, extra: { agent } }) => {
+      const invitationUrl =
+        'http://agent.community.animo.id:8001?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiNDM1ODJhOTgtYWM5ZS00YjVhLWE5ZmUtOTJhYTg5OWY4MjU2IiwgInJlY2lwaWVudEtleXMiOiBbInNYVWNpY1ZtaUZSU1hQMThTSnVzQ1JpdmZ2cWJ6WFlFQ2NZRnV2OWpmMUsiXSwgImxhYmVsIjogIkFuaW1vIENvbW11bml0eSBBZ2VudCIsICJzZXJ2aWNlRW5kcG9pbnQiOiAiaHR0cDovL2FnZW50LmNvbW11bml0eS5hbmltby5pZDo4MDAxIn0='
+
+      const connection = await dispatch(
+        ConnectionThunks.receiveInvitationFromUrl({
+          invitationUrl,
+        })
+      ).unwrap()
+
+      await agent.connections.returnWhenIsConnected(connection.id)
+    }
+  ),
 
   updateAgentName: createAsyncThunk<
     void,

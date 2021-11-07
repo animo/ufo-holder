@@ -4,7 +4,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useFlipper } from '@react-navigation/devtools'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StatusBar } from 'react-native'
 
@@ -21,8 +21,8 @@ import {
 import { MapsScreen } from '@internal/containers/map'
 import { OnboardingContainer } from '@internal/containers/onboarding'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
-import { useAppSelector } from '@internal/store'
-import { AppSelectors } from '@internal/store/app'
+import { useAppDispatch, useAppSelector } from '@internal/store'
+import { AppSelectors, AppThunks } from '@internal/store/app'
 
 const Stack = createStackNavigator<RootNavigationParamList>()
 
@@ -32,9 +32,16 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   const { colors, darkMode } = theme
   const { t } = useTranslation()
   const isFirstLaunch = useAppSelector(AppSelectors.isFirstLaunchSelector)
+  const dispatch = useAppDispatch()
 
   // Flipper debugging
   useFlipper(navigationRef)
+
+  useEffect(() => {
+    if (!isFirstLaunch) {
+      void dispatch(AppThunks.initializeAgent())
+    }
+  }, [dispatch, isFirstLaunch])
 
   return (
     <Box fill>
@@ -90,8 +97,7 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
               </>
             )}
           </Stack.Navigator>
-          {/* TODO: call emergency via function and this would be a provider */}
-          <EmergencyBottomSheet title="BRAND" subtitle="Jaarbeursplein, Utrecht" />
+          <EmergencyBottomSheet />
         </BottomSheetModalProvider>
       </NavigationContainer>
     </Box>

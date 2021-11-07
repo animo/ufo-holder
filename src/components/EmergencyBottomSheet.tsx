@@ -13,52 +13,47 @@ import { useAppTheme } from '@components/theme'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
+import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
-
-export interface EmergencyBottomSheetProps {
-  title: string
-  subtitle: string
-}
 
 const DELTA = {
   latitudeDelta: 0.0025,
   longitudeDelta: 0.0025,
 }
 
-export const EmergencyBottomSheet: React.FunctionComponent<EmergencyBottomSheetProps> = () => {
+export const EmergencyBottomSheet: React.FunctionComponent = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
-  const hasEmergency = useAppSelector(AppSelectors.hasEmergencySelector)
   const navigation = useAppNavigation()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  //const activeProofRequest = useAgentSelector(AriesSelectors.notSharedProofsSelector)[0]
+  const activeEmergencyRequest = useAgentSelector(AriesSelectors.activeEmergencyRequest)
+  const hasEmergency = useAppSelector(AppSelectors.hasEmergencySelector)
   const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
   const { darkMode } = useAppTheme()
   const mapRef = useRef<MapView>(null)
 
-  /**
-   * @todo proper decline of an emergency
-   */
-  const onDecline = () => {
-    //void dispatch(AppThunks.denyEmergency({ id: activeProofRequest.id }))
-    void dispatch(AppThunks.emergency({ emergency: false }))
-  }
-
-  /**
-   * @todo proper acceptance of an emergency
-   */
-  const onAccept = () => {
-    navigation.navigate('MapsScreen')
-    //void dispatch(AppThunks.acceptEmergency({ id: activeProofRequest.id }))
-    void dispatch(AppThunks.emergency({ emergency: false }))
-  }
-
   useEffect(() => {
-    if (hasEmergency && emergencyInfo?.coordinate) {
+    if (hasEmergency && activeEmergencyRequest) {
       bottomSheetModalRef.current?.present()
+    } else {
+      bottomSheetModalRef.current?.close()
     }
-    bottomSheetModalRef.current?.close()
-  }, [bottomSheetModalRef, emergencyInfo?.coordinate, hasEmergency])
+  }, [activeEmergencyRequest, hasEmergency])
+
+  const onDecline = async () => {
+    await dispatch(AppThunks.emergency({ emergency: false }))
+    if (activeEmergencyRequest) {
+      void dispatch(AppThunks.denyEmergency({ id: activeEmergencyRequest.id }))
+    }
+  }
+
+  const onAccept = async () => {
+    await dispatch(AppThunks.emergency({ emergency: false }))
+    if (activeEmergencyRequest) {
+      await dispatch(AppThunks.acceptEmergency({ id: activeEmergencyRequest.id }))
+      navigation.navigate('MapsScreen')
+    }
+  }
 
   if (!emergencyInfo) {
     return <BottomSheet bottomSheetModalRef={bottomSheetModalRef} emergency />

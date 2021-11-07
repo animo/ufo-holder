@@ -69,17 +69,18 @@ const AppThunks = {
       // Start message pickup
       if (mediator) {
         await agent.mediationRecipient.initiateMessagePickup(mediator)
-        // TODO: get dispatch and issuer connection
         await dispatch(AriesThunks.createDispatchServiceConnection())
-        // await dispatch(AriesThunks.createDispatchConnection())
+        await dispatch(AriesThunks.createIssuerConnection())
       }
     }
   ),
 
   handleNotification: createAsyncThunk<void, { payload: DeCustomPayload; coordinate: Coordinate }, AsyncThunkOptions>(
     'app/user/handleNotification',
-    async (data, { extra: { agent }, getState, rejectWithValue }) => {
-      const { coordinate, payload } = data
+    async (data, { extra: { agent }, getState, rejectWithValue, dispatch }) => {
+      const origin = data.coordinate
+      const { emergency, requiredSkills, location: destination } = data.payload
+
       const credentials = AriesSelectors.receivedCredentialsSelector(getState().aries)
       const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
 
@@ -92,14 +93,23 @@ const AppThunks = {
       }
 
       const credentialDefinitionIds = credentials.map((credential) => credential.metadata.credentialDefinitionId)
-      const hasRequiredCredentials = payload.requiredSkills.every((skill) => credentialDefinitionIds.includes(skill))
-      const travelTime = await getTravelTime(coordinate, payload.location)
+      const hasRequiredCredentials = requiredSkills.every((skill) => credentialDefinitionIds.includes(skill))
+
+      const travelTime = await getTravelTime(origin, destination)
 
       const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
       void erm.sendEmergencyResponse(
         (connectionWithDispatch as ConnectionRecord).id,
         hasRequiredCredentials,
         hasRequiredCredentials ? travelTime : undefined
+      )
+
+      void dispatch(AppThunks.emergency({ emergency: true }))
+      void dispatch(
+        AppThunks.storeEmergencyInfo({
+          coordinate: destination,
+          emergency: { travelTime, description: emergency.description, title: emergency.title },
+        })
       )
     }
   ),

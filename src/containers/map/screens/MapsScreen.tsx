@@ -7,8 +7,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { layout } from '@components/global-stylesheets'
 import { useAppTheme } from '@components/theme'
-import { BottomSheet, Box, IconButton, Map, Modal } from '@internal/components'
+import { BottomSheet, Box, Heading, IconButton, Map, Modal, Spacer, Text } from '@internal/components'
 import { useAppNavigation } from '@internal/navigation'
+import { useAppDispatch, useAppSelector } from '@internal/store'
+import { AppSelectors, AppThunks } from '@internal/store/app'
 
 interface ExitButtonProps {
   onPress: () => void
@@ -21,10 +23,12 @@ interface FollowUserButtonProps {
 
 export const MapsScreen = () => {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const [shouldFollowUser, setShouldFollowUser] = useState(false)
+  const [shouldFollowUser, setShouldFollowUser] = useState(true)
   const [shouldShowModal, setShouldShowModal] = useState(false)
   const navigation = useAppNavigation()
   const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
 
   useEffect(() => {
     bottomSheetRef.current?.present()
@@ -37,10 +41,26 @@ export const MapsScreen = () => {
         <ExitButton onPress={() => setShouldShowModal(true)} />
       </MapButtonContainer>
       <Map shouldFollowUser={shouldFollowUser} setShouldFollowUser={setShouldFollowUser} />
-      <BottomSheet bottomSheetModalRef={bottomSheetRef} />
+      {emergencyInfo && (
+        <BottomSheet bottomSheetModalRef={bottomSheetRef}>
+          <Box>
+            <Spacer size="xxl" />
+            <Heading align="center" color="danger">
+              {emergencyInfo.emergency.title}
+            </Heading>
+            <Spacer size="xxxl" />
+            <Spacer size="xxxl" />
+            <Text align="center">{emergencyInfo.emergency.description}</Text>
+          </Box>
+        </BottomSheet>
+      )}
       {shouldShowModal && (
         <Modal
-          onAccept={() => navigation.navigate('CredentialsScreen')}
+          onAccept={() => {
+            // TODO: clear emergency
+            void dispatch(AppThunks.emergency({ emergency: false }))
+            navigation.navigate('CredentialsScreen')
+          }}
           setShowModal={setShouldShowModal}
           showModal={shouldShowModal}
           title={t('feature.maps.title.modal')}
