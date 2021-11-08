@@ -4,10 +4,6 @@ import type { AsyncThunkOptions } from '@internal/store/store.types'
 import { ProofsSelectors, ProofsThunks } from '@aries-framework/redux-store'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { ProofRequestSelectors } from './proofRequest.selectors'
-
-import { toRequestedCredentials } from '@internal/utils'
-
 const ProofRequestThunks = {
   getCredentialOptionsForProofRequest: createAsyncThunk<
     { proofRecordId: string; retrievedCredentials: RetrievedCredentials },
@@ -34,14 +30,23 @@ const ProofRequestThunks = {
   acceptRequest: createAsyncThunk<void, { proofRecordId: string }, AsyncThunkOptions>(
     'aries/acceptProofRequest',
     async ({ proofRecordId }, { dispatch, getState, rejectWithValue }) => {
-      const proofRequestData = ProofRequestSelectors.proofRequestDataSelector(proofRecordId)(getState())
+      const proof = ProofsSelectors.proofRecordByIdSelector(proofRecordId)(getState().aries)
+      const proofRequest = proof?.requestMessage?.indyProofRequest
 
-      if (!proofRequestData) {
-        return rejectWithValue('Unable to accept request, retrieved credentials not found')
+      if (!proofRequest) {
+        return rejectWithValue('Unable to retrieve credentials, proof not found')
       }
+      const requestedCredentials = await dispatch(
+        ProofsThunks.getRequestedCredentialsForProofRequest({
+          proofRequest,
+          presentationProposal: proof?.proposalMessage?.presentationProposal,
+        })
+      ).unwrap()
+      const retrievedCredentials = await dispatch(
+        ProofsThunks.autoSelectCredentialsForProofRequest(requestedCredentials)
+      ).unwrap()
 
-      const requestedCredentials = toRequestedCredentials(proofRequestData)
-      await dispatch(ProofsThunks.acceptRequest({ proofRecordId, requestedCredentials })).unwrap()
+      await dispatch(ProofsThunks.acceptRequest({ proofRecordId, requestedCredentials: retrievedCredentials })).unwrap()
     }
   ),
 

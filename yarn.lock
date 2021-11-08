@@ -3498,14 +3498,6 @@
   resolved "https://registry.yarnpkg.com/@types/react-native-push-notification/-/react-native-push-notification-7.3.3.tgz#76d8cd73e37d5348ba714e8632e98615677961d2"
   integrity sha512-6LmfaZ0cRuk4oEdBZEJVRZ8DoPHz95fqD7wW3jBbcJFy3U23eSE+MeSQall4BCZFBZDGT1KCEGFCwflTxFEZMw==
 
-"@types/react-native-simple-radio-button@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@types/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.1.tgz#77c3cc8186d2b3e18e00c174e82b5f63a0684f5b"
-  integrity sha512-pXUuy1FaKN4dzQ/7zrRz6otCaePEFPD3M1oP18yYWXkKprDiTfvEJLPd3pjSnvDpOzIb4RbJSekDuAv0RQ6J2w==
-  dependencies:
-    "@types/react" "*"
-    "@types/react-native" "*"
-
 "@types/react-native-vector-icons@^6.4.8":
   version "6.4.8"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.8.tgz#7dd9740f36a71e98c484b9ea12155940c85cedc2"
