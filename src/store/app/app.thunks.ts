@@ -84,11 +84,13 @@ const AppThunks = {
       const credentials = AriesSelectors.receivedCredentialsSelector(getState().aries)
       const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
 
-      if (credentials.length < data.payload.requiredSkills.length || !connectionWithDispatch) {
+      if (!connectionWithDispatch) {
+        rejectWithValue('Could not establish a connection with the dispatch')
+      }
+
+      if (credentials.length < requiredSkills.length) {
         rejectWithValue(
-          `requirements have not been satisfied. connObj: ${connectionWithDispatch ? 'defined' : 'undefined'}. len ${
-            credentials.length
-          } vs ${data.payload.requiredSkills.length} `
+          `Current credentials (${credentials.length}) is less than the required credentials (${requiredSkills.length})`
         )
       }
 

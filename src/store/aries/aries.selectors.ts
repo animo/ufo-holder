@@ -48,7 +48,9 @@ const activeEmergencyRequest = createSelector(notSharedProofsSelector, (proofs) 
 )
 
 const dispatchServiceSelector = createSelector(ConnectionsSelectors.connectionRecordsSelector, (connectionRecords) =>
-  connectionRecords.find((connection) => connection.theirLabel === 'dispatch-service')
+  connectionRecords.find(
+    (connection) => connection.theirLabel === 'dispatch-service' && connection.state === ConnectionState.Complete
+  )
 )
 
 const credentialWithConnectionByIdSelector =
