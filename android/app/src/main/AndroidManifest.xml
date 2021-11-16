@@ -17,7 +17,7 @@
               android:value="false"/>
    <meta-data
      android:name="com.google.android.geo.API_KEY"
-     android:value="AIzaSyAl8p0VTiyhq_PD6kxk0V3s7J6_PfANaXc"/>
+     android:value="@string/google_maps_key" />
 
     <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
     <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
