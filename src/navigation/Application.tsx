@@ -93,7 +93,11 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                   component={InformationScreen}
                   options={{ title: t('feature.information.titles.main') }}
                 />
-                <Stack.Screen name="MapsScreen" component={MapsScreen} options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="MapsScreen"
+                  component={MapsScreen}
+                  options={{ headerShown: false, gestureEnabled: false }}
+                />
               </>
             )}
           </Stack.Navigator>

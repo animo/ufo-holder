@@ -16,14 +16,28 @@ export interface TextProps {
   size?: FontSize
   color?: ColorNames
   align?: 'left' | 'right' | 'center' | 'justify'
+  underline?: boolean
 }
 
-export const Text: FunctionComponent<TextProps> = ({ color = 'text', weight, size = 'm', align, children }) => {
+export const Text: FunctionComponent<TextProps> = ({
+  color = 'text',
+  weight,
+  size = 'm',
+  align,
+  underline = false,
+  children,
+}) => {
   const { colors } = useAppTheme()
   const mappedSize = fontSize[size]
 
   return (
-    <__Text fontWeight={weight} fontSize={mappedSize} textAlign={align} color={colors[color][500]}>
+    <__Text
+      fontWeight={weight}
+      fontSize={mappedSize}
+      textAlign={align}
+      color={colors[color][500]}
+      underline={underline}
+    >
       {children}
     </__Text>
   )
