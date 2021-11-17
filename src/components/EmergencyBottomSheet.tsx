@@ -13,8 +13,15 @@ import { useAppTheme } from '@components/theme'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
+import { AppActions } from '@internal/store/app/app.reducer'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
+
+export interface Emergency {
+  title: string
+  description: string
+  travelTime: number
+}
 
 const DELTA = {
   latitudeDelta: 0.0025,
@@ -41,14 +48,14 @@ export const EmergencyBottomSheet: React.FunctionComponent = () => {
   }, [activeEmergencyRequest, hasEmergency])
 
   const onDecline = async () => {
-    await dispatch(AppThunks.emergency({ emergency: false }))
+    void dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
     if (activeEmergencyRequest) {
-      void dispatch(AppThunks.denyEmergency({ id: activeEmergencyRequest.id }))
+      await dispatch(AppThunks.denyEmergency({ id: activeEmergencyRequest.id }))
     }
   }
 
   const onAccept = async () => {
-    await dispatch(AppThunks.emergency({ emergency: false }))
+    void dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
     if (activeEmergencyRequest) {
       await dispatch(AppThunks.acceptEmergency({ id: activeEmergencyRequest.id }))
       navigation.navigate('MapsScreen')

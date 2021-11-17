@@ -8,6 +8,7 @@ import Geolocation from 'react-native-geolocation-service'
 import { default as PushNotification, Importance } from 'react-native-push-notification'
 
 import { AppThunks } from '@internal/store/app'
+import { AppActions } from '@internal/store/app/app.reducer'
 import { requestPlatform } from '@internal/utils'
 
 export type DeCustomPayload = {
@@ -47,7 +48,7 @@ const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, st
 
 const onRegister = ({ token }: { os: string; token: string }, store: Store) => {
   console.log('TOKEN: ' + token)
-  void store.dispatch(AppThunks.deviceToken({ deviceToken: token }))
+  void store.dispatch(AppActions.setDeviceToken({ deviceToken: token }))
 }
 
 const onRegistrationError = (err: Error) => console.error(err)
