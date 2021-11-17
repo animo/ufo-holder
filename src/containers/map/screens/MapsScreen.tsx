@@ -10,7 +10,7 @@ import { useAppTheme } from '@components/theme'
 import { BottomSheet, Box, Heading, IconButton, Map, Modal, Spacer, Text } from '@internal/components'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
-import { AppSelectors, AppThunks } from '@internal/store/app'
+import { AppSelectors } from '@internal/store/app'
 import { AppActions } from '@internal/store/app/app.reducer'
 
 interface ExitButtonProps {
