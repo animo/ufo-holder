@@ -1,3 +1,5 @@
+import type { Coordinate } from '@internal/components/Map'
+
 import { createSlice } from '@reduxjs/toolkit'
 
 import { AppSelectors } from './app.selectors'
@@ -8,7 +10,16 @@ export interface AppState {
   isInitializing: boolean
   isFirstLaunch: boolean
   hasEmergency: boolean
+  deviceToken?: string
   error?: string
+  emergencyInfo?: {
+    coordinate: Coordinate
+    emergency: {
+      description: string
+      title: string
+      travelTime: number
+    }
+  }
 }
 
 const initialState: AppState = {
@@ -23,20 +34,26 @@ const appSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(AppThunks.initialize.pending, (state) => {
+    builder.addCase(AppThunks.initializeAgent.pending, (state) => {
       state.isInitialized = false
       state.isInitializing = true
     })
-    builder.addCase(AppThunks.initialize.fulfilled, (state) => {
+    builder.addCase(AppThunks.initializeAgent.fulfilled, (state) => {
       state.isInitialized = true
       state.isInitializing = false
     })
-    builder.addCase(AppThunks.initialize.rejected, (state) => {
+    builder.addCase(AppThunks.initializeAgent.rejected, (state) => {
       state.isInitialized = false
       state.isInitializing = false
     })
     builder.addCase(AppThunks.emergency.fulfilled, (state, action) => {
       state.hasEmergency = action.payload
+    })
+    builder.addCase(AppThunks.deviceToken.fulfilled, (state, action) => {
+      state.deviceToken = action.payload
+    })
+    builder.addCase(AppThunks.storeEmergencyInfo.fulfilled, (state, action) => {
+      state.emergencyInfo = action.payload
     })
     builder.addCase(AppThunks.newUser.fulfilled, (state) => {
       state.isFirstLaunch = false

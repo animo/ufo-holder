@@ -12,12 +12,12 @@ import {
 } from '@aries-framework/core'
 import { agentDependencies } from '@aries-framework/react-native'
 
-import { genesisConfigs } from '@internal/utils'
+import { indyLedgers } from '@internal/utils'
 
 export const agentConfig: InitConfig = {
   label: 'UFO-HOLDER',
   logger: new ConsoleLogger(LogLevel.info),
-  ...genesisConfigs.BCovrinTestNetwork,
+  indyLedgers,
   autoAcceptConnections: true,
   autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
   autoAcceptProofs: AutoAcceptProof.ContentApproved,

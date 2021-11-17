@@ -200,7 +200,6 @@ dependencies {
 
     addUnimodulesDependencies()
     
-    implementation project(':react-native-notifications')
     implementation 'com.google.firebase:firebase-core:16.0.0'
 
     // JNA for indy-sdk

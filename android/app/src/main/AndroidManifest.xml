@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="id.animo">
-  <!-- Permissions --> 
-  <uses-permission android:name="android.permission.CAMERA"/>
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <!-- / Permissions -->
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:name="android.permission.VIBRATE" />
 
   <application
     android:name=".MainApplication"
@@ -12,10 +12,33 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:allowBackup="false"
     android:theme="@style/AppTheme"
-  >
+    > 
+   <meta-data android:name="com.dieam.reactnativepushnotification.notification_foreground"
+              android:value="false"/>
    <meta-data
      android:name="com.google.android.geo.API_KEY"
-     android:value="AIzaSyAl8p0VTiyhq_PD6kxk0V3s7J6_PfANaXc"/>
+     android:value="@string/google_maps_key" />
+
+    <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
+    <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+    <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
+     <intent-filter>
+      <action android:name="android.intent.action.BOOT_COMPLETED" />
+      <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+      <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+     </intent-filter>
+    </receiver>
+
+
+    <service
+     android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
+     android:exported="false">
+
+     <intent-filter>
+      <action android:name="com.google.firebase.MESSAGING_EVENT" />
+     </intent-filter>
+    </service>
+
   <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     <activity
       android:name=".MainActivity"

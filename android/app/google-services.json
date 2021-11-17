@@ -29,6 +29,13 @@
             {
               "client_id": "168030938307-l3ju29gopiql63vg10piktnapap28lmt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "168030938307-hijvcsu8u44rhakd9qu7lbvvb2cm9m9q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "id.animo"
+              }
             }
           ]
         }
@@ -37,3 +44,4 @@
   ],
   "configuration_version": "1"
 }
+

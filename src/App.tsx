@@ -3,19 +3,19 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 
+import { createAgent, agentConfig } from './config'
+import { setupNotificationsHandler } from './modules'
 import { useThemeSwitcher } from './store/theme/useThemeSwitcher'
 
-import { agentConfig, createAgent } from '@internal/config'
 import { ApplicationNavigator } from '@internal/navigation/Application'
 import { initializeStore, useAppSelector } from '@internal/store'
 import { useAgentListeners } from '@internal/store/aries'
 import { ThemeContextProvider } from '@internal/theme'
-
 // Initializes translations
 import './translations'
 
 // Create agent instance, initialize store
-const agent = createAgent(agentConfig)
+export const agent = createAgent(agentConfig)
 
 // Add reset wallet option to dev menu
 if (__DEV__) {
@@ -25,7 +25,9 @@ if (__DEV__) {
   addWalletReset(agent)
 }
 
-const { store, persistor } = initializeStore(agent)
+export const { store, persistor } = initializeStore(agent)
+
+setupNotificationsHandler(store)
 
 const AppThemeProvider: React.FunctionComponent = ({ children }) => {
   // Listen for light/dark color scheme preferences and update state accordingly

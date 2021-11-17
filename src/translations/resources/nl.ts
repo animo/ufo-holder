@@ -4,6 +4,7 @@ export const nl = {
       text: {
         pilot:
           'De LMS en VRD onderzoeken het veilig inzetten van de professional buiten dienst bij incidenten met een lange aanrijdtijd. \n\n Deze app is in de pilotfase en heeft dus beperkte funtionaliteit. \n\n Via de informatiepagina kan je altijd alles nalezen en stoppen wanneer je wilt. ',
+        register: 'We hebben uw naam nodig om kwalificaties aan u te geven.',
         welcome:
           'Bedankt voor het downloaden van Helpr! \n\n In een noodsituatie kan elke seconde van levensbelang zijn. \n\n Als Helpr, maak jij het verschil.',
         credentials:
@@ -18,6 +19,12 @@ export const nl = {
         setLocationPermissions: 'Zet mijn locatie permissies',
         setNotificationPermissions: 'Zet mijn notificatie permissies',
         understand: 'Ik begrijp het',
+        register: 'Registreer',
+      },
+      placeholders: {
+        register: {
+          name: 'Uw Naam',
+        },
       },
     },
     credentials: {

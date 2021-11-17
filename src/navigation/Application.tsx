@@ -23,7 +23,6 @@ import { OnboardingContainer } from '@internal/containers/onboarding'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
-import { Notifications } from '@internal/utils'
 
 const Stack = createStackNavigator<RootNavigationParamList>()
 
@@ -33,25 +32,16 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
   const { colors, darkMode } = theme
   const { t } = useTranslation()
   const isFirstLaunch = useAppSelector(AppSelectors.isFirstLaunchSelector)
-
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (!isFirstLaunch) {
-      void dispatch(AppThunks.initialize())
-      Notifications.setNotificationChannelForAndroid(
-        'emergency',
-        'Emergencies',
-        'A channel for emergency notifications',
-        5
-      )
-      new Notifications().handleEvents()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   // Flipper debugging
   useFlipper(navigationRef)
+
+  useEffect(() => {
+    if (!isFirstLaunch) {
+      void dispatch(AppThunks.initializeAgent())
+    }
+  }, [dispatch, isFirstLaunch])
 
   return (
     <Box fill>
@@ -111,8 +101,7 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
               </>
             )}
           </Stack.Navigator>
-          {/* TODO: call emergency via function and this would be a provider */}
-          <EmergencyBottomSheet title="BRAND" subtitle="Jaarbeursplein, Utrecht" />
+          <EmergencyBottomSheet />
         </BottomSheetModalProvider>
       </NavigationContainer>
     </Box>

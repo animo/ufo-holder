@@ -39,6 +39,20 @@ const sharedProofsSelector = createSelector(ProofsSelectors.proofRecordsSelector
   proofs.filter((p) => [ProofState.Done, ProofState.PresentationSent].includes(p.state))
 )
 
+const notSharedProofsSelector = createSelector(ProofsSelectors.proofRecordsSelector, (proofs) =>
+  proofs.filter((p) => ![ProofState.Done, ProofState.PresentationSent].includes(p.state))
+)
+
+const activeEmergencyRequest = createSelector(notSharedProofsSelector, (proofs) =>
+  proofs.find((proof) => proof.requestMessage?.comment === 'emergency')
+)
+
+const dispatchServiceSelector = createSelector(ConnectionsSelectors.connectionRecordsSelector, (connectionRecords) =>
+  connectionRecords.find(
+    (connection) => connection.theirLabel === 'dispatch-service' && connection.state === ConnectionState.Complete
+  )
+)
+
 const credentialWithConnectionByIdSelector =
   (credentialId: string) =>
   (
@@ -91,6 +105,9 @@ const AriesSelectors = {
   receivedCredentialsSelector,
   readyConnectionsSelector,
   sharedProofsSelector,
+  notSharedProofsSelector,
+  activeEmergencyRequest,
+  dispatchServiceSelector,
   credentialsWithConnectionSelector,
   credentialWithConnectionByIdSelector,
   proofWithConnectionByIdSelector,

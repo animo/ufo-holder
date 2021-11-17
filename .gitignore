@@ -64,3 +64,6 @@ android/app/src/main/java/id/animo/generated/*
 
 # env files
 .env
+
+.npmrc
+api-keys.xml
