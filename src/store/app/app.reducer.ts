@@ -1,8 +1,11 @@
+import type { Emergency } from '@internal/components/EmergencyBottomSheet'
 import type { Coordinate } from '@internal/components/Map'
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 import { createSlice } from '@reduxjs/toolkit'
 
 import { AppSelectors } from './app.selectors'
+// eslint-disable-next-line import/no-cycle
 import { AppThunks } from './app.thunks'
 
 export interface AppState {
@@ -14,11 +17,7 @@ export interface AppState {
   error?: string
   emergencyInfo?: {
     coordinate: Coordinate
-    emergency: {
-      description: string
-      title: string
-      travelTime: number
-    }
+    emergency: Emergency
   }
 }
 
@@ -32,7 +31,23 @@ const initialState: AppState = {
 const appSlice = createSlice({
   name: 'app',
   initialState,
-  reducers: {},
+  reducers: {
+    setHasEmergency(state, action: PayloadAction<{ hasEmergency: boolean }>) {
+      state.hasEmergency = action.payload.hasEmergency
+    },
+    setDeviceToken(state, action: PayloadAction<{ deviceToken: string }>) {
+      state.deviceToken = action.payload.deviceToken
+    },
+    setEmergencyInfo(
+      state,
+      action: PayloadAction<{
+        coordinate: Coordinate
+        emergency: Emergency
+      }>
+    ) {
+      state.emergencyInfo = action.payload
+    },
+  },
   extraReducers(builder) {
     builder.addCase(AppThunks.initializeAgent.pending, (state) => {
       state.isInitialized = false
@@ -46,20 +61,11 @@ const appSlice = createSlice({
       state.isInitialized = false
       state.isInitializing = false
     })
-    builder.addCase(AppThunks.emergency.fulfilled, (state, action) => {
-      state.hasEmergency = action.payload
-    })
-    builder.addCase(AppThunks.deviceToken.fulfilled, (state, action) => {
-      state.deviceToken = action.payload
-    })
-    builder.addCase(AppThunks.storeEmergencyInfo.fulfilled, (state, action) => {
-      state.emergencyInfo = action.payload
-    })
     builder.addCase(AppThunks.newUser.fulfilled, (state) => {
       state.isFirstLaunch = false
     })
   },
 })
 
-const { reducer } = appSlice
-export { AppThunks, reducer as AppReducer, AppSelectors }
+const { reducer, actions } = appSlice
+export { AppThunks, actions as AppActions, reducer as AppReducer, AppSelectors }

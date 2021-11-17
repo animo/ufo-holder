@@ -1,5 +1,5 @@
 import type { AsyncThunkOptions } from '../store.types'
-import type { ConnectionRecord, Wallet } from '@aries-framework/core'
+import type { Wallet } from '@aries-framework/core'
 import type { Coordinate } from '@internal/components/Map'
 import type { DeCustomPayload } from '@internal/modules'
 
@@ -19,6 +19,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { AriesSelectors } from '../aries/aries.selectors'
 import { AriesThunks } from '../aries/aries.thunks'
 import { ProofRequestThunks } from '../aries/proofRequest/proofRequest.thunks'
+
+// eslint-disable-next-line import/no-cycle
+import { AppActions } from './app.reducer'
 
 import { getTravelTime } from '@internal/api'
 import { config } from '@internal/config'
@@ -85,11 +88,11 @@ const AppThunks = {
       const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
 
       if (!connectionWithDispatch) {
-        rejectWithValue('Could not establish a connection with the dispatch')
+        return rejectWithValue('Could not establish a connection with the dispatch')
       }
 
       if (credentials.length < requiredSkills.length) {
-        rejectWithValue(
+        return rejectWithValue(
           `Current credentials (${credentials.length}) is less than the required credentials (${requiredSkills.length})`
         )
       }
@@ -100,14 +103,14 @@ const AppThunks = {
       const travelTime = await getTravelTime(origin, destination)
 
       const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
-      void erm.sendEmergencyResponse((connectionWithDispatch as ConnectionRecord).id, {
+      void erm.sendEmergencyResponse(connectionWithDispatch.id, {
         hasCredentials: hasRequiredCredentials,
         travelTime: hasRequiredCredentials ? travelTime : undefined,
       })
 
-      void dispatch(AppThunks.emergency({ emergency: true }))
+      dispatch(AppActions.setHasEmergency({ hasEmergency: true }))
       void dispatch(
-        AppThunks.storeEmergencyInfo({
+        AppActions.setEmergencyInfo({
           coordinate: destination,
           emergency: { travelTime, description: emergency.description, title: emergency.title },
         })
@@ -123,21 +126,11 @@ const AppThunks = {
     }
   ),
 
-  emergency: createAsyncThunk<boolean, { emergency: boolean }, AsyncThunkOptions>(
-    'app/user/emergency',
-    ({ emergency }) => emergency
-  ),
-
-  deviceToken: createAsyncThunk<string, { deviceToken: string }, AsyncThunkOptions>(
-    'app/user/deviceToken',
-    ({ deviceToken }) => deviceToken
-  ),
-
   denyEmergency: createAsyncThunk<void, { id: string }, AsyncThunkOptions>(
     'app/user/denyEmergency',
     async (data, { dispatch }) => {
       await dispatch(ProofsThunks.deleteProof(data.id))
-      await dispatch(AppThunks.emergency({ emergency: false }))
+      dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
     }
   ),
 
@@ -145,20 +138,9 @@ const AppThunks = {
     'app/user/acceptEmergency',
     async (data, { dispatch }) => {
       await dispatch(ProofRequestThunks.acceptRequest({ proofRecordId: data.id }))
-      await dispatch(AppThunks.emergency({ emergency: false }))
+      dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
     }
   ),
-
-  storeEmergencyInfo: createAsyncThunk<
-    { coordinate: Coordinate; emergency: { description: string; title: string; travelTime: number } },
-    { coordinate: Coordinate; emergency: { description: string; title: string; travelTime: number } },
-    AsyncThunkOptions
-  >('app/user/storeEmergencyInfo', ({ coordinate, emergency }) => {
-    return {
-      coordinate,
-      emergency,
-    }
-  }),
 }
 
 export { AppThunks }
