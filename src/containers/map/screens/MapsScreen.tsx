@@ -11,6 +11,7 @@ import { BottomSheet, Box, Heading, IconButton, Map, Modal, Spacer, Text } from 
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
+import { AppActions } from '@internal/store/app/app.reducer'
 
 interface ExitButtonProps {
   onPress: () => void
@@ -57,8 +58,7 @@ export const MapsScreen = () => {
       {shouldShowModal && (
         <Modal
           onAccept={() => {
-            // TODO: clear emergency
-            void dispatch(AppThunks.emergency({ emergency: false }))
+            void dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
             navigation.navigate('CredentialsScreen')
           }}
           setShowModal={setShouldShowModal}
