@@ -14,6 +14,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8B04CCCA0E5B44C3BA0EC5F7 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBC123E1B78344F4AB0C4633 /* SplashScreen.storyboard */; };
 		9D520B65E465AEF0AF3ED539 /* Pods_MobileAgentReactNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 193F1CC920B8378F21A05E4F /* Pods_MobileAgentReactNative.framework */; };
+		B7E6C0BF27591DB8006EB6F1 /* Void.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E6C0BE27591DB8006EB6F1 /* Void.swift */; };
 		BFCE24775A2718B44CAEE6E3 /* Pods_MobileAgentReactNative_MobileAgentReactNativeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E7336FA3CF9D6FDC148B44 /* Pods_MobileAgentReactNative_MobileAgentReactNativeTests.framework */; };
 		C10A777D273863BA009FD11B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C10A777C273863BA009FD11B /* MapKit.framework */; };
 		F297748E264EBB0C005A8E46 /* Indy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F297748D264EBB0C005A8E46 /* Indy.framework */; };
@@ -60,6 +61,7 @@
 		571164947783C4B0530D44DF /* Pods-MobileAgentReactNative-MobileAgentReactNativeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileAgentReactNative-MobileAgentReactNativeTests.release.xcconfig"; path = "Target Support Files/Pods-MobileAgentReactNative-MobileAgentReactNativeTests/Pods-MobileAgentReactNative-MobileAgentReactNativeTests.release.xcconfig"; sourceTree = "<group>"; };
 		58CDCD21A5E993CE5BDA1353 /* Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig"; path = "Target Support Files/Pods-MobileAgentReactNative-MobileAgentReactNativeTests/Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B7E6C0BE27591DB8006EB6F1 /* Void.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Void.swift; sourceTree = "<group>"; };
 		B96AF0D22D88D915D4BC0CA5 /* Pods-MobileAgentReactNative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileAgentReactNative.release.xcconfig"; path = "Target Support Files/Pods-MobileAgentReactNative/Pods-MobileAgentReactNative.release.xcconfig"; sourceTree = "<group>"; };
 		C10A777C273863BA009FD11B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CA7C64AE2B606E51A45FB576 /* Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig"; path = "Target Support Files/Pods-MobileAgentReactNative-MobileAgentReactNativeTests/Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		13B07FAE1A68108700A75B9A /* MobileAgentReactNative */ = {
 			isa = PBXGroup;
 			children = (
+				B7E6C0BE27591DB8006EB6F1 /* Void.swift */,
 				F2C457DF2657D29B00CDD2AC /* MobileAgentReactNative.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -456,6 +459,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				B7E6C0BF27591DB8006EB6F1 /* Void.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +478,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA7C64AE2B606E51A45FB576 /* Pods-MobileAgentReactNative-MobileAgentReactNativeTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = G9667JTP83;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -502,6 +507,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55969116BDC1DD6B353611BA /* Pods-MobileAgentReactNative-MobileAgentReactNativeTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = G9667JTP83;
@@ -627,7 +633,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -692,7 +698,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

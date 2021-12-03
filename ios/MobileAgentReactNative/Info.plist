@@ -49,6 +49,11 @@
 		<string>YES</string>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>dispatch.animo.eu.ngrok.io</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>agent.community.animo.id</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
