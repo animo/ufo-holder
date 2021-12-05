@@ -1,3 +1,4 @@
+import type { ProofsState } from '@aries-framework/redux-store/build/slices/proofs/proofsSlice'
 import type { RootState } from '@internal/store'
 
 import { ProofsSelectors } from '@aries-framework/redux-store'
@@ -28,7 +29,8 @@ const ProofRequestSelectors = {
     createSelector(
       [
         proofRequestDataSelector(proofRecordId),
-        (state) => ProofsSelectors.proofRecordByIdSelector(proofRecordId)(state.aries),
+        (state: { aries: { proofs: ProofsState } }) =>
+          ProofsSelectors.proofRecordByIdSelector(proofRecordId)(state.aries),
       ],
       (proofRequestData, proof): Record<string, string>[] => {
         if (!proofRequestData || !proof?.requestMessage?.indyProofRequest) {

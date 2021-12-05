@@ -1,4 +1,4 @@
-import type { ProofRequest, RetrievedCredentials } from '@aries-framework/core'
+import type { ProofAttributeInfo, ProofRequest, RetrievedCredentials } from '@aries-framework/core'
 import type { ProofRequestData } from '@internal/store/aries/proofRequest/proofRequest.reducer'
 
 import { ConnectionRecord, CredentialRecord, ProofRecord, RequestedCredentials } from '@aries-framework/core'
@@ -27,7 +27,7 @@ export const formatRetrievedCredentials = (
 ): CredentialOptions => {
   // This shows all the requested attributes with self attested attributes
   const proofRequestAttributes: { attributeNames: string[] }[] = Object.values(proofRequest.requestedAttributes).map(
-    (value) => {
+    (value: ProofAttributeInfo) => {
       const names = value.name ? [value.name] : value.names ?? []
       return { attributeNames: names }
     }
