@@ -46,14 +46,14 @@ export const CredentialsScreen: React.FunctionComponent = () => {
         <AvatarListItem
           showBadge={credential.state === CredentialState.OfferReceived}
           key={credential.id}
-          text={getCredentialDisplayName(credential.metadata.schemaId)}
+          text={getCredentialDisplayName(credential)}
           subText={connection ? getConnectionDisplayName(connection) : undefined}
           onPress={() =>
             credential.state === CredentialState.OfferReceived
               ? onPressCredentialOffer(credential.id)
               : onPressCredentialDetails(credential.id)
           }
-          name={getCredentialDisplayName(credential.metadata.schemaId) ?? ''}
+          name={getCredentialDisplayName(credential) ?? ''}
         />
       ))}
     </Page>

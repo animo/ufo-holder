@@ -29,5 +29,5 @@ export const useAppTheme = (): AppTheme => {
     throw Error('"useAppTheme" can only be used inside of "ThemeContextProvider"')
   }
 
-  return ctx as AppTheme
+  return ctx as unknown as AppTheme
 }

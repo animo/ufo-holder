@@ -27,7 +27,7 @@ export const CredentialDetailScreen: React.FunctionComponent<CredentialDetailScr
     }
 
     navigation.setOptions({
-      title: getCredentialDisplayName(credential.metadata.schemaId),
+      title: getCredentialDisplayName(credential),
     })
   }, [navigation, credential])
 
@@ -41,7 +41,7 @@ export const CredentialDetailScreen: React.FunctionComponent<CredentialDetailScr
         <CredentialMetadata
           i18nKey="feature.credentials.text.meta"
           connectionRecord={connection}
-          credentialName={getCredentialDisplayName(credential.metadata.schemaId)}
+          credentialName={getCredentialDisplayName(credential)}
           issueDate={formatToDate(credential.createdAt, t('months', { returnObjects: true }))}
         />
       )}

@@ -5,7 +5,6 @@ import { ConnectionRecord, CredentialRecord, ProofRecord, RequestedCredentials }
 
 import { convertToHumanFriendlyName } from './attribute'
 import { formatToDDMMYYYY } from './date'
-import { schemaToFriendlyName } from './schemaMapping'
 
 export type AriesRecord = ConnectionRecord | CredentialRecord | ProofRecord
 
@@ -39,7 +38,7 @@ export const formatRetrievedCredentials = (
       const attributeNames = proofRequestAttributes[index].attributeNames
 
       const requests: Requests[] = requestedAttributeList.map((attribute) => {
-        const displayName = getCredentialDisplayName(attribute.credentialInfo.schemaId)
+        const displayName = convertToHumanFriendlyName(attribute.credentialInfo.schemaId)
 
         const values = attribute.credentialInfo.attributes
 
@@ -124,7 +123,7 @@ export const credentialRecordToListItem = (
 
   return {
     iconType: 'card-outline',
-    text: getCredentialDisplayName(record.metadata.schemaId),
+    text: getCredentialDisplayName(record),
     subText: connectionRecord ? getConnectionDisplayName(connectionRecord) : undefined,
     onPress: () => onPress(record.id),
   }
@@ -141,7 +140,7 @@ export const getAriesRecordDisplayName = (record: AriesRecord) => {
   if (record instanceof ConnectionRecord) {
     return getConnectionDisplayName(record)
   } else if (record instanceof CredentialRecord) {
-    return getCredentialDisplayName(record.metadata.schemaId)
+    return getCredentialDisplayName(record)
   } else if (record instanceof ProofRecord) {
     return getProofDisplayName(record)
   }
@@ -150,9 +149,24 @@ export const getAriesRecordDisplayName = (record: AriesRecord) => {
 export const getConnectionDisplayName = (connectionRecord: ConnectionRecord) =>
   convertToHumanFriendlyName(connectionRecord.alias ?? connectionRecord.theirLabel ?? 'Contact')
 
-export const getCredentialDisplayName = (schemaId?: string) => {
-  const schemaName = schemaId?.split(':')[2]
-  return schemaName ? schemaToFriendlyName(schemaName) : 'Credential'
+export const getCredentialDisplayName = (credentialRecord?: CredentialRecord | null) => {
+  if (credentialRecord) {
+    const credentialInfo = credentialRecord.metadata.get<{ name: string | undefined }>('info')
+    if (credentialInfo && credentialInfo.name) {
+      return credentialInfo.name
+    }
+    const indyCredentialInfo = credentialRecord.metadata.get<{ schemaId?: string }>('_internal/indyCredential')
+    if (indyCredentialInfo && indyCredentialInfo.schemaId) {
+      return getSchemaDisplayName(indyCredentialInfo.schemaId)
+    }
+  }
+
+  return 'credential'
+}
+
+export const getSchemaDisplayName = (schemaId: string) => {
+  const schemaName = schemaId.split(':')[2]
+  return convertToHumanFriendlyName(schemaName)
 }
 
 export const getProofDisplayName = (proofRecord: ProofRecord) =>

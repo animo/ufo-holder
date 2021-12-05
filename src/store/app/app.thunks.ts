@@ -97,7 +97,12 @@ const AppThunks = {
         )
       }
 
-      const credentialDefinitionIds = credentials.map((credential) => credential.metadata.credentialDefinitionId)
+      const credentialDefinitionIds = credentials.map(
+        (credential) =>
+          credential.metadata.get<Record<'credentialDefinitionId', string>>('_internal/indyCredential')
+            ?.credentialDefinitionId
+      )
+
       const hasRequiredCredentials = requiredSkills.every((skill) => credentialDefinitionIds.includes(skill))
 
       const travelTime = await getTravelTime(origin, destination)

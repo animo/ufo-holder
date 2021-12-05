@@ -51,7 +51,7 @@ export const CredentialOfferScreen: React.FunctionComponent<CredentialOfferScree
           <CredentialMetadata
             i18nKey="feature.credentials.text.offer"
             connectionRecord={connection}
-            credentialName={getCredentialDisplayName(credential.metadata.schemaId)}
+            credentialName={getCredentialDisplayName(credential)}
             issueDate={formatToDate(credential.createdAt, t('months', { returnObjects: true }))}
           />
         )}
