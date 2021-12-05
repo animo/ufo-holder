@@ -22,7 +22,35 @@
     class-validator "^0.13.1"
     tsyringe "^4.6.0"
 
-"@aries-framework/core@0.1.0-alpha.322", "@aries-framework/core@0.1.0-alpha.322+4e7b9cf", "@aries-framework/core@^0.1.0-alpha.299":
+"@aries-framework/core@0.1.0-alpha.301", "@aries-framework/core@0.1.0-alpha.301+5e9a641":
+  version "0.1.0-alpha.301"
+  resolved "https://registry.yarnpkg.com/@aries-framework/core/-/core-0.1.0-alpha.301.tgz#f50af37e9c7552918188b94bf8c01ecf21736864"
+  integrity sha512-WkRTSRcf2+PZt/67/gwW4xvdsTEzEhLOsoY0OsCAW3rXfVpS0cJarFy2wv100Py2BzlYvvtyqw/9leo9PxRQWg==
+  dependencies:
+    "@multiformats/base-x" "^4.0.1"
+    "@types/indy-sdk" "^1.16.6"
+    "@types/node-fetch" "^2.5.10"
+    "@types/ws" "^7.4.4"
+    abort-controller "^3.0.0"
+    bn.js "^5.2.0"
+    borc "^3.0.0"
+    buffer "^6.0.3"
+    class-transformer "^0.4.0"
+    class-validator "^0.13.1"
+    js-sha256 "^0.9.0"
+    lru_map "^0.4.1"
+    luxon "^1.27.0"
+    make-error "^1.3.6"
+    multibase "^4.0.4"
+    multihashes "^4.0.2"
+    object-inspect "^1.10.3"
+    query-string "^7.0.1"
+    reflect-metadata "^0.1.13"
+    rxjs "^7.1.0"
+    tsyringe "^4.5.0"
+    uuid "^8.3.2"
+
+"@aries-framework/core@^0.1.0-alpha.299":
   version "0.1.0-alpha.322"
   resolved "https://registry.yarnpkg.com/@aries-framework/core/-/core-0.1.0-alpha.322.tgz#e38070dd0dfa7d37800597b455ae21b14660da95"
   integrity sha512-mV3n4XW5XXK8IGSyws//HkfQzibXEC3urH4518cYYdIwfzT1RCjeYvVRQjQYoxd95IH/fyfiAQqG+G9dh2+z1Q==
@@ -56,19 +84,19 @@
   dependencies:
     reflect-metadata "^0.1.13"
 
-"@aries-framework/react-native@0.1.0-alpha.322":
-  version "0.1.0-alpha.322"
-  resolved "https://registry.yarnpkg.com/@aries-framework/react-native/-/react-native-0.1.0-alpha.322.tgz#da04628771c7ff11ae1d70fde7f5b3f62aaf1330"
-  integrity sha512-zbOv5iBXytQ7KhRNrNCSOtCP96ICXlR/NplyMnYHPbe7MD9bimolr7gy3SS+hK82IgP6ya6rnYJfTwgPjf0LQQ==
+"@aries-framework/react-native@0.1.0-alpha.301":
+  version "0.1.0-alpha.301"
+  resolved "https://registry.yarnpkg.com/@aries-framework/react-native/-/react-native-0.1.0-alpha.301.tgz#7f4bc60efd91894ed8a9b3530d4181558079efc0"
+  integrity sha512-5UVQPWCHZpCNGrXuMT7bUmO6OsdjSZhKlOwOs10CBQk/dLGzk2R8zFxsnHuDiEEUWvwsFrsjTo3lBeOuUQk4wg==
   dependencies:
-    "@aries-framework/core" "0.1.0-alpha.322+4e7b9cf"
+    "@aries-framework/core" "0.1.0-alpha.301+5e9a641"
     "@azure/core-asynciterator-polyfill" "^1.0.0"
     events "^3.3.0"
 
 "@aries-framework/redux-store@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@aries-framework/redux-store/-/redux-store-0.1.1.tgz#5a002e2dbcd704d2a97055de45c03205ecbefe12"
-  integrity sha512-nobtHvYs9H+l3mGoQT3ZwSmfant6r7mG7WCNjzKclCsPFFVbXdBKDuTwxQ9tV+46oV77bQ4fYbkOIJcLBsdOJw==
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@aries-framework/redux-store/-/redux-store-0.1.2.tgz#8ad2f2c5949aa42fd2863c94ac0bbbbe57973ac4"
+  integrity sha512-PER8SXmroPTeJe3A4tvxUR85fBGUtsRWN6ynvwuPX4qbb7ojDvN2VWUYLpjfdn4l5qaGCPfmc0KOhVtK2tED1Q==
   dependencies:
     "@reduxjs/toolkit" "^1.6.0"
     react-redux "^7.2.5"
@@ -4562,15 +4590,10 @@ cjs-module-lexer@^1.0.0:
   resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz#9f84ba3244a512f3a54e5277e8eef4c489864e40"
   integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
 
-class-transformer@0.5.1:
+class-transformer@0.5.1, class-transformer@^0.4.0:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.5.1.tgz#24147d5dffd2a6cea930a3250a677addf96ab336"
   integrity sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==
-
-class-transformer@^0.4.0:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.4.1.tgz#eb86449fb5dc8333acbf880c96214acfa0d8dedf"
-  integrity sha512-mbBtth1BFa+pN2fmx6/NmMNxxyu9Mw9rx3rzKWBH7yoG+bfSoJOnEJ3qmB6yEKvoO502zUxSV2AqN7EUypC2Tg==
 
 class-utils@^0.3.5:
   version "0.3.6"
@@ -4582,7 +4605,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-class-validator@0.13.1:
+class-validator@0.13.1, class-validator@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.13.1.tgz#381b2001ee6b9e05afd133671fbdf760da7dec67"
   integrity sha512-zWIeYFhUitvAHBwNhDdCRK09hWx+P0HUwFE8US8/CxFpMVzkUK8RJl7yOIE+BVu2lxyPNgeOaFv78tLE47jBIg==
@@ -4590,14 +4613,6 @@ class-validator@0.13.1:
     "@types/validator" "^13.1.3"
     libphonenumber-js "^1.9.7"
     validator "^13.5.2"
-
-class-validator@^0.13.1:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.13.2.tgz#64b031e9f3f81a1e1dcd04a5d604734608b24143"
-  integrity sha512-yBUcQy07FPlGzUjoLuUfIOXzgynnQPPruyK1Ge2B74k9ROwnle1E+NxLWnUv5OLU8hA/qL5leAE9XnXq3byaBw==
-  dependencies:
-    libphonenumber-js "^1.9.43"
-    validator "^13.7.0"
 
 cli-cursor@^1.0.1, cli-cursor@^1.0.2:
   version "1.0.2"
@@ -8006,7 +8021,7 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libphonenumber-js@^1.9.43, libphonenumber-js@^1.9.7:
+libphonenumber-js@^1.9.7:
   version "1.9.44"
   resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.9.44.tgz#d036364fe4c1e27205d1d283c7bf8fc25625200b"
   integrity sha512-zhw8nUMJuQf7jG1dZfEOKKOS6M3QYIv3HnvB/vGohNd0QfxIQcObH3a6Y6s350H+9xgBeOXClOJkS0hJ0yvS3g==
@@ -11793,7 +11808,7 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validator@^13.5.2, validator@^13.7.0:
+validator@^13.5.2:
   version "13.7.0"
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
   integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
