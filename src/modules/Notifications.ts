@@ -20,6 +20,7 @@ export type DeCustomPayload = {
 type Emergency = {
   description: string
   title: string
+  requiredAction: string
 }
 
 // This is called when a silent notification is received

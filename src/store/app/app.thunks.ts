@@ -1,5 +1,6 @@
 import type { AsyncThunkOptions } from '../store.types'
 import type { Wallet } from '@aries-framework/core'
+import type { Emergency } from '@internal/components/EmergencyBottomSheet'
 import type { Coordinate } from '@internal/components/Map'
 import type { DeCustomPayload } from '@internal/modules'
 
@@ -80,7 +81,7 @@ const AppThunks = {
 
   handleNotification: createAsyncThunk<void, { payload: DeCustomPayload; coordinate: Coordinate }, AsyncThunkOptions>(
     'app/user/handleNotification',
-    async (data, { extra: { agent }, getState, rejectWithValue, dispatch }) => {
+    async (data, { getState, rejectWithValue, dispatch }) => {
       const origin = data.coordinate
       const { emergency, requiredSkills, location: destination } = data.payload
 
@@ -103,23 +104,26 @@ const AppThunks = {
             ?.credentialDefinitionId
       )
 
+      // Check if the agent has the required credentials
       const hasRequiredCredentials = requiredSkills.every((skill) => credentialDefinitionIds.includes(skill))
 
+      // Calculate the traveltime.
+      // returns undefined if the time could not be calculated
       const travelTime = await getTravelTime(origin, destination)
 
-      const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
-      void erm.sendEmergencyResponse(connectionWithDispatch.id, {
-        hasCredentials: hasRequiredCredentials,
-        travelTime: hasRequiredCredentials ? travelTime : undefined,
-      })
-
-      dispatch(AppActions.setHasEmergency({ hasEmergency: true }))
-      void dispatch(
-        AppActions.setEmergencyInfo({
-          coordinate: destination,
-          emergency: { travelTime, description: emergency.description, title: emergency.title },
-        })
-      )
+      if (hasRequiredCredentials) {
+        // Respond that we can potentially help
+        void dispatch(
+          AppThunks.acceptPotentialEmergency({
+            connectionId: connectionWithDispatch.id,
+            emergency: { travelTime, ...emergency },
+            coordinate: destination,
+          })
+        )
+      } else {
+        // respond that we cannot help
+        void dispatch(AppThunks.rejectPotentialEmergency({ connectionId: connectionWithDispatch.id }))
+      }
     }
   ),
 
@@ -131,19 +135,48 @@ const AppThunks = {
     }
   ),
 
-  denyEmergency: createAsyncThunk<void, { id: string }, AsyncThunkOptions>(
-    'app/user/denyEmergency',
-    async (data, { dispatch }) => {
-      await dispatch(ProofsThunks.deleteProof(data.id))
+  rejectPotentialEmergency: createAsyncThunk<void, { connectionId: string }, AsyncThunkOptions>(
+    'app/user/rejectPotentialEmergency',
+    async ({ connectionId }, { dispatch, extra: { agent } }) => {
+      const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
+      await erm.reject(connectionId)
+      dispatch(AppActions.setHasPotentialEmergency({ hasPotentialEmergency: false }))
+    }
+  ),
+
+  acceptPotentialEmergency: createAsyncThunk<
+    void,
+    { connectionId: string; emergency: Emergency; coordinate: Coordinate },
+    AsyncThunkOptions
+  >(
+    'app/user/acceptPotentialEmergency',
+    async ({ connectionId, emergency, coordinate }, { dispatch, extra: { agent } }) => {
+      const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
+      await erm.accept(connectionId, { travelTime: emergency.travelTime })
+      dispatch(AppActions.setHasPotentialEmergency({ hasPotentialEmergency: false }))
+      void dispatch(
+        AppActions.setEmergencyInfo({
+          coordinate,
+          emergency,
+        })
+      )
+    }
+  ),
+
+  rejectEmergency: createAsyncThunk<void, { connectionId: string; proofId: string }, AsyncThunkOptions>(
+    'app/user/rejectEmergency',
+    async ({ connectionId, proofId }, { dispatch }) => {
+      await dispatch(ProofsThunks.deleteProof(proofId))
+      await dispatch(AppThunks.rejectPotentialEmergency({ connectionId }))
       dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
     }
   ),
 
-  acceptEmergency: createAsyncThunk<void, { id: string }, AsyncThunkOptions>(
+  acceptEmergency: createAsyncThunk<void, { proofId: string }, AsyncThunkOptions>(
     'app/user/acceptEmergency',
-    async (data, { dispatch }) => {
-      await dispatch(ProofRequestThunks.acceptRequest({ proofRecordId: data.id }))
-      dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
+    async ({ proofId }, { dispatch }) => {
+      await dispatch(ProofRequestThunks.acceptRequest({ proofRecordId: proofId }))
+      dispatch(AppActions.setHasEmergency({ hasEmergency: true }))
     }
   ),
 }

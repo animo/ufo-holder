@@ -13,14 +13,13 @@ import { useAppTheme } from '@components/theme'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
-import { AppActions } from '@internal/store/app/app.reducer'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
 export interface Emergency {
   title: string
   description: string
-  travelTime: number
+  travelTime?: number
 }
 
 const DELTA = {
@@ -34,13 +33,14 @@ export const EmergencyBottomSheet: React.FunctionComponent = () => {
   const navigation = useAppNavigation()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const activeEmergencyRequest = useAgentSelector(AriesSelectors.activeEmergencyRequest)
+  const connectionWithDispatch = useAgentSelector(AriesSelectors.dispatchServiceSelector)
   const hasEmergency = useAppSelector(AppSelectors.hasEmergencySelector)
   const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
   const { darkMode } = useAppTheme()
   const mapRef = useRef<MapView>(null)
 
   useEffect(() => {
-    if (hasEmergency && activeEmergencyRequest) {
+    if (activeEmergencyRequest) {
       bottomSheetModalRef.current?.present()
     } else {
       bottomSheetModalRef.current?.close()
@@ -48,16 +48,16 @@ export const EmergencyBottomSheet: React.FunctionComponent = () => {
   }, [activeEmergencyRequest, hasEmergency])
 
   const onDecline = async () => {
-    void dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
-    if (activeEmergencyRequest) {
-      await dispatch(AppThunks.denyEmergency({ id: activeEmergencyRequest.id }))
+    if (activeEmergencyRequest && connectionWithDispatch) {
+      await dispatch(
+        AppThunks.rejectEmergency({ proofId: activeEmergencyRequest.id, connectionId: connectionWithDispatch.id })
+      )
     }
   }
 
   const onAccept = async () => {
-    void dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
     if (activeEmergencyRequest) {
-      await dispatch(AppThunks.acceptEmergency({ id: activeEmergencyRequest.id }))
+      await dispatch(AppThunks.acceptEmergency({ proofId: activeEmergencyRequest.id }))
       navigation.navigate('MapsScreen')
     }
   }

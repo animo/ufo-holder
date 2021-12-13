@@ -12,6 +12,7 @@ export interface AppState {
   isInitialized: boolean
   isInitializing: boolean
   isFirstLaunch: boolean
+  hasPotentialEmergency: boolean
   hasEmergency: boolean
   deviceToken?: string
   error?: string
@@ -25,6 +26,7 @@ const initialState: AppState = {
   isInitialized: false,
   isInitializing: false,
   isFirstLaunch: true,
+  hasPotentialEmergency: false,
   hasEmergency: false,
 }
 
@@ -32,6 +34,9 @@ const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    setHasPotentialEmergency(state, action: PayloadAction<{ hasPotentialEmergency: boolean }>) {
+      state.hasPotentialEmergency = action.payload.hasPotentialEmergency
+    },
     setHasEmergency(state, action: PayloadAction<{ hasEmergency: boolean }>) {
       state.hasEmergency = action.payload.hasEmergency
     },
