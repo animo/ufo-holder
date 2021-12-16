@@ -16,11 +16,16 @@ export const getTravelTime = async (origin: Coordinate, destination: Coordinate)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const res = await (await get).json()
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-  const travelTimeInSeconds = res.routes[0].legs[0].duration.value
+  let travelTimeInSeconds = 0
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (res.routes[0] && res.routes[0].legs) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+    travelTimeInSeconds = res.routes[0].legs[0].duration.value
+  }
 
   if (travelTimeInSeconds) {
-    return travelTimeInSeconds as number
+    return travelTimeInSeconds
   }
   return undefined
 }
