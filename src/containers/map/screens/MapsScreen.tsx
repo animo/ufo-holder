@@ -2,7 +2,7 @@ import type { BottomSheetModal } from '@gorhom/bottom-sheet'
 
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Alert, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { layout } from '@components/global-stylesheets'
