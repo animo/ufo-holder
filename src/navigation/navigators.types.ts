@@ -18,6 +18,9 @@ type RootNavigationParamList = {
 
   // Maps
   MapsScreen: undefined
+
+  // Feedback
+  FeedbackScreen: undefined
 }
 
 const useAppNavigation = () => useNavigation<NavigationProp<RootNavigationParamList>>()

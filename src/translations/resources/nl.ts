@@ -69,6 +69,7 @@ export const nl = {
     },
     feedback: {
       title: 'Feedback',
+      text: 'Wat vond je ervan?',
     },
   },
   noPermissions: {

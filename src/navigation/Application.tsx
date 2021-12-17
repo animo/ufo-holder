@@ -18,6 +18,7 @@ import {
   CredentialsScreen,
   InformationScreen,
 } from '@internal/containers'
+import { FeedbackScreen } from '@internal/containers/feedback'
 import { MapsScreen } from '@internal/containers/map'
 import { OnboardingContainer } from '@internal/containers/onboarding'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
@@ -97,6 +98,11 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                   name="MapsScreen"
                   component={MapsScreen}
                   options={{ headerShown: false, gestureEnabled: false }}
+                />
+                <Stack.Screen
+                  name="FeedbackScreen"
+                  component={FeedbackScreen}
+                  options={{ title: t('feature.feedback.title'), gestureEnabled: false, headerBackTitleVisible: false }}
                 />
               </>
             )}
