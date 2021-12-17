@@ -23,6 +23,7 @@ import { ProofRequestThunks } from '../aries/proofRequest/proofRequest.thunks'
 
 // eslint-disable-next-line import/no-cycle
 import { AppActions } from './app.reducer'
+import { AppSelectors } from './app.selectors'
 
 import { getTravelTime } from '@internal/api'
 import { config } from '@internal/config'
@@ -87,6 +88,7 @@ const AppThunks = {
 
       const credentials = AriesSelectors.receivedCredentialsSelector(getState().aries)
       const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
+      const travelMode = AppSelectors.travelMode({ app: getState().app })
 
       if (!connectionWithDispatch) {
         return rejectWithValue('Could not establish a connection with the dispatch')
@@ -109,7 +111,7 @@ const AppThunks = {
 
       // Calculate the traveltime.
       // returns undefined if the time could not be calculated
-      const travelTime = await getTravelTime(origin, destination)
+      const travelTime = await getTravelTime(origin, destination, travelMode)
 
       if (hasRequiredCredentials) {
         // Respond that we can potentially help

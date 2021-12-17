@@ -1,16 +1,20 @@
 import type { Coordinate } from '@internal/components/Map'
+import type { MapViewDirectionsMode } from 'react-native-maps-directions'
 
 import { API_KEY } from '@env'
 
-export const getTravelTime = async (origin: Coordinate, destination: Coordinate): Promise<number | undefined> => {
+export const getTravelTime = async (
+  origin: Coordinate,
+  destination: Coordinate,
+  mode: MapViewDirectionsMode = 'WALKING'
+): Promise<number | undefined> => {
   const serializeCoordinate = (latitude: number, longitude: number) => `${latitude},${longitude}`
 
-  const mode = 'walking'
   const serializedOrigin = serializeCoordinate(origin.latitude, origin.longitude)
   const serializedDestination = serializeCoordinate(destination.latitude, destination.longitude)
 
   const get = fetch(
-    `https://maps.googleapis.com/maps/api/directions/json?key=${API_KEY}&mode=${mode}&origin=${serializedOrigin}&destination=${serializedDestination}`
+    `https://maps.googleapis.com/maps/api/directions/json?key=${API_KEY}&mode=${mode.toLowerCase()}&origin=${serializedOrigin}&destination=${serializedDestination}`
   )
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

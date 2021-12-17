@@ -3,7 +3,7 @@ import type { MapViewDirectionsMode } from 'react-native-maps-directions'
 import type PagerView from 'react-native-pager-view'
 
 import { CheckIcon, Image, Select } from 'native-base'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
