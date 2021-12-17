@@ -1,6 +1,5 @@
 export * from './aries'
 export * from './attribute'
-export * from './blob'
 export * from './color'
 export * from './date'
 export * from './dev'

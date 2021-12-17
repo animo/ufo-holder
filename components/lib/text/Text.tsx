@@ -1,6 +1,5 @@
 import type { ColorNames } from '@components/theme/themes'
 import type { FunctionComponent } from 'react'
-import type { FontWeight } from 'react-native-svg'
 
 import { Text as __Text } from 'native-base'
 import React from 'react'
@@ -12,7 +11,7 @@ import { fontSize } from '@components/global-constants'
 export type FontSize = 'xs' | 's' | 'm' | 'l'
 
 export interface TextProps {
-  weight?: FontWeight
+  weight?: 'bold' | 'normal'
   size?: FontSize
   color?: ColorNames
   align?: 'left' | 'right' | 'center' | 'justify'

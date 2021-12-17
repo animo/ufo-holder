@@ -1,4 +1,3 @@
-import { unescape } from 'html-escaper'
 // eslint-disable-next-line import/no-named-as-default
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
@@ -11,9 +10,6 @@ void i18n.use(initReactI18next).init({
     nl: {
       translation: nl,
     },
-  },
-  interpolation: {
-    escape: unescape,
   },
   lng: 'nl',
 })
