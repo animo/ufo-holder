@@ -67,6 +67,9 @@ export const nl = {
         noLocation: 'We hebben uw locatie niet op kunnen halen.',
       },
     },
+    feedback: {
+      title: 'Feedback',
+    },
   },
   noPermissions: {
     text: 'Je hebt geen toestemming gegeven voor ',

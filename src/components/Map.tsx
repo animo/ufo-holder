@@ -75,7 +75,6 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
         longitude: event.nativeEvent.coordinate.longitude,
         latitude: event.nativeEvent.coordinate.latitude,
       }
-      // TODO: add some padding
       setUserCoordinates(coordinates)
       focusOnUser()
     }

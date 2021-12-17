@@ -2,16 +2,17 @@ import type { BottomSheetModal } from '@gorhom/bottom-sheet'
 
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Alert, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { layout } from '@components/global-stylesheets'
 import { useAppTheme } from '@components/theme'
-import { BottomSheet, Box, Heading, IconButton, Map, Modal, Spacer, Text } from '@internal/components'
+import { BottomSheet, Box, Button, Heading, IconButton, Map, Modal, Spacer, Text } from '@internal/components'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors } from '@internal/store/app'
-import { AppActions } from '@internal/store/app/app.reducer'
+import { AppActions, AppThunks } from '@internal/store/app/app.reducer'
+import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 
 interface ExitButtonProps {
   onPress: () => void
@@ -30,10 +31,21 @@ export const MapsScreen = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
+  const dispatchConnection = useAgentSelector(AriesSelectors.dispatchServiceSelector)
 
   useEffect(() => {
     bottomSheetRef.current?.present()
   }, [])
+
+  const onPressArrived = () => {
+    if (dispatchConnection) {
+      void dispatch(AppThunks.sendArrived({ connectionId: dispatchConnection.id }))
+    }
+  }
+
+  const onPressDone = () => {
+    navigation.navigate('FeedbackScreen')
+  }
 
   return (
     <>
@@ -52,6 +64,10 @@ export const MapsScreen = () => {
             <Spacer size="xxxl" />
             <Spacer size="xxxl" />
             <Text align="center">{emergencyInfo.emergency.description}</Text>
+            <Box>
+              <Button onPress={onPressArrived}>Aangekomen</Button>
+              <Button onPress={onPressDone}>Klaar!</Button>
+            </Box>
           </Box>
         </BottomSheet>
       )}

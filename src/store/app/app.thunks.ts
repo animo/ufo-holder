@@ -137,6 +137,14 @@ const AppThunks = {
     }
   ),
 
+  sendArrived: createAsyncThunk<void, { connectionId: string }, AsyncThunkOptions>(
+    'app/user/sendArrived',
+    ({ connectionId }, { extra: { agent } }) => {
+      const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
+      void erm.arrived(connectionId)
+    }
+  ),
+
   rejectPotentialEmergency: createAsyncThunk<void, { connectionId: string }, AsyncThunkOptions>(
     'app/user/rejectPotentialEmergency',
     async ({ connectionId }, { dispatch, extra: { agent } }) => {

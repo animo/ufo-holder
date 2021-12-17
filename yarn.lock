@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@animo/ufo-emergency-response@^1.3.0":
-  version "1.3.0"
-  resolved "https://npm.pkg.github.com/download/@animo/ufo-emergency-response/1.3.0/1c4c75eca5cc826601314c8a3a758822e51c33973cdac91f410a69b88c8ad918#241309195c1b4592c939047c6895ed5e98ff7d8d"
-  integrity sha512-szBuOBKrqmSRRMXxB4CdwdxXM8slvZoS1+Hh8swKBwAtPIuQXt0/Unozp5uxN2oJz5/mEor6bagrdAHaE6Iu5g==
+"@animo/ufo-emergency-response@^1.3.1":
+  version "1.3.1"
+  resolved "https://npm.pkg.github.com/download/@animo/ufo-emergency-response/1.3.1/785c717c735fc48b9db55300d505bbf6cead80a7e9a6dd6641e648bfa40cc270#61d58b33edd3d564988da03b76df6284a0351c22"
+  integrity sha512-F6dHVF0x/kmYKhJoV1IS9YUM9t2dn7NlpnkHbH6rwK7yiX4fGQCATvqrbspk+vRUH3zI5mG9gkzETa5/OI5ASQ==
 
 "@animo/ufo-precise-location@^1.0.3":
   version "1.0.3"
