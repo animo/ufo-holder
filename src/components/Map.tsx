@@ -112,11 +112,11 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
 
 const Directions: React.FunctionComponent<DirectionsProps> = ({ origin, destination }) => {
   const { colors } = useAppTheme()
+  const travelMode = useAppSelector(AppSelectors.travelMode)
   return useMemo(
     () => (
       <MapViewDirections
-        // TODO: Do we want to select the mode when accepting the emergency?
-        mode="WALKING"
+        mode={travelMode}
         apikey={API_KEY}
         origin={origin}
         destination={destination}

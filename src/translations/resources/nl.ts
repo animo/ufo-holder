@@ -14,12 +14,15 @@ export const nl = {
           'Voor het functioneren van deze app hebben wij je GPS-locatie nodig. \n\n Wij gebruiken alleen de locatie bij benadering, wanneer we je specifieke locatie willen gebruiken vragen wij dit. ',
         legal:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare suscipit velit, ac malesuada enim cursus eget. Nam aliquet leo vel est pharetra ultrices. ',
+        travelMode:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare suscipit velit, ac malesuada enim cursus eget. Nam aliquet leo vel est pharetra ultrices. ',
       },
       actions: {
         setLocationPermissions: 'Zet mijn locatie permissies',
         setNotificationPermissions: 'Zet mijn notificatie permissies',
         understand: 'Ik begrijp het',
         register: 'Registreer',
+        selectTravelMode: 'Selecteer vervoer',
       },
       placeholders: {
         register: {

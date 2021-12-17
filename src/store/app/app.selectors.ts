@@ -6,6 +6,7 @@ const AppSelectors = {
   deviceTokenSelector: (state: { app: AppState }) => state.app.deviceToken,
   isFirstLaunchSelector: (state: { app: AppState }) => state.app.isFirstLaunch,
   emergencyInfo: (state: { app: AppState }) => state.app.emergencyInfo,
+  travelMode: (state: { app: AppState }) => state.app.travelMode,
 }
 
 export { AppSelectors }

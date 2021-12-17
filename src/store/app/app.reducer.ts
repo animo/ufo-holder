@@ -1,6 +1,7 @@
 import type { Emergency } from '@internal/components/EmergencyBottomSheet'
 import type { Coordinate } from '@internal/components/Map'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import type { MapViewDirectionsMode } from 'react-native-maps-directions'
 
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -16,6 +17,7 @@ export interface AppState {
   hasEmergency: boolean
   deviceToken?: string
   error?: string
+  travelMode: MapViewDirectionsMode
   emergencyInfo?: {
     coordinate: Coordinate
     emergency: Emergency
@@ -23,6 +25,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
+  travelMode: 'WALKING',
   isInitialized: false,
   isInitializing: false,
   isFirstLaunch: true,
@@ -42,6 +45,9 @@ const appSlice = createSlice({
     },
     setDeviceToken(state, action: PayloadAction<{ deviceToken: string }>) {
       state.deviceToken = action.payload.deviceToken
+    },
+    setTravelMode(state, action: PayloadAction<{ travelMode: MapViewDirectionsMode }>) {
+      state.travelMode = action.payload.travelMode
     },
     setEmergencyInfo(
       state,
