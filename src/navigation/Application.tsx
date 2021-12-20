@@ -16,11 +16,10 @@ import {
   CredentialDetailScreen,
   CredentialOfferScreen,
   CredentialsScreen,
-  InformationScreen,
+  FeedbackScreen,
+  OnboardingContainer,
+  MapsScreen,
 } from '@internal/containers'
-import { FeedbackScreen } from '@internal/containers/feedback'
-import { MapsScreen } from '@internal/containers/map'
-import { OnboardingContainer } from '@internal/containers/onboarding'
 import { useSplashScreen } from '@internal/splashscreen/splashscreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
@@ -82,18 +81,12 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                   component={CredentialOfferScreen}
                   options={{ title: t('feature.credentials.titles.offer'), headerBackTitleVisible: false }}
                 />
-
                 <Stack.Screen
                   name="CredentialDetailScreen"
                   component={CredentialDetailScreen}
                   options={{ title: t('feature.credentials.titles.detail'), headerBackTitleVisible: false }}
                 />
 
-                <Stack.Screen
-                  name="InformationScreen"
-                  component={InformationScreen}
-                  options={{ title: t('feature.information.titles.main') }}
-                />
                 <Stack.Screen
                   name="MapsScreen"
                   component={MapsScreen}
