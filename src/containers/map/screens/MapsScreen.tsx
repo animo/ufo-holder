@@ -12,7 +12,6 @@ import {
   Box,
   Button,
   FlexGroup,
-  FlexItem,
   Heading,
   IconButton,
   Map,
