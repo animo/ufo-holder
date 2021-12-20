@@ -26,25 +26,27 @@ type Emergency = {
 // This is called when a silent notification is received
 const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, store: Store) => {
   const data = notification.data
-  let parsedData: DeCustomPayload
 
-  if (requestPlatform() === 'android') {
-    parsedData = {
-      location: JSON.parse(data.location) as Coordinate,
-      requiredSkills: JSON.parse(data.requiredSkills) as string[],
-      emergency: JSON.parse(data.emergency) as Emergency,
+  if (data.emergency) {
+    let parsedData: DeCustomPayload
+    if (requestPlatform() === 'android') {
+      parsedData = {
+        location: JSON.parse(data.location) as Coordinate,
+        requiredSkills: JSON.parse(data.requiredSkills) as string[],
+        emergency: JSON.parse(data.emergency) as Emergency,
+      }
+    } else {
+      parsedData = data as DeCustomPayload
     }
-  } else {
-    parsedData = data as DeCustomPayload
-  }
 
-  Geolocation.getCurrentPosition(
-    (position) => {
-      void store.dispatch(AppThunks.handleNotification({ payload: parsedData, coordinate: position.coords }))
-    },
-    (error) => console.error(error),
-    { timeout: 10000 }
-  )
+    Geolocation.getCurrentPosition(
+      (position) => {
+        void store.dispatch(AppThunks.handleNotification({ payload: parsedData, coordinate: position.coords }))
+      },
+      (error) => console.error(error),
+      { timeout: 10000 }
+    )
+  }
 }
 
 const onRegister = ({ token }: { os: string; token: string }, store: Store) => {

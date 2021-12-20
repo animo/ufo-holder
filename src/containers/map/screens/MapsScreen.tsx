@@ -7,7 +7,19 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { layout } from '@components/global-stylesheets'
 import { useAppTheme } from '@components/theme'
-import { BottomSheet, Box, Button, Heading, IconButton, Map, Modal, Spacer, Text } from '@internal/components'
+import {
+  BottomSheet,
+  Box,
+  Button,
+  FlexGroup,
+  FlexItem,
+  Heading,
+  IconButton,
+  Map,
+  Modal,
+  Spacer,
+  Text,
+} from '@internal/components'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors } from '@internal/store/app'
@@ -44,6 +56,7 @@ export const MapsScreen = () => {
   }
 
   const onPressDone = () => {
+    bottomSheetRef.current?.close()
     navigation.navigate('FeedbackScreen')
   }
 
@@ -56,7 +69,7 @@ export const MapsScreen = () => {
       <Map shouldFollowUser={shouldFollowUser} setShouldFollowUser={setShouldFollowUser} />
       {emergencyInfo && (
         <BottomSheet bottomSheetModalRef={bottomSheetRef}>
-          <Box>
+          <Box fill>
             <Spacer size="xxl" />
             <Heading align="center" color="danger">
               {emergencyInfo.emergency.title}
@@ -64,10 +77,15 @@ export const MapsScreen = () => {
             <Spacer size="xxxl" />
             <Spacer size="xxxl" />
             <Text align="center">{emergencyInfo.emergency.description}</Text>
-            <Box>
-              <Button onPress={onPressArrived}>Aangekomen</Button>
-              <Button onPress={onPressDone}>Klaar!</Button>
-            </Box>
+            <FlexGroup alignItems="flexEnd" direction="row" justifyContent="spaceEvenly">
+              <Box fill>
+                <Button onPress={onPressArrived}>Aangekomen</Button>
+              </Box>
+              <Spacer vertical />
+              <Box fill>
+                <Button onPress={onPressDone}>Klaar!</Button>
+              </Box>
+            </FlexGroup>
           </Box>
         </BottomSheet>
       )}
