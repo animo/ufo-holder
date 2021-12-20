@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Page } from '@components/lib'
-import { CredentialMetadata, FormDetail } from '@internal/components'
+import { Avatar, Box, CredentialMetadata, FormDetail } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { formatToDate, getCredentialDisplayName } from '@internal/utils'
@@ -37,6 +37,9 @@ export const CredentialDetailScreen: React.FunctionComponent<CredentialDetailScr
 
   return (
     <Page scrollable>
+      <Box center>
+        <Avatar text={getCredentialDisplayName(credential)} size={20} checked />
+      </Box>
       {connection && (
         <CredentialMetadata
           i18nKey="feature.credentials.text.meta"

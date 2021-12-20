@@ -15,10 +15,10 @@ export interface IconProps extends Omit<IIconProps, 'color'> {
   color?: ColorNames
 }
 
-export const Icon: React.FunctionComponent<IconProps> = ({ type, size = 'm', color = 'text' }) => {
+export const Icon: React.FunctionComponent<IconProps> = ({ type, size = 'm', color = 'text', style }) => {
   const { colors } = useAppTheme()
 
   const mappedSize = iconSize[size]
 
-  return <IonIcon name={type} size={mappedSize} color={colors[color][500]} />
+  return <IonIcon name={type} size={mappedSize} color={colors[color][500]} style={style} />
 }
