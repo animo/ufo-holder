@@ -67,3 +67,7 @@ android/app/src/main/java/id/animo/generated/*
 
 .npmrc
 api-keys.xml
+
+
+
+android/apps.apks
