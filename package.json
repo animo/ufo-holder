@@ -36,6 +36,7 @@
     "expo": "^43.0.0",
     "expo-location": "~13.0.4",
     "expo-task-manager": "~10.0.3",
+    "h3-reactnative": "git+https://github.com/realPrimoh/h3-reactnative.git",
     "i18next": "^20.3.1",
     "indy-sdk-react-native": "^0.1.13",
     "native-base": "^3.1.0",

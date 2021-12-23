@@ -50,7 +50,6 @@ const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, st
 }
 
 const onRegister = ({ token }: { os: string; token: string }, store: Store) => {
-  console.log('TOKEN: ' + token)
   void store.dispatch(AppActions.setDeviceToken({ deviceToken: token }))
 }
 

@@ -1,3 +1,4 @@
+import * as Location from 'expo-location'
 import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
@@ -6,6 +7,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { createAgent, agentConfig } from './config'
 import { setupNotificationsHandler } from './modules'
 import { useThemeSwitcher } from './store/theme/useThemeSwitcher'
+import { getGeofenceRadius, RADIUS, setupGeoFencingCallback, startGeoFence } from './utils'
 
 import { ApplicationNavigator } from '@internal/navigation/Application'
 import { initializeStore, useAppSelector } from '@internal/store'
@@ -16,6 +18,10 @@ import './translations'
 
 // Create agent instance, initialize store
 export const agent = createAgent(agentConfig)
+
+const geo = async () => {
+  await setupGeoFencingCallback()
+}
 
 // Add reset wallet option to dev menu
 if (__DEV__) {
@@ -41,6 +47,7 @@ const AppThemeProvider: React.FunctionComponent = ({ children }) => {
 export const App: React.FunctionComponent = () => {
   // Listens for state changes in the agent and propagates those changes to the redux store
   useAgentListeners(agent, store)
+  void geo()
 
   return (
     <SafeAreaProvider>

@@ -16,7 +16,7 @@ import { indyLedgers } from '@internal/utils'
 
 export const agentConfig: InitConfig = {
   label: 'UFO-HOLDER',
-  logger: new ConsoleLogger(LogLevel.info),
+  logger: new ConsoleLogger(LogLevel.off),
   indyLedgers,
   autoAcceptConnections: true,
   autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
