@@ -1,6 +1,3 @@
-import { ApplicationNavigator } from '@internal/navigation/Application'
-import { initializeStore, useAppSelector } from '@internal/store'
-
 import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
@@ -9,12 +6,15 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { agentConfig, createAgent } from './config'
 import { setupNotificationsHandler } from './modules'
 import { useThemeSwitcher } from './store/theme/useThemeSwitcher'
-// Initializes translations
-import './translations'
 import { setupGeoFencingCallback } from './utils'
 
+import { ApplicationNavigator } from '@internal/navigation/Application'
+import { initializeStore, useAppSelector } from '@internal/store'
 import { useAgentListeners } from '@internal/store/aries'
 import { ThemeContextProvider } from '@internal/theme'
+
+// Initializes translations
+import './translations'
 
 // Create agent instance, initialize store
 export const agent = createAgent(agentConfig)
