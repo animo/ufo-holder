@@ -13,6 +13,7 @@ buildscript {
     }
     repositories {
         google()
+        mavenCentral()
         jcenter()
         maven {
           url "https://plugins.gradle.org/m2/"
@@ -32,11 +33,7 @@ allprojects {
         mavenLocal()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url("$rootDir/../node_modules/react-native/android")
-        }
-        maven {
-            // Android JSC is installed from npm
-            url("$rootDir/../node_modules/jsc-android/dist")
+            url(new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../android"))
         }
 
         maven {
@@ -51,11 +48,12 @@ allprojects {
 
         maven {
         // Android JSC is installed from npm
-        url("$rootDir/../node_modules/jsc-android/dist")
+        url(new File(["node", "--print", "require.resolve('jsc-android/package.json')"].execute(null, rootDir).text.trim(), "../dist"))
         }
 
         google()
         jcenter()
+        mavenCentral()
         maven { url 'https://www.jitpack.io' }
     }
 }

@@ -17,17 +17,15 @@ import {
   CredentialOfferScreen,
   CredentialsScreen,
   FeedbackScreen,
-  OnboardingContainer,
   MapsScreen,
+  OnboardingContainer,
 } from '@internal/containers'
-import { useSplashScreen } from '@internal/splashscreen/splashscreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
 
 const Stack = createStackNavigator<RootNavigationParamList>()
 
 export const ApplicationNavigator: React.FunctionComponent = () => {
-  useSplashScreen()
   const theme = useAppTheme()
   const { colors, darkMode } = theme
   const { t } = useTranslation()

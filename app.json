@@ -1,4 +1,5 @@
 {
   "name": "MobileAgentReactNative",
-  "displayName": "Helpr."
+  "displayName": "Binnen Bereik",
+  "expo": { "name": "Binnen Bereik", "slug": "binnen-bereik" }
 }
