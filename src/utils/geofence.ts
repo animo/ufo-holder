@@ -36,13 +36,13 @@ export const stopGeoFence = stopGeofencingAsync
 export const setupGeoFencingCallback = async () => {
   await startGeoFence(LOC, RADIUS)
   TaskManager.defineTask(TASK_NAME, (event) => {
-    console.log('hi!')
     if (event.error) {
       // check `error.message` for more details.
       return
     }
     // @ts-ignore
     if (event.data.eventType === LocationGeofencingEventType.Exit) {
+      // @ts-ignore
       console.log("You've left region:", event.data.region)
 
       // This kinda loops a lot
