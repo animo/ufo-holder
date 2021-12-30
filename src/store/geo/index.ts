@@ -1,1 +1,2 @@
-export * from './geo.thunks'
+// eslint-disable-next-line import/no-cycle
+export * from './geo.reducer'

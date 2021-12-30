@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
 import { GeoSelectors } from './geo.selector'
+// eslint-disable-next-line import/no-cycle
 import { GeoThunks } from './geo.thunks'
 
 export interface GeoState {
