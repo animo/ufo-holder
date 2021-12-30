@@ -17,7 +17,7 @@ import { ThemeContextProvider } from '@internal/theme'
 import './translations'
 
 // Resolution used for the pilot
-export const RESOLUTION = 5
+export const RESOLUTION = 9
 
 // Create agent instance, initialize store
 export const agent = createAgent(agentConfig)
