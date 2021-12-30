@@ -16,13 +16,7 @@ import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { GeoSelectors } from '@internal/store/geo/geo.selector'
-import {
-  getGeofenceRadius,
-  getHexCenter,
-  getHexCenterByIndex,
-  indexToNeighbourVertices,
-  indexToVertices,
-} from '@internal/utils'
+import { getGeofenceRadius, getHexCenterByIndex, indexToNeighbourVertices, indexToVertices } from '@internal/utils'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
 interface MapProps extends MapViewProps {

@@ -10,6 +10,7 @@ import Geolocation from 'react-native-geolocation-service'
 
 import { AriesSelectors } from '../aries'
 
+// eslint-disable-next-line import/no-cycle
 import { GeoActions } from './geo.reducer'
 
 import { getCurrentIndex, getGeofenceRadius, getHexCenter } from '@internal/utils'
