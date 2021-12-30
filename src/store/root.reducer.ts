@@ -4,6 +4,7 @@ import persistReducer from 'redux-persist/lib/persistReducer'
 
 import { AppReducer } from './app'
 import { AriesReducer } from './aries'
+import { GeoReducer } from './geo/geo.reducer'
 import { ThemeReducer } from './theme'
 
 const appPersistConfig = {
@@ -16,6 +17,7 @@ const RootReducer = combineReducers({
   theme: ThemeReducer,
   app: persistReducer(appPersistConfig, AppReducer),
   aries: AriesReducer,
+  geo: GeoReducer,
 })
 
 export { RootReducer }

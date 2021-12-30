@@ -10,6 +10,8 @@ import Geolocation from 'react-native-geolocation-service'
 
 import { AriesSelectors } from '../aries'
 
+import { GeoActions } from './geo.reducer'
+
 import { getCurrentIndex, getGeofenceRadius, getHexCenter } from '@internal/utils'
 
 const TASK_NAME = 'APPROXIMATE_LOCATION_FENCE'
@@ -70,6 +72,8 @@ const GeoThunks = {
 
             // Get the current hex index
             const hexIndex = getCurrentIndex(hexCenter, resolution)
+
+            dispatch(GeoActions.setHexIndex({ hexIndex }))
             void dispatch(GeoThunks.sendHexIndexToDispatch({ hexIndex }))
           },
           (e) => {

@@ -4,18 +4,25 @@ import { API_KEY } from '@env'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
-import MapView, { Circle } from 'react-native-maps'
+import MapView, { Circle, Marker, Polygon } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
 
 import { layout } from '@components/global-stylesheets'
 import { Page } from '@components/lib'
 import { useAppTheme } from '@components/theme'
+import { RESOLUTION } from '@internal/App'
 import { requestPermission } from '@internal/modules'
-import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
-import { getGeofenceRadius, getHexCenter } from '@internal/utils'
+import { GeoSelectors } from '@internal/store/geo/geo.selector'
+import {
+  getGeofenceRadius,
+  getHexCenter,
+  getHexCenterByIndex,
+  indexToNeighbourVertices,
+  indexToVertices,
+} from '@internal/utils'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
 interface MapProps extends MapViewProps {
@@ -36,8 +43,8 @@ export interface Coordinate {
 export type Coordinates = Coordinate[]
 
 const DELTA = {
-  latitudeDelta: 0.0025,
-  longitudeDelta: 0.0025,
+  latitudeDelta: 0.004,
+  longitudeDelta: 0.004,
 }
 
 export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setShouldFollowUser, ...rest }) => {
@@ -47,10 +54,12 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const dispatch = useAppDispatch()
   const dispatchConnection = useAgentSelector(AriesSelectors.dispatchServiceSelector)
   const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
-  const navigation = useAppNavigation()
 
   const [geocenter, setGeocenter] = useState<Coordinate>({ latitude: 1, longitude: 1 })
   const [georadius, setGeoradius] = useState(0)
+  const [vertices, setVertices] = useState<Coordinates>([])
+  const [neighbourVertices, setNeighbourVertices] = useState<Coordinates[]>([])
+  const hexIndex = useAppSelector(GeoSelectors.hexIndexSelector)
 
   const mapRef = useRef<MapView>(null)
 
@@ -69,7 +78,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
     return <Page center>No Permissions</Page>
   }
 
-  const focusOnUser = () => mapRef.current?.animateToRegion({ ...userCoordinates, ...DELTA }, 2000)
+  const focusOnUser = () => mapRef.current?.animateToRegion({ ...userCoordinates, ...DELTA }, 1000)
 
   const onUserLocationChange = (event: EventUserLocation) => {
     if (dispatchConnection) {
@@ -86,24 +95,20 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
       focusOnUser()
     }
 
-    const radius = getGeofenceRadius(coordinates, 9)
-    const center = getHexCenter(coordinates, 9)
+    if (hexIndex) {
+      const radius = getGeofenceRadius(coordinates, RESOLUTION)
+      const center = getHexCenterByIndex(hexIndex)
+      const verts = indexToVertices(hexIndex).map((vert) => ({ latitude: vert[0], longitude: vert[1] }))
+      const neighbourVerts = indexToNeighbourVertices(hexIndex, 1).map((n) =>
+        n.map((i) => ({ latitude: i[0], longitude: i[1] }))
+      )
 
-    setGeoradius(radius)
-    setGeocenter(center)
+      setGeoradius(radius)
+      setGeocenter(center)
+      setVertices(verts)
+      setNeighbourVertices(neighbourVerts)
+    }
   }
-
-  //if (!emergencyInfo) {
-  //return (
-  //<Page center>
-  //<Text>Incorrecte pagina.</Text>
-  //<Button onPress={() => navigation.goBack()}>Ga terug</Button>
-  //</Page>
-  //)
-  //}
-
-  //<Directions origin={userCoordinates} destination={emergencyInfo.coordinate} />
-  //<Marker coordinate={emergencyInfo.coordinate} />
 
   return (
     <MapView
@@ -126,7 +131,20 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
       onMapReady={focusOnUser}
       {...rest}
     >
-      <Circle center={geocenter} radius={georadius} fillColor="rgba(255,0,0,0.4)" />
+      {vertices.length > 0 && (
+        <Polygon coordinates={vertices} strokeColor="rgba(0,0,255,1)" fillColor="rgba(0,0,255,0.4)" />
+      )}
+      {neighbourVertices.length > 0 &&
+        neighbourVertices.map((x) => (
+          <Polygon key={x[0].longitude} coordinates={x} strokeColor="rgba(0,255,255,1)" fillColor="rgba(0,0,255,0.4)" />
+        ))}
+      <Circle center={geocenter} radius={georadius} fillColor="rgba(255,0,0,0.4)" strokeColor="rgba(255,0,0,1)" />
+      {emergencyInfo && (
+        <>
+          <Directions origin={userCoordinates} destination={emergencyInfo.coordinate} />
+          <Marker coordinate={emergencyInfo.coordinate} />
+        </>
+      )}
     </MapView>
   )
 }
