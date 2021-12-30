@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
@@ -9,25 +8,43 @@ import type { Coordinate } from '@internal/components/Map'
 // @ts-ignore
 import { geoToH3, h3ToGeo, h3ToGeoBoundary } from 'h3-reactnative'
 
-type H3Resolution = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
+export type H3Resolution = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
 
-export const getCurrentIndex = (coordinate: Coordinate, resolution: H3Resolution) =>
+export const getCurrentIndex = (coordinate: Coordinate, resolution: H3Resolution): string =>
   geoToH3(coordinate.latitude, coordinate.longitude, resolution)
 
+/**
+ * Get the biggest radius around a hexagon based on the devices latlng
+ */
 export const getGeofenceRadius = (coordinate: Coordinate, resolution: H3Resolution) => {
   const index = getCurrentIndex(coordinate, resolution)
-  const [latitude, longitude] = h3ToGeo(index)
-  const hexCenter: Coordinate = { latitude, longitude }
-  const vertices = h3ToGeoBoundary(index)
-  const radius = pointDistance(
-    { latitude: hexCenter.latitude, longitude: hexCenter.longitude },
-    { longitude: vertices[0][1], latitude: vertices[0][0] }
-  )
+  const hexCenter = getHexCenter(coordinate, resolution)
+  const vertices: number[][] = h3ToGeoBoundary(index)
 
-  return radius
+  // Return the longest radius
+  return Math.max(
+    ...vertices.map((v) =>
+      pointDistance(
+        { latitude: hexCenter.latitude, longitude: hexCenter.longitude },
+        { latitude: v[0], longitude: v[1] }
+      )
+    )
+  )
 }
 
-const pointDistance = (p1: Coordinate, p2: Coordinate) => {
+/**
+ * Get the center latlng of a hexagon
+ */
+export const getHexCenter = (coordinate: Coordinate, resolution: H3Resolution): Coordinate => {
+  const index = getCurrentIndex(coordinate, resolution)
+  const [latitude, longitude] = h3ToGeo(index)
+  return { latitude, longitude }
+}
+
+/**
+ * Calculate the distance between two laglng coordinates
+ */
+export const pointDistance = (p1: Coordinate, p2: Coordinate) => {
   const R = 6371e3 // earth's radius
   const radiansLat1 = (p1.latitude * Math.PI) / 180
   const radiansLat2 = (p2.latitude * Math.PI) / 180

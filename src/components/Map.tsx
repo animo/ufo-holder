@@ -2,19 +2,20 @@ import type { EventUserLocation, MapViewProps } from 'react-native-maps'
 
 import { API_KEY } from '@env'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Circle } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
 
 import { layout } from '@components/global-stylesheets'
-import { Button, Page } from '@components/lib'
+import { Page } from '@components/lib'
 import { useAppTheme } from '@components/theme'
 import { requestPermission } from '@internal/modules'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
+import { getGeofenceRadius, getHexCenter } from '@internal/utils'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
 interface MapProps extends MapViewProps {
@@ -48,13 +49,17 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
   const navigation = useAppNavigation()
 
+  const [geocenter, setGeocenter] = useState<Coordinate>({ latitude: 1, longitude: 1 })
+  const [georadius, setGeoradius] = useState(0)
+
   const mapRef = useRef<MapView>(null)
 
   useEffect(() => {
     const run = async () => {
       setHasLocationPermissions((await requestPermission('location')) === 'granted')
       Geolocation.getCurrentPosition((position) => {
-        setUserCoordinates({ longitude: position.coords.longitude, latitude: position.coords.latitude })
+        const coordinates = { longitude: position.coords.longitude, latitude: position.coords.latitude }
+        setUserCoordinates(coordinates)
       })
     }
     void run()
@@ -72,24 +77,33 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
         AppThunks.pingPreciseLocation({ connectionId: dispatchConnection.id, coordinate: event.nativeEvent.coordinate })
       )
     }
+    const coordinates = {
+      longitude: event.nativeEvent.coordinate.longitude,
+      latitude: event.nativeEvent.coordinate.latitude,
+    }
     if (shouldFollowUser) {
-      const coordinates = {
-        longitude: event.nativeEvent.coordinate.longitude,
-        latitude: event.nativeEvent.coordinate.latitude,
-      }
       setUserCoordinates(coordinates)
       focusOnUser()
     }
+
+    const radius = getGeofenceRadius(coordinates, 9)
+    const center = getHexCenter(coordinates, 9)
+
+    setGeoradius(radius)
+    setGeocenter(center)
   }
 
-  if (!emergencyInfo) {
-    return (
-      <Page center>
-        <Text>Incorrecte pagina.</Text>
-        <Button onPress={() => navigation.goBack()}>Ga terug</Button>
-      </Page>
-    )
-  }
+  //if (!emergencyInfo) {
+  //return (
+  //<Page center>
+  //<Text>Incorrecte pagina.</Text>
+  //<Button onPress={() => navigation.goBack()}>Ga terug</Button>
+  //</Page>
+  //)
+  //}
+
+  //<Directions origin={userCoordinates} destination={emergencyInfo.coordinate} />
+  //<Marker coordinate={emergencyInfo.coordinate} />
 
   return (
     <MapView
@@ -106,12 +120,13 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
       customMapStyle={darkMode ? darkMap : lightMap}
       style={[layout.fullSize, styles.map]}
       ref={mapRef}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       userInterfaceStyle={darkMode ? 'dark' : 'light'}
       onMapReady={focusOnUser}
       {...rest}
     >
-      <Directions origin={userCoordinates} destination={emergencyInfo.coordinate} />
-      <Marker coordinate={emergencyInfo.coordinate} />
+      <Circle center={geocenter} radius={georadius} fillColor="rgba(255,0,0,0.4)" />
     </MapView>
   )
 }

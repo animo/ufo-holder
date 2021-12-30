@@ -12,9 +12,7 @@ const ProofRequestThunks = {
   >('aries/getCredentialForRequest', async ({ proofRecordId }, { dispatch, getState, rejectWithValue }) => {
     const proof = ProofsSelectors.proofRecordByIdSelector(proofRecordId)(getState().aries)
 
-    if (!proof) {
-      return rejectWithValue('Unable to retrieve credentials, proof not found')
-    }
+    if (!proof) return rejectWithValue('Unable to retrieve credentials, proof not found')
 
     const retrievedCredentials = await dispatch(
       ProofsThunks.getRequestedCredentialsForProofRequest({
@@ -32,9 +30,8 @@ const ProofRequestThunks = {
       const proof = ProofsSelectors.proofRecordByIdSelector(proofRecordId)(getState().aries)
       const proofRequest = proof?.requestMessage?.indyProofRequest
 
-      if (!proofRequest) {
-        return rejectWithValue('Unable to retrieve credentials, proof not found')
-      }
+      if (!proofRequest || !proof) return rejectWithValue('Unable to retrieve credentials, proof not found')
+
       const requestedCredentials = await dispatch(
         ProofsThunks.getRequestedCredentialsForProofRequest({
           proofRequest: proof.id,

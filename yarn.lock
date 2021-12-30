@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@animo/ufo-approximate-location@^1.0.3":
+  version "1.0.3"
+  resolved "https://npm.pkg.github.com/download/@animo/ufo-approximate-location/1.0.3/a20afeca56399b4b2748ae361642e716032258940b820a401a67ea24ec621f2d#64fb40e8f41a3d59579586330dbe2ed5f9a11d9e"
+  integrity sha512-GAT6fgQ2b8WLg7xRptaTT7PAx64eRMPBSmFY+MxCtbQDKye3iOfjfdJgL6GiVmdBlRIqC6d8tB60wQ1AKSdSEg==
+  dependencies:
+    "@aries-framework/core" "^0.1.0-alpha.299"
+    class-transformer "^0.4.0"
+    class-validator "^0.13.1"
+    tsyringe "^4.6.0"
+
 "@animo/ufo-emergency-response@^1.3.1":
   version "1.3.1"
   resolved "https://npm.pkg.github.com/download/@animo/ufo-emergency-response/1.3.1/785c717c735fc48b9db55300d505bbf6cead80a7e9a6dd6641e648bfa40cc270#61d58b33edd3d564988da03b76df6284a0351c22"
@@ -5670,14 +5680,13 @@ expo-keep-awake@~10.0.0:
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-10.0.1.tgz#9f1176216c41eee20843c8232acfdca2bc32d334"
   integrity sha512-kcBtoDGkm3RRe6BpKDvR7gof/ErajEia38u92pRvNRctdh+p8AFO7GQuiipyg3iMfhcCFVTCIV7h3tuA0g/yDw==
 
-expo-location@~13.0.4:
-  version "13.0.4"
-  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-13.0.4.tgz#b95a1888eccfd1c7f3efb4f1c76332d928d6a7d7"
-  integrity sha512-SPn+utldU5yXWjg99trMCANkx8OEaHVZbYVTd2PH9ib9GrjjpGKjzhPmvA00RUC2XS7MMaKZl0BJg9Gb72F1tQ==
+expo-location@14.0.1:
+  version "14.0.1"
+  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-14.0.1.tgz#28a5ab1296a103202bb7598539cf78e2f0be5991"
+  integrity sha512-P3Mrty7uxezBFE9SwYhskeNwwHAapw/6lrLj2fYILgJkNiXv28ns5CwSNsTtJ+MfeHeV93t20qrkk7kJ30SQVw==
   dependencies:
     "@expo/config-plugins" "^4.0.2"
-    expo-modules-core "~0.4.4"
-    unimodules-task-manager-interface "7.0.3"
+    unimodules-task-manager-interface "~7.1.0"
 
 expo-modules-autolinking@~0.3.4:
   version "0.3.4"
@@ -10999,6 +11008,11 @@ unimodules-task-manager-interface@7.0.3:
   integrity sha512-+dtanGOuFk63tMBKVZuQ3HHxFbhQnToOLgF7UeHKrJf00Nkwt14T9ID57AZMeukUEolvifjVhng97L87gTGq0g==
   dependencies:
     expo-modules-core "~0.4.4"
+
+unimodules-task-manager-interface@~7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/unimodules-task-manager-interface/-/unimodules-task-manager-interface-7.1.0.tgz#01a981a8ff638843ce34f83a1ed73e81f62304d5"
+  integrity sha512-Iu6naIWWNWB69zFO6njRYj1GcfqAFnaK0hBub2zU6vvUu5A+YibZfXm5MTMq3zKfDeHrvEgVzUQszSbkjurinA==
 
 union-value@^1.0.0:
   version "1.0.1"

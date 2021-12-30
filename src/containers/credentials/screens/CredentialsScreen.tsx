@@ -2,7 +2,7 @@ import { CredentialState } from '@aries-framework/core'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { AvatarListItem, NoContent, Page } from '@internal/components'
+import { AvatarListItem, Button, NoContent, Page } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { images } from '@internal/theme/images'
@@ -27,7 +27,12 @@ export const CredentialsScreen: React.FunctionComponent = () => {
   }
 
   if (credentials.length === 0) {
-    return <NoContent heading={t('feature.credentials.text.noCredentialsTitle')} image={images.noData} />
+    return (
+      <>
+        <NoContent heading={t('feature.credentials.text.noCredentialsTitle')} image={images.noData} />
+        <Button onPress={() => navigation.navigate('MapsScreen')}>DEBUG Map</Button>
+      </>
+    )
   }
 
   return (

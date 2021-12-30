@@ -5,8 +5,8 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 
 import { agentConfig, createAgent } from './config'
 import { setupNotificationsHandler } from './modules'
+import { GeoThunks } from './store/geo/geo.thunks'
 import { useThemeSwitcher } from './store/theme/useThemeSwitcher'
-import { setupGeoFencingCallback } from './utils'
 
 import { ApplicationNavigator } from '@internal/navigation/Application'
 import { initializeStore, useAppSelector } from '@internal/store'
@@ -16,12 +16,11 @@ import { ThemeContextProvider } from '@internal/theme'
 // Initializes translations
 import './translations'
 
+// Resolution used for the pilot
+const RESOLUTION = 9
+
 // Create agent instance, initialize store
 export const agent = createAgent(agentConfig)
-
-const geo = async () => {
-  await setupGeoFencingCallback()
-}
 
 // Add reset wallet option to dev menu
 if (__DEV__) {
@@ -32,6 +31,10 @@ if (__DEV__) {
 }
 
 export const { store, persistor } = initializeStore(agent)
+
+const geo = async () => {
+  await store.dispatch(GeoThunks.setupTaskmanager({ resolution: RESOLUTION }))
+}
 
 setupNotificationsHandler(store)
 
