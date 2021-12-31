@@ -3,6 +3,7 @@ import type { H3Resolution } from '@internal/utils'
 import type { LocationRegion } from 'expo-location'
 
 import { ApproximateLocationModule } from '@animo/ufo-approximate-location'
+import { CurrentRenderContext } from '@react-navigation/native'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { LocationGeofencingEventType, startGeofencingAsync } from 'expo-location'
 import { defineTask } from 'expo-task-manager'
@@ -18,10 +19,11 @@ import { getCurrentIndex, getGeofenceRadius, getHexCenter } from '@internal/util
 const TASK_NAME = 'APPROXIMATE_LOCATION_FENCE'
 
 const GeoThunks = {
-  setupTaskmanager: createAsyncThunk<void, { resolution: H3Resolution }, AsyncThunkOptions>(
+  setupTaskManager: createAsyncThunk<void, void, AsyncThunkOptions>(
     'geo/setupTaskManager',
-    async ({ resolution }, { dispatch, rejectWithValue }) => {
+    async (_, { dispatch, rejectWithValue, getState }) => {
       try {
+        const resolution = getState().geo.resolution
         // Set the initial geofence
         await dispatch(GeoThunks.spawnGeofence({ resolution }))
 
@@ -34,8 +36,11 @@ const GeoThunks = {
           // Ignore every event, except for exiting a geofence
           if (event.data.eventType !== LocationGeofencingEventType.Exit) return
 
+          // Get the current resolution
+          const currentResolution = getState().geo.resolution
+
           // Spawn a new geofence
-          void (async () => await dispatch(GeoThunks.spawnGeofence({ resolution })))()
+          void (async () => await dispatch(GeoThunks.spawnGeofence({ resolution: currentResolution })))()
         })
       } catch (e) {
         return rejectWithValue(e)
