@@ -20,10 +20,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { AriesSelectors } from '../aries/aries.selectors'
 import { AriesThunks } from '../aries/aries.thunks'
 import { ProofRequestThunks } from '../aries/proofRequest/proofRequest.thunks'
-
-// eslint-disable-next-line import/no-cycle
 import { GeoThunks } from '../geo'
 
+// eslint-disable-next-line import/no-cycle
 import { AppActions } from './app.reducer'
 import { AppSelectors } from './app.selectors'
 
