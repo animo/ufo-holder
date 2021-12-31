@@ -29,10 +29,6 @@ if (__DEV__) {
 
 export const { store, persistor } = initializeStore(agent)
 
-const geo = () => {
-  void store.dispatch(GeoThunks.setupTaskManager())
-}
-
 setupNotificationsHandler(store)
 
 const AppThemeProvider: React.FunctionComponent = ({ children }) => {
@@ -47,7 +43,6 @@ const AppThemeProvider: React.FunctionComponent = ({ children }) => {
 export const App: React.FunctionComponent = () => {
   // Listens for state changes in the agent and propagates those changes to the redux store
   useAgentListeners(agent, store)
-  geo()
 
   return (
     <SafeAreaProvider>

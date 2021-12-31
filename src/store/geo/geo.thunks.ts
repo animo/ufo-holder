@@ -3,7 +3,6 @@ import type { H3Resolution } from '@internal/utils'
 import type { LocationRegion } from 'expo-location'
 
 import { ApproximateLocationModule } from '@animo/ufo-approximate-location'
-import { CurrentRenderContext } from '@react-navigation/native'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { LocationGeofencingEventType, startGeofencingAsync } from 'expo-location'
 import { defineTask } from 'expo-task-manager'
@@ -100,11 +99,13 @@ const GeoThunks = {
       // Reject if there is no connection
       if (!connectionWithDispatch) return rejectWithValue('Could not establish a connection with the dispatch')
 
+      const connection = await agent.connections.returnWhenIsConnected(connectionWithDispatch.id)
+
       // Instanciate a approx. location module
       const alm = agent.injectionContainer.resolve(ApproximateLocationModule)
 
       // Send the hexIndex to the dispatcher
-      await alm.sendApproximateLocation(connectionWithDispatch.id, hexIndex)
+      await alm.sendApproximateLocation(connection.id, { h3Index: hexIndex })
     }
   ),
 }

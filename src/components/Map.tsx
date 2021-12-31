@@ -75,7 +75,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const focusOnUser = () => mapRef.current?.animateToRegion({ ...userCoordinates, ...DELTA }, 1000)
 
   const onUserLocationChange = (event: EventUserLocation) => {
-    if (dispatchConnection) {
+    if (dispatchConnection && emergencyInfo) {
       void dispatch(
         AppThunks.pingPreciseLocation({ connectionId: dispatchConnection.id, coordinate: event.nativeEvent.coordinate })
       )

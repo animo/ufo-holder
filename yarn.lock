@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@animo/ufo-approximate-location@^1.0.3":
-  version "1.0.3"
-  resolved "https://npm.pkg.github.com/download/@animo/ufo-approximate-location/1.0.3/a20afeca56399b4b2748ae361642e716032258940b820a401a67ea24ec621f2d#64fb40e8f41a3d59579586330dbe2ed5f9a11d9e"
-  integrity sha512-GAT6fgQ2b8WLg7xRptaTT7PAx64eRMPBSmFY+MxCtbQDKye3iOfjfdJgL6GiVmdBlRIqC6d8tB60wQ1AKSdSEg==
+"@animo/ufo-approximate-location@^1.1.1":
+  version "1.1.1"
+  resolved "https://npm.pkg.github.com/download/@animo/ufo-approximate-location/1.1.1/d5ec66460cd92cddedf52836b2960db0e19d8e9f5f783d60e8a2142465953db7#6e33f2695a2cee657ec8a4506cfa7058b06561a3"
+  integrity sha512-OB61LOyoqKAx1CB9V3GdDh7ET5ykSzHa9YaTYRPmQMUuJk0QebwxxST2Wgfp5C9qc/F2/GzD90Uiv0ydSLKMXg==
   dependencies:
     "@aries-framework/core" "^0.1.0-alpha.299"
     class-transformer "^0.4.0"

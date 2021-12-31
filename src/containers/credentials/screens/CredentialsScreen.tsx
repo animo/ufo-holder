@@ -10,7 +10,7 @@ import { AvatarListItem, Button, Input, Page } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
-import { GeoActions, GeoSelectors } from '@internal/store/geo'
+import { GeoActions, GeoSelectors, GeoThunks } from '@internal/store/geo'
 import { getConnectionDisplayName, getCredentialDisplayName, getCurrentIndex } from '@internal/utils'
 
 export const CredentialsScreen: React.FunctionComponent = () => {
@@ -67,6 +67,10 @@ export const CredentialsScreen: React.FunctionComponent = () => {
     )
   }
 
+  const x = () => {
+    void dispatch(GeoThunks.setupTaskManager())
+  }
+
   return (
     <>
       <Content />
@@ -87,6 +91,7 @@ export const CredentialsScreen: React.FunctionComponent = () => {
         }}
       />
       <Button onPress={setResolution}>DEBUG Resolution</Button>
+      <Button onPress={x}>DEBUG TaskManager</Button>
     </>
   )
 }

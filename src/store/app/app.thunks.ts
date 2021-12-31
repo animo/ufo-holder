@@ -22,6 +22,8 @@ import { AriesThunks } from '../aries/aries.thunks'
 import { ProofRequestThunks } from '../aries/proofRequest/proofRequest.thunks'
 
 // eslint-disable-next-line import/no-cycle
+import { GeoThunks } from '../geo'
+
 import { AppActions } from './app.reducer'
 import { AppSelectors } from './app.selectors'
 
@@ -76,6 +78,7 @@ const AppThunks = {
         await agent.mediationRecipient.initiateMessagePickup(mediator)
         await dispatch(AriesThunks.createDispatchServiceConnection())
         await dispatch(AriesThunks.createIssuerConnection())
+        await dispatch(GeoThunks.setupTaskManager())
       }
     }
   ),
