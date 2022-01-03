@@ -99,6 +99,7 @@ const GeoThunks = {
       // Reject if there is no connection
       if (!connectionWithDispatch) return rejectWithValue('Could not establish a connection with the dispatch')
 
+      // Return when the connection is active
       const connection = await agent.connections.returnWhenIsConnected(connectionWithDispatch.id)
 
       // Instanciate a approx. location module

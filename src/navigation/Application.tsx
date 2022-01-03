@@ -39,7 +39,8 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
     if (!isFirstLaunch) {
       void dispatch(AppThunks.initializeAgent())
     }
-  }, [dispatch, isFirstLaunch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Box fill>
