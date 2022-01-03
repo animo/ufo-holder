@@ -5,7 +5,6 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 
 import { agentConfig, createAgent } from './config'
 import { setupNotificationsHandler } from './modules'
-import { GeoThunks } from './store/geo/geo.thunks'
 import { useThemeSwitcher } from './store/theme/useThemeSwitcher'
 
 import { ApplicationNavigator } from '@internal/navigation/Application'

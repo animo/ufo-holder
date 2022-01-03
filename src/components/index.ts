@@ -5,7 +5,6 @@ export { EmergencyBottomSheet } from './EmergencyBottomSheet'
 export { FormDetail } from './FormDetail'
 export { IconListItem } from './IconListItem'
 export { ListItem } from './ListItem'
-// eslint-disable-next-line import/no-cycle
 export { Map } from './Map'
 export { NoContent } from './NoContent'
 export { screenOptions } from './ScreenOptions'
