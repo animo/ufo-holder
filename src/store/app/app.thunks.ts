@@ -20,6 +20,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { AriesSelectors } from '../aries/aries.selectors'
 import { AriesThunks } from '../aries/aries.thunks'
 import { ProofRequestThunks } from '../aries/proofRequest/proofRequest.thunks'
+import { GeoThunks } from '../geo'
 
 // eslint-disable-next-line import/no-cycle
 import { AppActions } from './app.reducer'
@@ -67,7 +68,7 @@ const AppThunks = {
 
   agentSetup: createAsyncThunk<void, void, AsyncThunkOptions>(
     'app/user/agentSetup',
-    async (_, { extra: { agent }, dispatch }) => {
+    async (_, { extra: { agent }, dispatch, getState }) => {
       // Setup mediation
       const mediator = await agent.mediationRecipient.provision(config.mediatorInvitationUrl)
 
@@ -76,6 +77,19 @@ const AppThunks = {
         await agent.mediationRecipient.initiateMessagePickup(mediator)
         await dispatch(AriesThunks.createDispatchServiceConnection())
         await dispatch(AriesThunks.createIssuerConnection())
+      }
+
+      // Get the connection with the dispatch
+      const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
+
+      // Check if the connection is active
+      const hasActiveConnectionWithDispatch = connectionWithDispatch
+        ? await agent.connections.returnWhenIsConnected(connectionWithDispatch.id)
+        : false
+
+      // Setup the taskmanager if the connection is active
+      if (hasActiveConnectionWithDispatch) {
+        await dispatch(GeoThunks.setupTaskManagers())
       }
     }
   ),

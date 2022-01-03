@@ -5,19 +5,14 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 
 import { agentConfig, createAgent } from './config'
 import { setupNotificationsHandler } from './modules'
-import { GeoThunks } from './store/geo/geo.thunks'
 import { useThemeSwitcher } from './store/theme/useThemeSwitcher'
 
 import { ApplicationNavigator } from '@internal/navigation/Application'
 import { initializeStore, useAppSelector } from '@internal/store'
 import { useAgentListeners } from '@internal/store/aries'
 import { ThemeContextProvider } from '@internal/theme'
-
 // Initializes translations
 import './translations'
-
-// Resolution used for the pilot
-export const RESOLUTION = 9
 
 // Create agent instance, initialize store
 export const agent = createAgent(agentConfig)
@@ -31,10 +26,6 @@ if (__DEV__) {
 }
 
 export const { store, persistor } = initializeStore(agent)
-
-const geo = async () => {
-  await store.dispatch(GeoThunks.setupTaskmanager({ resolution: RESOLUTION }))
-}
 
 setupNotificationsHandler(store)
 
@@ -50,7 +41,6 @@ const AppThemeProvider: React.FunctionComponent = ({ children }) => {
 export const App: React.FunctionComponent = () => {
   // Listens for state changes in the agent and propagates those changes to the redux store
   useAgentListeners(agent, store)
-  void geo()
 
   return (
     <SafeAreaProvider>

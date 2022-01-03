@@ -1,3 +1,4 @@
+import type { H3Resolution } from '@internal/utils'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 import { createSlice } from '@reduxjs/toolkit'
@@ -9,9 +10,14 @@ import { GeoThunks } from './geo.thunks'
 export interface GeoState {
   // H3 index of where the device currently is
   hexIndex?: string
+
+  // H3 resolution for the hexagons
+  resolution: H3Resolution
 }
 
-const initialState: GeoState = {}
+const initialState: GeoState = {
+  resolution: 9,
+}
 
 const geoSlice = createSlice({
   name: 'geo',
@@ -19,6 +25,10 @@ const geoSlice = createSlice({
   reducers: {
     setHexIndex(state, action: PayloadAction<{ hexIndex: string }>) {
       state.hexIndex = action.payload.hexIndex
+    },
+    // MUST ALSO UPDATE THE HEXINDEX
+    setResolution(state, action: PayloadAction<{ resolution: H3Resolution }>) {
+      state.resolution = action.payload.resolution
     },
   },
 })

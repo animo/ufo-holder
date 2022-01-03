@@ -146,8 +146,10 @@ export const getAriesRecordDisplayName = (record: AriesRecord) => {
   }
 }
 
-export const getConnectionDisplayName = (connectionRecord: ConnectionRecord) =>
-  convertToHumanFriendlyName(connectionRecord.alias ?? connectionRecord.theirLabel ?? 'Contact')
+export const getConnectionDisplayName = (connectionRecord: ConnectionRecord | null) =>
+  connectionRecord
+    ? convertToHumanFriendlyName(connectionRecord.alias ?? connectionRecord.theirLabel ?? 'Contact')
+    : 'Contact'
 
 export const getCredentialDisplayName = (credentialRecord?: CredentialRecord | null) => {
   if (credentialRecord) {

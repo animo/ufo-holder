@@ -10,7 +10,6 @@ import MapViewDirections from 'react-native-maps-directions'
 import { layout } from '@components/global-stylesheets'
 import { Page } from '@components/lib'
 import { useAppTheme } from '@components/theme'
-import { RESOLUTION } from '@internal/App'
 import { requestPermission } from '@internal/modules'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
@@ -54,6 +53,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const [vertices, setVertices] = useState<Coordinates>([])
   const [neighbourVertices, setNeighbourVertices] = useState<Coordinates[]>([])
   const hexIndex = useAppSelector(GeoSelectors.hexIndexSelector)
+  const resolution = useAppSelector(GeoSelectors.resolutionSelector)
 
   const mapRef = useRef<MapView>(null)
 
@@ -75,7 +75,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const focusOnUser = () => mapRef.current?.animateToRegion({ ...userCoordinates, ...DELTA }, 1000)
 
   const onUserLocationChange = (event: EventUserLocation) => {
-    if (dispatchConnection) {
+    if (dispatchConnection && emergencyInfo) {
       void dispatch(
         AppThunks.pingPreciseLocation({ connectionId: dispatchConnection.id, coordinate: event.nativeEvent.coordinate })
       )
@@ -90,7 +90,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
     }
 
     if (hexIndex) {
-      const radius = getGeofenceRadius(coordinates, RESOLUTION)
+      const radius = getGeofenceRadius(coordinates, resolution)
       const center = getHexCenterByIndex(hexIndex)
       const verts = indexToVertices(hexIndex).map((vert) => ({ latitude: vert[0], longitude: vert[1] }))
       const neighbourVerts = indexToNeighbourVertices(hexIndex, 1).map((n) =>
