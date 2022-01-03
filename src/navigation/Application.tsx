@@ -22,6 +22,7 @@ import {
 } from '@internal/containers'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
+import { GeoThunks } from '@internal/store/geo'
 
 const Stack = createStackNavigator<RootNavigationParamList>()
 
@@ -37,7 +38,10 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!isFirstLaunch) {
-      void dispatch(AppThunks.initializeAgent())
+      void (async () => {
+        await dispatch(AppThunks.initializeAgent())
+        await dispatch(GeoThunks.setupTaskManagers())
+      })()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

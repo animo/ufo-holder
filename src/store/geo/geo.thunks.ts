@@ -4,8 +4,8 @@ import type { LocationRegion } from 'expo-location'
 
 import { ApproximateLocationModule } from '@animo/ufo-approximate-location'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { LocationGeofencingEventType, startGeofencingAsync } from 'expo-location'
-import { defineTask } from 'expo-task-manager'
+import { LocationGeofencingEventType, startGeofencingAsync, startLocationUpdatesAsync } from 'expo-location'
+import { defineTask, unregisterAllTasksAsync } from 'expo-task-manager'
 import Geolocation from 'react-native-geolocation-service'
 
 import { AriesSelectors } from '../aries'
@@ -15,19 +15,31 @@ import { GeoActions } from './geo.reducer'
 
 import { getCurrentIndex, getGeofenceRadius, getHexCenter } from '@internal/utils'
 
-const TASK_NAME = 'APPROXIMATE_LOCATION_FENCE'
+const APPROX_TASK_NAME = 'APPROXIMATE_LOCATION_FENCE_TASK'
+const BACKGROUND_LOCATION_TASK_NAME = 'BACKGROUND_LOCATION_TASK'
 
 const GeoThunks = {
-  setupTaskManager: createAsyncThunk<void, void, AsyncThunkOptions>(
+  setupTaskManagers: createAsyncThunk<void, void, AsyncThunkOptions>(
     'geo/setupTaskManager',
     async (_, { dispatch, rejectWithValue, getState }) => {
       try {
+        // Unregister existing tasks
+        await unregisterAllTasksAsync()
+
+        // Start a background location change listener
+        await startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK_NAME)
+        defineTask(BACKGROUND_LOCATION_TASK_NAME, (event) => {
+          if (event.error) throw new Error(event.error.message)
+        })
+
+        // Get the current resolution
         const resolution = getState().geo.resolution
+
         // Set the initial geofence
         await dispatch(GeoThunks.spawnGeofence({ resolution }))
 
         // Define a new task, aka the geofence spawner
-        defineTask(TASK_NAME, (event) => {
+        defineTask(APPROX_TASK_NAME, (event) => {
           if (event.error) throw new Error(event.error.message)
 
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -69,11 +81,11 @@ const GeoThunks = {
               radius: radius,
               notifyOnEnter: true,
               notifyOnExit: true,
-              identifier: TASK_NAME,
+              identifier: APPROX_TASK_NAME,
             }
 
             // Override or start a geofence
-            void (async () => startGeofencingAsync(TASK_NAME, [region]))()
+            void (async () => await startGeofencingAsync(APPROX_TASK_NAME, [region]))()
 
             // Get the current hex index
             const hexIndex = getCurrentIndex(hexCenter, resolution)

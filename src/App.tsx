@@ -11,7 +11,6 @@ import { ApplicationNavigator } from '@internal/navigation/Application'
 import { initializeStore, useAppSelector } from '@internal/store'
 import { useAgentListeners } from '@internal/store/aries'
 import { ThemeContextProvider } from '@internal/theme'
-
 // Initializes translations
 import './translations'
 

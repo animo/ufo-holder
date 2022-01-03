@@ -89,7 +89,7 @@ const AppThunks = {
 
       // Setup the taskmanager if the connection is active
       if (hasActiveConnectionWithDispatch) {
-        await dispatch(GeoThunks.setupTaskManager())
+        await dispatch(GeoThunks.setupTaskManagers())
       }
     }
   ),
