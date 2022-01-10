@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { Slide } from '../components/Slide'
 
@@ -10,13 +9,11 @@ type LegalScreenProps = {
 }
 
 export const LegalScreen: React.FunctionComponent<LegalScreenProps> = ({ onPress }) => {
-  const { t } = useTranslation()
-
   return (
     <Slide
       image={images.legal}
-      text={t('feature.onboarding.text.legal')}
-      button={{ onPress, text: t('feature.onboarding.actions.understand') }}
+      text="klaar om te beginnen? Druk op de knop om de applicatie op te zetten. Let op, dit kan even duren."
+      button={{ onPress, text: 'Laten we beginnen' }}
     />
   )
 }
