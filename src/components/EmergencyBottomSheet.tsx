@@ -14,6 +14,7 @@ import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
+import { sleep } from '@internal/utils'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
 export interface Emergency {
@@ -32,34 +33,36 @@ export const EmergencyBottomSheet: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const navigation = useAppNavigation()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const activeEmergencyRequest = useAgentSelector(AriesSelectors.activeEmergencyRequest)
   const connectionWithDispatch = useAgentSelector(AriesSelectors.dispatchServiceSelector)
-  const hasEmergency = useAppSelector(AppSelectors.hasEmergencySelector)
-  const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
+  const emergencyInfo = useAppSelector(AppSelectors.emergencyInfoSelector)
+  const emergencyRequestProofId = useAgentSelector(AriesSelectors.activeEmergencyRequest)
   const { darkMode } = useAppTheme()
   const mapRef = useRef<MapView>(null)
 
   useEffect(() => {
-    if (activeEmergencyRequest) {
+    if (emergencyInfo) {
       bottomSheetModalRef.current?.present()
     } else {
       bottomSheetModalRef.current?.close()
     }
-  }, [activeEmergencyRequest, hasEmergency])
+  }, [emergencyInfo])
 
   const onDecline = async () => {
-    if (activeEmergencyRequest && connectionWithDispatch) {
+    if (connectionWithDispatch && emergencyRequestProofId) {
       await dispatch(
-        AppThunks.rejectEmergency({ proofId: activeEmergencyRequest.id, connectionId: connectionWithDispatch.id })
+        AppThunks.rejectEmergency({ proofId: emergencyRequestProofId, connectionId: connectionWithDispatch.id })
       )
     }
+    bottomSheetModalRef.current?.close()
   }
 
   const onAccept = async () => {
-    if (activeEmergencyRequest) {
-      await dispatch(AppThunks.acceptEmergency({ proofId: activeEmergencyRequest.id }))
-      navigation.navigate('MapsScreen')
+    bottomSheetModalRef.current?.close()
+    await sleep(500)
+    if (emergencyRequestProofId) {
+      await dispatch(AppThunks.acceptEmergency({ proofId: emergencyRequestProofId }))
     }
+    navigation.navigate('MapsScreen')
   }
 
   if (!emergencyInfo) {
@@ -69,11 +72,11 @@ export const EmergencyBottomSheet: React.FunctionComponent = () => {
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} emergency>
       <Page>
-        <Heading align="center">{emergencyInfo?.emergency.title}</Heading>
+        <Heading align="center">{emergencyInfo.emergency.title}</Heading>
         <Spacer size="m" />
         <View style={gutters.largeBMargin}>
           <Text color="textSubdued" align="center">
-            {emergencyInfo?.emergency.description}
+            {emergencyInfo.emergency.description}
           </Text>
         </View>
         <MapView

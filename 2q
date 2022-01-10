@@ -56,7 +56,6 @@ export const MapsScreen = () => {
 
   const onPressDone = () => {
     bottomSheetRef.current?.close()
-    dispatch(AppActions.setFinishedEmergency())
     navigation.navigate('FeedbackScreen')
   }
 

@@ -13,11 +13,10 @@ export interface AppState {
   isInitialized: boolean
   isInitializing: boolean
   isFirstLaunch: boolean
-  hasPotentialEmergency: boolean
-  hasEmergency: boolean
   deviceToken?: string
   error?: string
   travelMode: MapViewDirectionsMode
+  emergencyProofRequestId?: string
   emergencyInfo?: {
     coordinate: Coordinate
     emergency: Emergency
@@ -29,19 +28,15 @@ const initialState: AppState = {
   isInitialized: false,
   isInitializing: false,
   isFirstLaunch: true,
-  hasPotentialEmergency: false,
-  hasEmergency: false,
 }
 
 const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setHasPotentialEmergency(state, action: PayloadAction<{ hasPotentialEmergency: boolean }>) {
-      state.hasPotentialEmergency = action.payload.hasPotentialEmergency
-    },
-    setHasEmergency(state, action: PayloadAction<{ hasEmergency: boolean }>) {
-      state.hasEmergency = action.payload.hasEmergency
+    setFinishedEmergency(state) {
+      state.emergencyInfo = undefined
+      state.emergencyProofRequestId = undefined
     },
     setDeviceToken(state, action: PayloadAction<{ deviceToken: string }>) {
       state.deviceToken = action.payload.deviceToken
@@ -49,12 +44,18 @@ const appSlice = createSlice({
     setTravelMode(state, action: PayloadAction<{ travelMode: MapViewDirectionsMode }>) {
       state.travelMode = action.payload.travelMode
     },
+    setEmergencyProofRequestId(state, action: PayloadAction<{ emergencyProofRequestId: string }>) {
+      state.emergencyProofRequestId = action.payload.emergencyProofRequestId
+    },
     setEmergencyInfo(
       state,
-      action: PayloadAction<{
-        coordinate: Coordinate
-        emergency: Emergency
-      }>
+      action: PayloadAction<
+        | {
+            coordinate: Coordinate
+            emergency: Emergency
+          }
+        | undefined
+      >
     ) {
       state.emergencyInfo = action.payload
     },

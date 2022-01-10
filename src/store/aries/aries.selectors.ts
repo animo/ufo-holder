@@ -43,8 +43,9 @@ const notSharedProofsSelector = createSelector(ProofsSelectors.proofRecordsSelec
   proofs.filter((p) => ![ProofState.Done, ProofState.PresentationSent].includes(p.state))
 )
 
-const activeEmergencyRequest = createSelector(notSharedProofsSelector, (proofs) =>
-  proofs.find((proof) => proof.requestMessage?.comment === 'emergency')
+const activeEmergencyRequest = createSelector(
+  notSharedProofsSelector,
+  (proofs) => proofs.find((proof) => proof.requestMessage?.comment === 'emergency')?.id
 )
 
 const dispatchServiceSelector = createSelector(ConnectionsSelectors.connectionRecordsSelector, (connectionRecords) =>

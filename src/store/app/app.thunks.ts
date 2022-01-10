@@ -102,7 +102,7 @@ const AppThunks = {
 
       const credentials = AriesSelectors.receivedCredentialsSelector(getState().aries)
       const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
-      const travelMode = AppSelectors.travelMode({ app: getState().app })
+      const travelMode = AppSelectors.travelModeSelector(getState())
 
       if (!connectionWithDispatch) {
         return rejectWithValue('Could not establish a connection with the dispatch')
@@ -161,10 +161,9 @@ const AppThunks = {
 
   rejectPotentialEmergency: createAsyncThunk<void, { connectionId: string }, AsyncThunkOptions>(
     'app/user/rejectPotentialEmergency',
-    async ({ connectionId }, { dispatch, extra: { agent } }) => {
+    async ({ connectionId }, { extra: { agent } }) => {
       const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
       await erm.reject(connectionId)
-      dispatch(AppActions.setHasPotentialEmergency({ hasPotentialEmergency: false }))
     }
   ),
 
@@ -177,7 +176,6 @@ const AppThunks = {
     async ({ connectionId, emergency, coordinate }, { dispatch, extra: { agent } }) => {
       const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
       await erm.accept(connectionId, { travelTime: emergency.travelTime })
-      dispatch(AppActions.setHasPotentialEmergency({ hasPotentialEmergency: false }))
       void dispatch(
         AppActions.setEmergencyInfo({
           coordinate,
@@ -192,7 +190,7 @@ const AppThunks = {
     async ({ connectionId, proofId }, { dispatch }) => {
       await dispatch(ProofsThunks.deleteProof(proofId))
       await dispatch(AppThunks.rejectPotentialEmergency({ connectionId }))
-      dispatch(AppActions.setHasEmergency({ hasEmergency: false }))
+      dispatch(AppActions.setFinishedEmergency())
     }
   ),
 
@@ -200,7 +198,6 @@ const AppThunks = {
     'app/user/acceptEmergency',
     async ({ proofId }, { dispatch }) => {
       await dispatch(ProofRequestThunks.acceptRequest({ proofRecordId: proofId }))
-      dispatch(AppActions.setHasEmergency({ hasEmergency: true }))
     }
   ),
 }

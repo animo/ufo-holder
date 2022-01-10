@@ -46,7 +46,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const { darkMode } = useAppTheme()
   const dispatch = useAppDispatch()
   const dispatchConnection = useAgentSelector(AriesSelectors.dispatchServiceSelector)
-  const emergencyInfo = useAppSelector(AppSelectors.emergencyInfo)
+  const emergencyInfo = useAppSelector(AppSelectors.emergencyInfoSelector)
 
   const [geocenter, setGeocenter] = useState<Coordinate>({ latitude: 1, longitude: 1 })
   const [georadius, setGeoradius] = useState(0)
@@ -145,7 +145,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
 
 const Directions: React.FunctionComponent<DirectionsProps> = ({ origin, destination }) => {
   const { colors } = useAppTheme()
-  const travelMode = useAppSelector(AppSelectors.travelMode)
+  const travelMode = useAppSelector(AppSelectors.travelModeSelector)
   return useMemo(
     () => (
       <MapViewDirections
