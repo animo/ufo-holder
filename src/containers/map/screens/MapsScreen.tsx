@@ -56,7 +56,6 @@ export const MapsScreen = () => {
 
   const onPressDone = () => {
     bottomSheetRef.current?.close()
-    dispatch(AppActions.setFinishedEmergency())
     navigation.navigate('FeedbackScreen')
   }
 
@@ -91,10 +90,7 @@ export const MapsScreen = () => {
       )}
       {shouldShowModal && (
         <Modal
-          onAccept={() => {
-            dispatch(AppActions.setFinishedEmergency())
-            navigation.navigate('CredentialsScreen')
-          }}
+          onAccept={onPressDone}
           setShowModal={setShouldShowModal}
           showModal={shouldShowModal}
           title={t('feature.maps.title.modal')}
