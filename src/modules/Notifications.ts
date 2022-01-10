@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import type { Coordinate } from '@internal/components/Map'
 import type { Store } from '@internal/store/store.types'
+import type { H3Resolution } from '@internal/utils'
 import type { ReceivedNotification } from 'react-native-push-notification'
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
@@ -9,6 +10,7 @@ import { default as PushNotification, Importance } from 'react-native-push-notif
 
 import { AppThunks } from '@internal/store/app'
 import { AppActions } from '@internal/store/app/app.reducer'
+import { GeoActions } from '@internal/store/geo'
 import { requestPlatform } from '@internal/utils'
 
 export type DeCustomPayload = {
@@ -46,6 +48,11 @@ const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, st
       (error) => console.error(error),
       { timeout: 10000 }
     )
+  }
+
+  if (data.resolution) {
+    const resolution = data.resolution as H3Resolution
+    store.dispatch(GeoActions.setResolution({ resolution }))
   }
 }
 
