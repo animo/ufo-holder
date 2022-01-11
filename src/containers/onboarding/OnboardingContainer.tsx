@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import PagerView from 'react-native-pager-view'
 
+import { AppScreen } from './screens/AppScreen'
 import { CredentialsScreen } from './screens/CredentialsScreen'
 import { LegalScreen } from './screens/LegalScreen'
 import { LocationScreen } from './screens/LocationScreen'
@@ -24,7 +25,7 @@ import { AppActions } from '@internal/store/app/app.reducer'
 import { AriesThunks } from '@internal/store/aries'
 
 export const OnboardingContainer = () => {
-  const pages = ['pilot', 'register', 'welcome', 'credentials', 'travelMode', 'location', 'legal'] as const
+  const pages = ['app', 'pilot', 'register', 'welcome', 'credentials', 'travelMode', 'location', 'legal'] as const
   type Page = typeof pages[number]
 
   const SLIDELENGTH = pages.length
@@ -100,6 +101,7 @@ export const OnboardingContainer = () => {
   return (
     <>
       <PagerView style={StyleSheet.absoluteFill} initialPage={0} ref={pagerViewRef} onPageSelected={onPageSelected}>
+        <AppScreen />
         <PilotScreen />
         <RegisterScreen onPress={onRegister} onChange={onRegisterInputChange} />
         <WelcomeScreen />

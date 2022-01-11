@@ -6,7 +6,7 @@ import { sendFeedback } from '@internal/api'
 import { Button, Page, Text } from '@internal/components'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch } from '@internal/store'
-import { AppActions } from '@internal/store/app/app.reducer'
+import { AppActions, AppThunks } from '@internal/store/app/app.reducer'
 
 export const FeedbackScreen = () => {
   const navigation = useAppNavigation()
@@ -16,8 +16,9 @@ export const FeedbackScreen = () => {
 
   // TODO: RESET STATE
   //       SEND FEEDBACK
-  const onSendFeedback = () => {
+  const onSendFeedback = async () => {
     sendFeedback(feedback)
+    await dispatch(AppThunks.doneEmergency())
     dispatch(AppActions.setFinishedEmergency())
     navigation.navigate('CredentialsScreen')
   }

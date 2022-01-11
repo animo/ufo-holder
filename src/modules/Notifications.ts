@@ -8,6 +8,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import Geolocation from 'react-native-geolocation-service'
 import { default as PushNotification, Importance } from 'react-native-push-notification'
 
+import { navigate } from '@internal/navigation'
 import { AppThunks } from '@internal/store/app'
 import { AppActions } from '@internal/store/app/app.reducer'
 import { GeoActions } from '@internal/store/geo'
@@ -29,6 +30,7 @@ type Emergency = {
 const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, store: Store) => {
   const data = notification.data
 
+  // handle incoming potential emergency
   if (data.emergency) {
     let parsedData: DeCustomPayload
     if (requestPlatform() === 'android') {
@@ -50,9 +52,16 @@ const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, st
     )
   }
 
+  // handle updating of the resolution
   if (data.resolution) {
     const resolution = data.resolution as H3Resolution
     store.dispatch(GeoActions.setResolution({ resolution }))
+  }
+
+  // handle done call from the emergency
+  if (data.done) {
+    store.dispatch(AppActions.setFinishedEmergency())
+    navigate('CredentialsScreen')
   }
 }
 

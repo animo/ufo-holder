@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@animo/ufo-approximate-location": "^1.1.1",
-    "@animo/ufo-emergency-response": "^1.3.1",
+    "@animo/ufo-emergency-response": "^1.3.2",
     "@animo/ufo-precise-location": "^1.0.3",
     "@aries-framework/core": "0.1.0-alpha.322",
     "@aries-framework/push-notifications": "./aries-framework-push-notifications-v5.0.0.tgz",

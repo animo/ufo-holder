@@ -200,6 +200,26 @@ const AppThunks = {
       await dispatch(ProofRequestThunks.acceptRequest({ proofRecordId: proofId }))
     }
   ),
+
+  doneEmergency: createAsyncThunk<void, void, AsyncThunkOptions>(
+    'app/user/doneEmergency',
+    async (_, { getState, rejectWithValue, extra: { agent } }) => {
+      // Get the connection with the dispatch
+      const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
+
+      // Reject if there is no connection
+      if (!connectionWithDispatch) return rejectWithValue('Could not establish a connection with the dispatch')
+
+      // Return when the connection is active
+      const connection = await agent.connections.returnWhenIsConnected(connectionWithDispatch.id)
+
+      // Instanciate the emergency response module
+      const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
+
+      // send the done message
+      await erm.done(connection.id)
+    }
+  ),
 }
 
 export { AppThunks }

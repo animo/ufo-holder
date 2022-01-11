@@ -10,6 +10,7 @@ const _images = {
   location: require('@internal/assets/images/location.png'),
   noData: require('@internal/assets/images/no-data.png'),
   welcome: require('@internal/assets/images/welcome.png'),
+  logo: require('@internal/assets/images/logo.png'),
 }
 
 type ImagesKeys = keyof typeof _images
