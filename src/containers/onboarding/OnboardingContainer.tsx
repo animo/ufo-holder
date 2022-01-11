@@ -10,6 +10,7 @@ import PagerView from 'react-native-pager-view'
 import { AppScreen } from './screens/AppScreen'
 import { CredentialsScreen } from './screens/CredentialsScreen'
 import { LegalScreen } from './screens/LegalScreen'
+import { LoadingScreen } from './screens/LoadingScreen'
 import { LocationScreen } from './screens/LocationScreen'
 import { PilotScreen } from './screens/PilotScreen'
 import { RegisterScreen } from './screens/RegisterScreen'
@@ -25,7 +26,17 @@ import { AppActions } from '@internal/store/app/app.reducer'
 import { AriesThunks } from '@internal/store/aries'
 
 export const OnboardingContainer = () => {
-  const pages = ['app', 'pilot', 'register', 'welcome', 'credentials', 'travelMode', 'location', 'legal'] as const
+  const pages = [
+    'app',
+    'pilot',
+    'register',
+    'welcome',
+    'credentials',
+    'travelMode',
+    'location',
+    'legal',
+    'loading',
+  ] as const
   type Page = typeof pages[number]
 
   const SLIDELENGTH = pages.length
@@ -53,7 +64,7 @@ export const OnboardingContainer = () => {
     setPageIndex(currentIndex)
     const page = pages[currentIndex]
 
-    if (page === 'register' || page === 'location' || page === 'legal') {
+    if (page === 'register' || page === 'location' || page === 'legal' || page === 'loading' || page === 'travelMode') {
       pagerViewRef.current?.setScrollEnabled(false)
     } else {
       pagerViewRef.current?.setScrollEnabled(true)
@@ -86,7 +97,10 @@ export const OnboardingContainer = () => {
     goToPage('next')
   }
 
-  const onUnderstandLegal = () => dispatch(AppThunks.newUser())
+  const onUnderstandLegal = () => {
+    goToPage('next')
+    void dispatch(AppThunks.newUser())
+  }
 
   const indicators = []
 
@@ -109,6 +123,7 @@ export const OnboardingContainer = () => {
         <TravelModeScreen onSelect={setTravelMode} selected={travelMode} onPress={onSelectTravelMode} />
         <LocationScreen onPress={onSetLocation} />
         <LegalScreen onPress={onUnderstandLegal} />
+        <LoadingScreen />
       </PagerView>
       <FlexItem style={themedStyles.container}>{indicators}</FlexItem>
     </>

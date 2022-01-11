@@ -15,8 +15,8 @@ export interface SlideProps {
     onPress: () => void
     text: string
   }
-  text: string
-  image: ImageSourcePropType
+  text?: string
+  image?: ImageSourcePropType
   indicator?: {
     index: number
     count: number
@@ -125,7 +125,7 @@ export const FormSlide: React.FunctionComponent<FormSlideProps> = ({ text, butto
   )
 }
 
-export const Slide: React.FunctionComponent<SlideProps> = ({ image, text, button, indicator }) => {
+export const Slide: React.FunctionComponent<SlideProps> = ({ image, text, button, indicator, children }) => {
   const indicators = []
 
   if (indicator?.count && indicator.index) {
@@ -141,17 +141,23 @@ export const Slide: React.FunctionComponent<SlideProps> = ({ image, text, button
   return (
     <View style={StyleSheet.absoluteFill} collapsable={false}>
       <Page safeArea paddingSize="xxl">
-        <FlexItem grow={3} />
-        <Image source={image} alt="onboarding-image" style={styles.image} />
-        <FlexItem grow={2} />
-        <FlexItem>
-          <Text align="center">{text}</Text>
-        </FlexItem>
-        {indicators}
-        <FlexItem justifyContent="flex-end" grow={2}>
-          {button && <Button onPress={button.onPress}>{button.text}</Button>}
-        </FlexItem>
-        <Spacer size="xl" />
+        {children ? (
+          children
+        ) : (
+          <>
+            <FlexItem grow={3} />
+            <Image source={image} alt="onboarding-image" style={styles.image} />
+            <FlexItem grow={2} />
+            <FlexItem>
+              <Text align="center">{text}</Text>
+            </FlexItem>
+            {indicators}
+            <FlexItem justifyContent="flex-end" grow={2}>
+              {button && <Button onPress={button.onPress}>{button.text}</Button>}
+            </FlexItem>
+            <Spacer size="xl" />
+          </>
+        )}
       </Page>
     </View>
   )
