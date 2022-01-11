@@ -22,7 +22,7 @@ import {
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors } from '@internal/store/app'
-import { AppActions, AppThunks } from '@internal/store/app/app.reducer'
+import { AppThunks } from '@internal/store/app/app.reducer'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 
 interface ExitButtonProps {
