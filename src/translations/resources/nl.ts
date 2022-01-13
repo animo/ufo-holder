@@ -36,7 +36,7 @@ export const nl = {
         deny: 'Weet u het zeker?',
       },
       text: {
-        noCredentialsTitle: 'U heeft nog geen kwalificaties.',
+        noCredentialsTitle: 'U heeft nog geen kwalificaties',
         noCredentials: 'Wacht totdat iemand iets geeft.',
         offer:
           '<bold>{{connectionName}}</bold> wilt u de volgende kwalificate geven: <bold>{{credentialName}}</bold>. Deze is binnen gekomen op <bold>{{issueDate}}</bold>. Bij het accepteren van deze kwalificatie wordt deze beveiligd opgeslagen in uw applicatie.',

@@ -24,7 +24,7 @@ export const NoContent: React.FunctionComponent<NoContentProps> = ({ text, headi
       </FlexItem>
       {heading && (
         <FlexItem grow={false}>
-          <Heading size="xl" align="center">
+          <Heading size="l" align="center">
             {heading}
           </Heading>
           <Spacer />
