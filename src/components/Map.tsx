@@ -4,7 +4,7 @@ import { API_KEY } from '@env'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
-import MapView, { Circle, Marker, Polygon } from 'react-native-maps'
+import MapView, { Marker } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
 
 import { layout } from '@components/global-stylesheets'
@@ -14,8 +14,6 @@ import { requestPermission } from '@internal/modules'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
-import { GeoSelectors } from '@internal/store/geo/geo.selector'
-import { getGeofenceRadius, getHexCenterByIndex, indexToNeighbourVertices, indexToVertices } from '@internal/utils'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
 interface MapProps extends MapViewProps {
@@ -48,12 +46,6 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const dispatchConnection = useAgentSelector(AriesSelectors.dispatchServiceSelector)
   const emergencyInfo = useAppSelector(AppSelectors.emergencyInfoSelector)
 
-  const [geocenter, setGeocenter] = useState<Coordinate>({ latitude: 1, longitude: 1 })
-  const [georadius, setGeoradius] = useState(0)
-  const [vertices, setVertices] = useState<Coordinates>([])
-  const [neighbourVertices, setNeighbourVertices] = useState<Coordinates[]>([])
-  const hexIndex = useAppSelector(GeoSelectors.hexIndexSelector)
-  const resolution = useAppSelector(GeoSelectors.resolutionSelector)
   const isArrived = useAppSelector(AppSelectors.isArrivedSelector)
 
   const mapRef = useRef<MapView>(null)
@@ -89,20 +81,6 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
       setUserCoordinates(coordinates)
       focusOnUser()
     }
-
-    if (hexIndex) {
-      const radius = getGeofenceRadius(coordinates, resolution)
-      const center = getHexCenterByIndex(hexIndex)
-      const verts = indexToVertices(hexIndex).map((vert) => ({ latitude: vert[0], longitude: vert[1] }))
-      const neighbourVerts = indexToNeighbourVertices(hexIndex, 1).map((n) =>
-        n.map((i) => ({ latitude: i[0], longitude: i[1] }))
-      )
-
-      setGeoradius(radius)
-      setGeocenter(center)
-      setVertices(verts)
-      setNeighbourVertices(neighbourVerts)
-    }
   }
 
   return (
@@ -126,14 +104,6 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
       onMapReady={focusOnUser}
       {...rest}
     >
-      {vertices.length > 0 && (
-        <Polygon coordinates={vertices} strokeColor="rgba(0,0,255,1)" fillColor="rgba(0,0,255,0.4)" />
-      )}
-      {neighbourVertices.length > 0 &&
-        neighbourVertices.map((x) => (
-          <Polygon key={x[0].longitude} coordinates={x} strokeColor="rgba(0,255,255,1)" fillColor="rgba(0,0,255,0.4)" />
-        ))}
-      <Circle center={geocenter} radius={georadius} fillColor="rgba(255,0,0,0.4)" strokeColor="rgba(255,0,0,1)" />
       {emergencyInfo && (
         <>
           <Directions origin={userCoordinates} destination={emergencyInfo.coordinate} />
@@ -168,3 +138,34 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
 })
+
+//const [geocenter, setGeocenter] = useState<Coordinate>({ latitude: 1, longitude: 1 })
+//const [georadius, setGeoradius] = useState(0)
+//const [vertices, setVertices] = useState<Coordinates>([])
+//const [neighbourVertices, setNeighbourVertices] = useState<Coordinates[]>([])
+
+//const hexIndex = useAppSelector(GeoSelectors.hexIndexSelector)
+//const resolution = useAppSelector(GeoSelectors.resolutionSelector)
+
+//if (hexIndex) {
+//const radius = getGeofenceRadius(coordinates, resolution)
+//const center = getHexCenterByIndex(hexIndex)
+//const verts = indexToVertices(hexIndex).map((vert) => ({ latitude: vert[0], longitude: vert[1] }))
+//const neighbourVerts = indexToNeighbourVertices(hexIndex, 1).map((n) =>
+//n.map((i) => ({ latitude: i[0], longitude: i[1] }))
+//)
+//}
+
+//setGeoradius(radius)
+//setGeocenter(center)
+//setVertices(verts)
+//setNeighbourVertices(neighbourVerts)
+
+//{vertices.length > 0 && (
+//<Polygon coordinates={vertices} strokeColor="rgba(0,0,255,1)" fillColor="rgba(0,0,255,0.4)" />
+//)}
+//{neighbourVertices.length > 0 &&
+//neighbourVertices.map((x) => (
+//<Polygon key={x[0].longitude} coordinates={x} strokeColor="rgba(0,255,255,1)" fillColor="rgba(0,0,255,0.4)" />
+//))}
+//<Circle center={geocenter} radius={georadius} fillColor="rgba(255,0,0,0.4)" strokeColor="rgba(255,0,0,1)" />
