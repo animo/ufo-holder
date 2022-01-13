@@ -5,6 +5,7 @@ import type { H3Resolution } from '@internal/utils'
 import type { ReceivedNotification } from 'react-native-push-notification'
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import { Alert } from 'react-native'
 import Geocoder from 'react-native-geocoding'
 import Geolocation from 'react-native-geolocation-service'
 import { default as PushNotification, Importance } from 'react-native-push-notification'
@@ -38,9 +39,6 @@ const onNotification = async (notification: Omit<ReceivedNotification, 'userInfo
     const location = JSON.parse(data.location) as Coordinate
     const parsedEmergency = JSON.parse(data.emergency) as { title?: string; definition?: string }
     const address = (await Geocoder.from(location)).results[0].formatted_address
-    Geocoder.from(location)
-      .then((x) => console.log(x))
-      .catch((e) => console.error(e))
 
     const emergency: Emergency = {
       title: parsedEmergency.title ?? 'Voor de pilot hebben wij geen titel kunnen vinden',
@@ -61,6 +59,7 @@ const onNotification = async (notification: Omit<ReceivedNotification, 'userInfo
       { timeout: 10000 }
     )
   }
+  console.log(data)
 
   // handle updating of the resolution
   if (data.resolution) {
@@ -71,6 +70,7 @@ const onNotification = async (notification: Omit<ReceivedNotification, 'userInfo
   // handle done call from the emergency
   if (data.done) {
     store.dispatch(AppActions.setFinishedEmergency())
+    Alert.alert('De dispatch heeft aangegeven dat het is opgelost. U kunt weer verder')
     navigate('CredentialsScreen')
   }
 }

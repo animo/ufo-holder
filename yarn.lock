@@ -55,9 +55,9 @@
     tsyringe "^4.5.0"
     uuid "^8.3.2"
 
-"@aries-framework/push-notifications@./aries-framework-push-notifications-v5.0.0.tgz":
-  version "5.0.0"
-  resolved "./aries-framework-push-notifications-v5.0.0.tgz#fd43b00fcdf98a21dfc0c8e8af4ec94fb99b6f52"
+"@aries-framework/push-notifications@./aries-framework-push-notifications-v6.0.0.tgz":
+  version "6.0.0"
+  resolved "./aries-framework-push-notifications-v6.0.0.tgz#7d23b04e3f4a965a3aa49aabd4e1d4ed910d18f9"
   dependencies:
     reflect-metadata "^0.1.13"
 
