@@ -39,6 +39,9 @@ const appSlice = createSlice({
     setIsArrived(state, action: PayloadAction<{ isArrived: boolean }>) {
       state.isArrived = action.payload.isArrived
     },
+    setIsFirstLaunch(state, action: PayloadAction<{ isFirstLaunch: boolean }>) {
+      state.isFirstLaunch = action.payload.isFirstLaunch
+    },
     setFinishedEmergency(state) {
       state.emergencyInfo = undefined
       state.emergencyProofRequestId = undefined

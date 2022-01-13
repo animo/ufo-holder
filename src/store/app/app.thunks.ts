@@ -15,6 +15,7 @@ import {
 } from '@aries-framework/redux-store'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { disableExpoCliLogging } from 'expo/build/logs/Logs'
 
 import { AriesSelectors } from '../aries/aries.selectors'
 import { AriesThunks } from '../aries/aries.thunks'
@@ -27,7 +28,12 @@ import { AppSelectors } from './app.selectors'
 
 import { getTravelTime } from '@internal/api'
 import { config } from '@internal/config'
-import { generateAgentKey, getAgentWalletKey, storeAgentWalletKey } from '@internal/modules/Keychain'
+import {
+  generateAgentKey,
+  getAgentWalletKey,
+  resetAgentWalletKey,
+  storeAgentWalletKey,
+} from '@internal/modules/Keychain'
 
 const AppThunks = {
   initializeAgent: createAsyncThunk<void, void, AsyncThunkOptions>(
@@ -197,6 +203,23 @@ const AppThunks = {
 
       // send the done message
       await erm.done(connection.id, { feedback })
+    }
+  ),
+
+  resetWallet: createAsyncThunk<void, void, AsyncThunkOptions>(
+    'app/wallet/reset',
+    async (_, { extra: { agent }, dispatch }) => {
+      const wallet = agent.injectionContainer.resolve<Wallet>(InjectionSymbols.Wallet)
+
+      if (!agent.isInitialized) {
+        // eslint-disable-next-line no-console
+        console.error('Agent must be initialized to reset wallet')
+      }
+
+      await wallet.delete()
+      await AsyncStorage.clear()
+      await resetAgentWalletKey()
+      dispatch(AppActions.setIsFirstLaunch({ isFirstLaunch: true }))
     }
   ),
 }

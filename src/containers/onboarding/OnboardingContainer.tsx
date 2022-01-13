@@ -19,7 +19,7 @@ import { WelcomeScreen } from './screens/WelcomeScreen'
 
 import { Box, FlexItem } from '@components/lib'
 import { useStyles } from '@components/theme'
-import { openSettings, requestPermission } from '@internal/modules'
+import { openSettings, requestlocation, requestPermission } from '@internal/modules'
 import { useAppDispatch } from '@internal/store'
 import { AppThunks } from '@internal/store/app'
 import { AppActions } from '@internal/store/app/app.reducer'
@@ -82,8 +82,8 @@ export const OnboardingContainer = () => {
   }
 
   const onSetLocation = async () => {
-    const hasLocationPermissions = await requestPermission('location')
-    if (hasLocationPermissions === 'granted') {
+    const res = await requestlocation()
+    if (res === 'granted') {
       goToPage('next')
     } else {
       // TODO: page should show a different view where you press on
