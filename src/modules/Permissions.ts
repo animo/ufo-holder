@@ -2,14 +2,7 @@ import type { PermissionStatus, Rationale } from 'react-native-permissions'
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import { PermissionsAndroid } from 'react-native'
-import {
-  requestMultiple,
-  check,
-  checkNotifications,
-  openSettings,
-  PERMISSIONS,
-  request,
-} from 'react-native-permissions'
+import { check, checkNotifications, openSettings, PERMISSIONS, request } from 'react-native-permissions'
 
 import { requestPlatform } from '@internal/utils'
 
@@ -91,8 +84,6 @@ const requestPermission = async (permission: keyof typeof AppPermissionsMap, rat
 
     permissionStatus = await request(mappedPermission, rationale)
   }
-
-  console.log(permissionStatus)
 
   switch (permissionStatus) {
     // The permission is granted
