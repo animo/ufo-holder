@@ -1,8 +1,7 @@
 import type { AsyncThunkOptions } from '../store.types'
 import type { Wallet } from '@aries-framework/core'
-import type { Emergency } from '@internal/components/EmergencyBottomSheet'
 import type { Coordinate } from '@internal/components/Map'
-import type { DeCustomPayload } from '@internal/modules'
+import type { DeCustomPayload, Emergency } from '@internal/modules'
 
 import { EmergencyResponseModule } from '@animo/ufo-emergency-response'
 import { PreciseLocationModule } from '@animo/ufo-precise-location'
@@ -98,9 +97,8 @@ const AppThunks = {
     'app/user/handleNotification',
     async (data, { getState, rejectWithValue, dispatch }) => {
       const origin = data.coordinate
-      const { emergency, requiredSkills, location: destination } = data.payload
+      const { emergency, location: destination } = data.payload
 
-      const credentials = AriesSelectors.receivedCredentialsSelector(getState().aries)
       const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
       const travelMode = AppSelectors.travelModeSelector(getState())
 
@@ -108,38 +106,18 @@ const AppThunks = {
         return rejectWithValue('Could not establish a connection with the dispatch')
       }
 
-      if (credentials.length < requiredSkills.length) {
-        return rejectWithValue(
-          `Current credentials (${credentials.length}) is less than the required credentials (${requiredSkills.length})`
-        )
-      }
-
-      const credentialDefinitionIds = credentials.map(
-        (credential) =>
-          credential.metadata.get<Record<'credentialDefinitionId', string>>('_internal/indyCredential')
-            ?.credentialDefinitionId
-      )
-
-      // Check if the agent has the required credentials
-      const hasRequiredCredentials = requiredSkills.every((skill) => credentialDefinitionIds.includes(skill))
-
       // Calculate the traveltime.
       // returns undefined if the time could not be calculated
       const travelTime = await getTravelTime(origin, destination, travelMode)
 
-      if (hasRequiredCredentials) {
-        // Respond that we can potentially help
-        void dispatch(
-          AppThunks.acceptPotentialEmergency({
-            connectionId: connectionWithDispatch.id,
-            emergency: { travelTime, ...emergency },
-            coordinate: destination,
-          })
-        )
-      } else {
-        // respond that we cannot help
-        void dispatch(AppThunks.rejectPotentialEmergency({ connectionId: connectionWithDispatch.id }))
-      }
+      // Respond that we can potentially help
+      await dispatch(
+        AppThunks.acceptPotentialEmergency({
+          connectionId: connectionWithDispatch.id,
+          emergency: { travelTime, ...emergency },
+          coordinate: destination,
+        })
+      )
     }
   ),
 
@@ -153,9 +131,10 @@ const AppThunks = {
 
   sendArrived: createAsyncThunk<void, { connectionId: string }, AsyncThunkOptions>(
     'app/user/sendArrived',
-    ({ connectionId }, { extra: { agent } }) => {
+    async ({ connectionId }, { extra: { agent }, dispatch }) => {
       const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
-      void erm.arrived(connectionId)
+      await erm.arrived(connectionId)
+      dispatch(AppActions.setIsArrived({ isArrived: true }))
     }
   ),
 
@@ -201,9 +180,9 @@ const AppThunks = {
     }
   ),
 
-  doneEmergency: createAsyncThunk<void, void, AsyncThunkOptions>(
+  doneEmergency: createAsyncThunk<void, { feedback: string }, AsyncThunkOptions>(
     'app/user/doneEmergency',
-    async (_, { getState, rejectWithValue, extra: { agent } }) => {
+    async ({ feedback }, { getState, rejectWithValue, extra: { agent } }) => {
       // Get the connection with the dispatch
       const connectionWithDispatch = AriesSelectors.dispatchServiceSelector(getState().aries)
 
@@ -217,7 +196,7 @@ const AppThunks = {
       const erm = agent.injectionContainer.resolve(EmergencyResponseModule)
 
       // send the done message
-      await erm.done(connection.id)
+      await erm.done(connection.id, { feedback })
     }
   ),
 }

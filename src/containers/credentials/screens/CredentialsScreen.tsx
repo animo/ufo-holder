@@ -1,8 +1,8 @@
 import { CredentialState } from '@aries-framework/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { AvatarListItem, NoContent, Page } from '@internal/components'
+import { AvatarListItem, HeaderIconButton, NoContent, Page } from '@internal/components'
 import { useAppStackNavigation } from '@internal/navigation'
 import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { images } from '@internal/theme/images'
@@ -13,6 +13,16 @@ export const CredentialsScreen: React.FunctionComponent = () => {
   const { t } = useTranslation()
 
   const credentials = useAgentSelector(AriesSelectors.credentialsWithConnectionSelector)
+
+  useEffect(() => {
+    const onNavigateToTravelMode = () => {
+      navigation.navigate('TravelModeScreen')
+    }
+
+    navigation.setOptions({
+      headerRight: () => <HeaderIconButton onPress={onNavigateToTravelMode} type="car-outline" />,
+    })
+  }, [navigation])
 
   const onPressCredentialDetails = (credentialId: string) => {
     navigation.navigate('CredentialDetailScreen', {

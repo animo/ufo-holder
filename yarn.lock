@@ -12,10 +12,10 @@
     class-validator "^0.13.1"
     tsyringe "^4.6.0"
 
-"@animo/ufo-emergency-response@^1.3.2":
-  version "1.3.2"
-  resolved "https://npm.pkg.github.com/download/@animo/ufo-emergency-response/1.3.2/60d82356f4aea4cd4c43f51371435ce2db08d758482b956f20401dd0ebe1801b#c636c3ee7201bb88646a0274debf3150a9270975"
-  integrity sha512-znt/QtPrbfVobVFA9R1HmIG66uzI1wURn0zlpj9pctb1A7Um1yYWS23K4Y1oPCekrsVShSALZx9Ih02RSbQ5sg==
+"@animo/ufo-emergency-response@^1.4.0":
+  version "1.4.0"
+  resolved "https://npm.pkg.github.com/download/@animo/ufo-emergency-response/1.4.0/83cbd989468be416ea6c9aca519bca8aae64ccae4b73b9be6dfd6037c41176c6#7ea8f199fb7f31e6c0b263a9ec918e1f358d17b7"
+  integrity sha512-wwI+RiRvrkDq8ZIFUuq7FoCTp3J7m76gSr5EzEzL1eqlNqTO92qPXenGU/dgulayK1yFKjwVn0aH5Hzx4oSiew==
 
 "@animo/ufo-precise-location@^1.0.3":
   version "1.0.3"
@@ -9411,6 +9411,11 @@ react-native-fs@^2.16.6, react-native-fs@^2.18.0:
   dependencies:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
+
+react-native-geocoding@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-geocoding/-/react-native-geocoding-0.5.0.tgz#69748f896047a63d1c3c1d55255f9d67c8e275c2"
+  integrity sha512-peTXRpRxPLiZpbTW43AOvoXXAEoS+eLnSo4KRY0hcL9F2hulWE5r7o5KiaLx8AWj35c6EJP3fdGHe754q2Gd2Q==
 
 react-native-geolocation-service@^5.3.0-beta.3:
   version "5.3.0-beta.3"

@@ -17,12 +17,6 @@ import { AriesSelectors, useAgentSelector } from '@internal/store/aries'
 import { sleep } from '@internal/utils'
 import { darkMap, lightMap } from '@internal/utils/mapTheme'
 
-export interface Emergency {
-  title: string
-  description: string
-  travelTime?: number
-}
-
 const DELTA = {
   latitudeDelta: 0.0025,
   longitudeDelta: 0.0025,
@@ -76,7 +70,7 @@ export const EmergencyBottomSheet: React.FunctionComponent = () => {
         <Spacer size="m" />
         <View style={gutters.largeBMargin}>
           <Text color="textSubdued" align="center">
-            {emergencyInfo.emergency.description}
+            {emergencyInfo.emergency.definition}
           </Text>
         </View>
         <MapView
@@ -87,10 +81,14 @@ export const EmergencyBottomSheet: React.FunctionComponent = () => {
         >
           <Marker coordinate={emergencyInfo.coordinate} />
         </MapView>
+        <Spacer />
+        <Text color="textSubdued" align="center">
+          {emergencyInfo.emergency.address}
+        </Text>
         {emergencyInfo.emergency.travelTime && (
           <View style={gutters.largeTMargin}>
             <Text align="center" weight="bold">
-              {(+emergencyInfo.emergency.travelTime / 60).toFixed(0)} MIN
+              Reistijd: {(+emergencyInfo.emergency.travelTime / 60).toFixed(0)} min
             </Text>
           </View>
         )}

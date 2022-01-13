@@ -43,6 +43,7 @@ export const MapsScreen = () => {
   const dispatch = useAppDispatch()
   const emergencyInfo = useAppSelector(AppSelectors.emergencyInfoSelector)
   const dispatchConnection = useAgentSelector(AriesSelectors.dispatchServiceSelector)
+  const isArrived = useAppSelector(AppSelectors.isArrivedSelector)
 
   useEffect(() => {
     bottomSheetRef.current?.present()
@@ -74,15 +75,18 @@ export const MapsScreen = () => {
               {emergencyInfo.emergency.title}
             </Heading>
             <Spacer size="xxxl" />
+            <Text align="center">{emergencyInfo.emergency.definition}</Text>
             <Spacer size="xxxl" />
-            <Text align="center">{emergencyInfo.emergency.description}</Text>
+            <Text align="center">{emergencyInfo.emergency.address}</Text>
             <FlexGroup alignItems="flexEnd" direction="row" justifyContent="spaceEvenly">
               <Box fill>
-                <Button onPress={onPressArrived}>Aangekomen</Button>
-              </Box>
-              <Spacer vertical />
-              <Box fill>
-                <Button onPress={onPressDone}>Klaar!</Button>
+                {isArrived ? (
+                  <Button color="success" onPress={onPressDone}>
+                    Klaar!
+                  </Button>
+                ) : (
+                  <Button onPress={onPressArrived}>Aangekomen</Button>
+                )}
               </Box>
             </FlexGroup>
           </Box>

@@ -13,6 +13,9 @@ type RootNavigationParamList = {
   CredentialOfferScreen: CredentialOfferScreenRouteParams
   CredentialDetailScreen: CredentialDetailRouteParams
 
+  // travelMode
+  TravelModeScreen: undefined
+
   // Maps
   MapsScreen: undefined
 

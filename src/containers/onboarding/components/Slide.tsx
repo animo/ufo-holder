@@ -79,7 +79,7 @@ export const DropdownSlide: React.FunctionComponent<DropdownSlideProps> = ({
           >
             <Select.Item label="Lopen" value="WALKING" />
             <Select.Item label="Auto" value="DRIVING" />
-            <Select.Item label="Fiets" value="BiCYCLING" />
+            <Select.Item label="Fiets" value="BICYCLING" />
           </Select>
         </FlexItem>
         {indicators}

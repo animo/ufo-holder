@@ -5,6 +5,7 @@ import type { H3Resolution } from '@internal/utils'
 import type { ReceivedNotification } from 'react-native-push-notification'
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import Geocoder from 'react-native-geocoding'
 import Geolocation from 'react-native-geolocation-service'
 import { default as PushNotification, Importance } from 'react-native-push-notification'
 
@@ -16,31 +17,40 @@ import { requestPlatform } from '@internal/utils'
 
 export type DeCustomPayload = {
   location: Coordinate
-  requiredSkills: string[]
   emergency: Emergency
 }
 
-type Emergency = {
-  description: string
+export type Emergency = {
+  // definitie
   title: string
-  requiredAction: string
+  // toelichting
+  definition: string
+  address?: string
+  travelTime?: number
 }
 
 // This is called when a silent notification is received
-const onNotification = (notification: Omit<ReceivedNotification, 'userInfo'>, store: Store) => {
+const onNotification = async (notification: Omit<ReceivedNotification, 'userInfo'>, store: Store) => {
   const data = notification.data
 
   // handle incoming potential emergency
   if (data.emergency) {
-    let parsedData: DeCustomPayload
-    if (requestPlatform() === 'android') {
-      parsedData = {
-        location: JSON.parse(data.location) as Coordinate,
-        requiredSkills: JSON.parse(data.requiredSkills) as string[],
-        emergency: JSON.parse(data.emergency) as Emergency,
-      }
-    } else {
-      parsedData = data as DeCustomPayload
+    const location = JSON.parse(data.location) as Coordinate
+    const parsedEmergency = JSON.parse(data.emergency) as { title?: string; definition?: string }
+    const address = (await Geocoder.from(location)).results[0].formatted_address
+    Geocoder.from(location)
+      .then((x) => console.log(x))
+      .catch((e) => console.error(e))
+
+    const emergency: Emergency = {
+      title: parsedEmergency.title ?? 'Voor de pilot hebben wij geen titel kunnen vinden',
+      definition: parsedEmergency.definition ?? 'Voor de pilot hebben wij geen toelichting kunnen vinden',
+      address,
+    }
+
+    const parsedData = {
+      location,
+      emergency,
     }
 
     Geolocation.getCurrentPosition(
@@ -74,7 +84,7 @@ const onRegistrationError = (err: Error) => console.error(err)
 export const setupNotificationsHandler = (store: Store) => {
   PushNotification.configure({
     onRegister: (token) => onRegister(token, store),
-    onNotification: (notification) => onNotification(notification, store),
+    onNotification: async (notification) => await onNotification(notification, store),
     onRegistrationError,
     permissions: {
       alert: true,

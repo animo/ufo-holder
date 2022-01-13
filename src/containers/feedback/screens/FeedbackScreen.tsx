@@ -2,7 +2,6 @@ import { Spacer, TextArea } from 'native-base'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { sendFeedback } from '@internal/api'
 import { Button, Page, Text } from '@internal/components'
 import { useAppNavigation } from '@internal/navigation'
 import { useAppDispatch } from '@internal/store'
@@ -14,11 +13,8 @@ export const FeedbackScreen = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
-  // TODO: RESET STATE
-  //       SEND FEEDBACK
   const onSendFeedback = async () => {
-    sendFeedback(feedback)
-    await dispatch(AppThunks.doneEmergency())
+    await dispatch(AppThunks.doneEmergency({ feedback }))
     dispatch(AppActions.setFinishedEmergency())
     navigation.navigate('CredentialsScreen')
   }

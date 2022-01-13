@@ -54,6 +54,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const [neighbourVertices, setNeighbourVertices] = useState<Coordinates[]>([])
   const hexIndex = useAppSelector(GeoSelectors.hexIndexSelector)
   const resolution = useAppSelector(GeoSelectors.resolutionSelector)
+  const isArrived = useAppSelector(AppSelectors.isArrivedSelector)
 
   const mapRef = useRef<MapView>(null)
 
@@ -75,7 +76,7 @@ export const Map: React.FunctionComponent<MapProps> = ({ shouldFollowUser, setSh
   const focusOnUser = () => mapRef.current?.animateToRegion({ ...userCoordinates, ...DELTA }, 1000)
 
   const onUserLocationChange = (event: EventUserLocation) => {
-    if (dispatchConnection && emergencyInfo) {
+    if (dispatchConnection && emergencyInfo && !isArrived) {
       void dispatch(
         AppThunks.pingPreciseLocation({ connectionId: dispatchConnection.id, coordinate: event.nativeEvent.coordinate })
       )

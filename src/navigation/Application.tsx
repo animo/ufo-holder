@@ -20,6 +20,7 @@ import {
   MapsScreen,
   OnboardingContainer,
 } from '@internal/containers'
+import { TravelModeScreen } from '@internal/containers/travelmode/screens/TravelModeScreen'
 import { useAppDispatch, useAppSelector } from '@internal/store'
 import { AppSelectors, AppThunks } from '@internal/store/app'
 import { GeoThunks } from '@internal/store/geo'
@@ -88,6 +89,12 @@ export const ApplicationNavigator: React.FunctionComponent = () => {
                   name="CredentialDetailScreen"
                   component={CredentialDetailScreen}
                   options={{ title: t('feature.credentials.titles.detail'), headerBackTitleVisible: false }}
+                />
+
+                <Stack.Screen
+                  name="TravelModeScreen"
+                  component={TravelModeScreen}
+                  options={{ headerShown: false, gestureEnabled: false }}
                 />
 
                 <Stack.Screen

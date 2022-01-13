@@ -1,4 +1,6 @@
+import { API_KEY } from '@env'
 import React from 'react'
+import Geocoder from 'react-native-geocoding'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
@@ -41,6 +43,7 @@ const AppThemeProvider: React.FunctionComponent = ({ children }) => {
 export const App: React.FunctionComponent = () => {
   // Listens for state changes in the agent and propagates those changes to the redux store
   useAgentListeners(agent, store)
+  Geocoder.init(API_KEY)
 
   return (
     <SafeAreaProvider>
